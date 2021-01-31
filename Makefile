@@ -1,41 +1,47 @@
 # A simple Makefile for compiling small SDL projects
 
+SRCDIR := src
+BINDIR := target
+OBJDIR := $(BINDIR)/obj
+
 # set the compiler
 CC := clang
 
 # set the compiler flags
 CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lm
-# add header files here
-HDRS :=
 
-# add source files here
-SRCS := main.c
+# header files
+HDRS := $(wildcard $(SRCDIR)/*.h)
+
+# source files
+SRCS := $(wildcard $(SRCDIR)/*.c)
 
 # generate names of object files
-OBJS := $(SRCS:.c=.o)
+OBJS := $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRCS:.c=.o))
 
 # name of executable
-EXEC := 6502
+EXEC := $(BINDIR)/6502
 
 # default recipe
 all: $(EXEC)
 
-showfont: showfont.c Makefile
-	$(CC) -o $@ $@.c $(CFLAGS) $(LIBS)
+# make dirs if doesn't exists
+$(OBJS): | $(OBJDIR)
 
-glfont: glfont.c Makefile
-	$(CC) -o $@ $@.c $(CFLAGS) $(LIBS)
+$(OBJDIR):
+	mkdir $(BINDIR)
+	mkdir $(OBJDIR)
+
+# recipe for building object files
+$(OBJS): $(SRCS) $(HDRS) Makefile
+	$(CC) -o $@ $(patsubst $(OBJDIR)/%,$(SRCDIR)/%,$(@:.o=.c)) -c $(CFLAGS)
 
 # recipe for building the final executable
 $(EXEC): $(OBJS) $(HDRS) Makefile
 	$(CC) -o $@ $(OBJS) $(CFLAGS)
 
-# recipe for building object files
-#$(OBJS): $(@:.o=.c) $(HDRS) Makefile
-#    $(CC) -o $@ $(@:.o=.c) -c $(CFLAGS)
-
 # recipe to clean the workspace
 clean:
-	rm -f $(EXEC) $(OBJS)
+	rm -rf $(BINDIR)
 
 .PHONY: all clean

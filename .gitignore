@@ -1,5 +1,5 @@
-# Bin
-6502
+# bin folder
+/target
 
 # Prerequisites
 *.d
