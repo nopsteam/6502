@@ -1,40 +1,177 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<graphics.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_timer.h>
 
-int main ()
+struct State
 {
-  // gm is Graphics mode which is 
-  // a computer display mode that 
-  // generates image using pixels. 
-  // DETECT is a macro defined in 
-  // "graphics.h" header file 
-  int gd = DETECT, gm; 
+  int key_quit;
+  int key_up;
+  int key_left;
+  int key_right;
+  int key_down;
+};
 
-  // initgraph initializes the 
-  // graphics system by loading a 
-  // graphics driver from disk 
+struct Point
+{
+  int x;
+  int y;
+};
 
-  initgraph(&gd, &gm, ""); 
+SDL_Window* init_window()
+{
+  // returns zero on success else non-zero
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    printf("error initializing SDL: %s\n", SDL_GetError());
+  }
 
-  // putpixel function 
-  putpixel(85, 35, GREEN); 
-  putpixel(30, 40, RED); 
-  putpixel(115, 50, YELLOW); 
-  putpixel(135, 50, CYAN); 
-  putpixel(45, 60, BLUE); 
-  putpixel(20, 100, WHITE); 
-  putpixel(200, 100, LIGHTBLUE); 
-  putpixel(150, 100, LIGHTGREEN); 
-  putpixel(200, 50, YELLOW); 
-  putpixel(120, 70, RED); 
+  return SDL_CreateWindow("6502",
+      SDL_WINDOWPOS_CENTERED,
+      SDL_WINDOWPOS_CENTERED,
+      1000, 1000, 0); 
+}
 
-  getch(); 
+struct State event_manager(struct State state) {
+  struct State local_state = state;
+  SDL_Event event;
 
-  // closegraph function closes the 
-  // graphics mode and deallocates 
-  // all memory allocated by 
-  // graphics system . 
-  closegraph();
-  return 0;
+  while (SDL_PollEvent(&event)) {
+
+    if (event.type == SDL_QUIT)
+      local_state.key_quit = 1;
+
+    if (event.type == SDL_KEYDOWN)
+    {
+      switch (event.key.keysym.scancode) {
+        case SDL_SCANCODE_W:
+        case SDL_SCANCODE_UP:
+          local_state.key_up = 1;
+          break;
+        case SDL_SCANCODE_A:
+        case SDL_SCANCODE_LEFT:
+          local_state.key_left = 1;
+          break;
+        case SDL_SCANCODE_S:
+        case SDL_SCANCODE_DOWN:
+          local_state.key_down = 1;
+          break;
+        case SDL_SCANCODE_D:
+        case SDL_SCANCODE_RIGHT:
+          local_state.key_right = 1;
+          break;
+        default:
+          break;
+      }
+    }
+    if (event.type == SDL_KEYUP)
+    {
+      switch (event.key.keysym.scancode) {
+        case SDL_SCANCODE_W:
+        case SDL_SCANCODE_UP:
+          local_state.key_up = 0;
+          break;
+        case SDL_SCANCODE_A:
+        case SDL_SCANCODE_LEFT:
+          local_state.key_left = 0;
+          break;
+        case SDL_SCANCODE_S:
+        case SDL_SCANCODE_DOWN:
+          local_state.key_down = 0;
+          break;
+        case SDL_SCANCODE_D:
+        case SDL_SCANCODE_RIGHT:
+          local_state.key_right = 0;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  return local_state;
+}
+
+void loop(SDL_Renderer* rend)
+{
+  struct State local_state;
+  local_state.key_quit = 0;
+  local_state.key_up = 0;
+  local_state.key_left = 0;
+  local_state.key_right = 0;
+  local_state.key_down = 0;
+
+  struct Point pixel;
+  pixel.x = 500;
+  pixel.y = 500;
+
+  while (!local_state.key_quit) {
+    // read input save in state
+    local_state = event_manager(local_state);
+
+    // speed
+    int speed = 300;
+
+    // set render color black
+    SDL_SetRenderDrawColor(rend, 0, 0, 0, 0);
+    // clears the screen
+    SDL_RenderClear(rend);
+
+    // move pixel
+    if (local_state.key_up)
+      pixel.y -= speed / 30;
+    if (local_state.key_left)
+      pixel.x -= speed / 30;
+    if (local_state.key_down)
+      pixel.y += speed / 30;
+    if (local_state.key_right)
+      pixel.x += speed / 30;
+
+    // right boundary
+    if (pixel.x + 1 > 1000)
+      pixel.x = 1000 - 1;
+
+    // left boundary
+    if (pixel.x < 0)
+      pixel.x = 0;
+
+    // bottom boundary
+    if (pixel.y + 1 > 1000)
+      pixel.y = 1000 - 1;
+
+    // upper boundary
+    if (pixel.y < 0)
+      pixel.y = 0;
+
+    // set render color red
+    SDL_SetRenderDrawColor(rend, 255, 0, 0, 255);
+
+    // render four pixels
+    SDL_RenderDrawPoint(rend, pixel.x, pixel.y);
+    SDL_RenderDrawPoint(rend, pixel.x+1, pixel.y+1);
+    SDL_RenderDrawPoint(rend, pixel.x, pixel.y+1);
+    SDL_RenderDrawPoint(rend, pixel.x+1, pixel.y);
+
+    // triggers the double buffers for multiple rendering
+    SDL_RenderPresent(rend);
+
+    // calculates to 60 fps
+    SDL_Delay(1000 / 60);
+  }
+
+  return;
+}
+
+int main()
+{
+  SDL_Window* win = init_window();
+  Uint32 render_flags = SDL_RENDERER_ACCELERATED;
+  SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
+
+  loop(rend);
+
+  SDL_DestroyRenderer(rend);
+  SDL_DestroyWindow(win); 
+
+  return 0; 
 }

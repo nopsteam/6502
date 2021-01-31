@@ -1,9 +1,9 @@
-## Problema ao instalar libgraph no arch
-1. Só encontrei no AUR
-2. Ao instalar, sem modificar transaction build, ocorrem dois problemas na finalização e o processo não conclúi
-3. Encontrei uma [solução](https://www.reddit.com/r/archlinux/comments/hyo94z/error_while_installing_libgraph/) que sugere editar o script de build
-4. Rolou!
-
-## Pré-requisitos
-1. Make
-2. gcc (para C) e g++ (para C++)
+## Setup 
+```bash
+# Ubuntu
+$ apt-get update
+$ apt-get install clang
+$ apt-get install libsdl2-2.0-0 libsdl2-dbg libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dbg libsdl2-image-dev
+# Arch Linux
+$ pacman -Sy clang sdl2 sdl2_image
+```

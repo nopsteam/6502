@@ -1,43 +1,41 @@
-# C++ compiler
-CXX     = g++
+# A simple Makefile for compiling small SDL projects
 
-# C compiler
-CC      = gcc
+# set the compiler
+CC := clang
 
-# C compilation flags
-CFLAGS  = -std=c99 -Wall -pthread -DNDEBUG -O3
+# set the compiler flags
+CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lm
+# add header files here
+HDRS :=
 
-# Preprocessor definitions
-C_DEFS  = -D_POSIX_C_SOURCE=199309
+# add source files here
+SRCS := main.c
 
-# Linker flags
-LDFLAGS += -lz -lm -lgraph
+# generate names of object files
+OBJS := $(SRCS:.c=.o)
 
-# Build targets
-all: program
+# name of executable
+EXEC := 6502
 
-# Rules for converting .c files into .o files
-.SUFFIXES: .c
+# default recipe
+all: $(EXEC)
 
-%.o: %.c
-		$(CC) $(C_DEFS) $(CFLAGS) -MMD -c $<
+showfont: showfont.c Makefile
+	$(CC) -o $@ $@.c $(CFLAGS) $(LIBS)
 
-# List of source files
-SRCS  = main.c
-		#SourceFile1.c \
-		#SourceFile2.c \
-		#SourceFile3.c \
-		#main.c
-OBJS = $(SRCS:.c=.o)
-DEPS = $(OBJS:.o=.d)
+glfont: glfont.c Makefile
+	$(CC) -o $@ $@.c $(CFLAGS) $(LIBS)
 
-# Include the .d dependency files
--include $(DEPS)
+# recipe for building the final executable
+$(EXEC): $(OBJS) $(HDRS) Makefile
+	$(CC) -o $@ $(OBJS) $(CFLAGS)
 
-# Build the target "program"
-program: $(OBJS)
-		 $(CC) $(C_DEFS) $(CFLAGS) $^ $(LDFLAGS) -o $@
+# recipe for building object files
+#$(OBJS): $(@:.o=.c) $(HDRS) Makefile
+#    $(CC) -o $@ $(@:.o=.c) -c $(CFLAGS)
 
+# recipe to clean the workspace
 clean:
-		rm -f *.o *.d program
+	rm -f $(EXEC) $(OBJS)
 
+.PHONY: all clean
