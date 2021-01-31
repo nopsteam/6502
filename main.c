@@ -25,7 +25,7 @@ int main()
   SDL_Surface* surface; 
 
   // please provide a path for your image 
-  surface = IMG_Load("path"); 
+  surface = IMG_Load("path");
 
   // loads image to our graphics hardware memory. 
   SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surface); 
