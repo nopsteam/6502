@@ -1,5 +1,6 @@
-# bin folder
-/target
+# Build directory.
+build/*
+!build/cmake
 
 # Prerequisites
 *.d
@@ -53,3 +54,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# IDE and editor private config/settings
+.vscode
+.cache
