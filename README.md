@@ -1,11 +1,4 @@
-# C, Cmake and SDL2 Boilerplate
-
-This is a C project template with the following features:
-
- - CMake build scripts for building libraries, applications, and tests.
- - Integrated with [Unity unit test framework](https://github.com/ThrowTheSwitch/Unity).
- - Integrated with [SDL2](https://www.libsdl.org/).
- - Updated and simplified version of [C-project-template](https://github.com/peterdn/C-project-template)
+# 6502 Emulator
 
 ## Usage
 
@@ -25,21 +18,22 @@ make test
 ### Run Binary
 
 ```bash
-./build/bin/example_app
+./build/bin/main_app
 ```
 
-## Project directory structure
+## Installing Dependencies
 
- - app/ -- Application source code.
- - src/ -- Library source code and headers.
- - test/ -- Test source code.
-   - unity/ -- Unity test framework source.
+#### Arch Linux
+```bash
+pacman -Sy clang cmake sdl2
+```
 
-## Build directory structure
-
- - bin/ -- Application binaries.
-   - test/ -- Test binaries.
- - lib/ -- Libraries.
+#### Ubuntu
+```bash
+sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+sudo apt-get update -y -qq
+sudo apt-get install clang cmake libsdl2-dev
+```
 
 ## License
 This is free and unencumbered software released into the public domain

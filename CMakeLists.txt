@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(ExampleSDL2C)
+include(CTest)
 
 # cmake module directory
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_BINARY_DIR}/cmake/")
@@ -48,7 +49,6 @@ add_subdirectory(app)
 # CTest sets BUILD_TESTING option to ON by default.
 # Test-related configuration goes here.
 if (BUILD_TESTING)
-  include(CTest)
   enable_testing()
   add_subdirectory(test)
 endif()
