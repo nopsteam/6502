@@ -1,6 +1,6 @@
 # Build directory.
-build/*
-!build/cmake
+build/debug/*
+build/release/*
 
 # Prerequisites
 *.d

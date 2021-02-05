@@ -5,7 +5,9 @@
 ### Build
 
 ```bash
-make build # Debug build
+# Debug build
+make 
+# Release build
 make release
 ```
 
@@ -19,8 +21,9 @@ make test
 ### Run Binary
 
 ```bash
+# Debug bin
 ./build/debug/bin/main_app
-# Or if you made a release build
+# Release bin
 ./build/release/bin/main_app
 ```
 
