@@ -5,7 +5,10 @@
 ### Build
 
 ```bash
-make build
+# Debug build
+make 
+# Release build
+make release
 ```
 
 ### Run Tests
@@ -18,7 +21,10 @@ make test
 ### Run Binary
 
 ```bash
-./build/bin/main_app
+# Debug bin
+./build/debug/bin/main_app
+# Release bin
+./build/release/bin/main_app
 ```
 
 ## Installing Dependencies
