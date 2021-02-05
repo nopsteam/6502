@@ -1,20 +1,40 @@
-## Setup 
-```bash
-# Ubuntu
-$ apt-get update
-$ apt-get install clang
-$ apt-get install libsdl2-2.0-0 libsdl2-dbg libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dbg libsdl2-image-dev
+# 6502 Emulator
 
-# Arch Linux
-$ pacman -Sy clang sdl2 sdl2_image
-```
+## Usage
 
-## Execute 
+### Build
 
 ```bash
-# Compile
-make
-
-# Running
-./target/6502
+make build
 ```
+
+### Run Tests
+This will build and run unity tests
+
+```bash
+make test
+```
+
+### Run Binary
+
+```bash
+./build/bin/main_app
+```
+
+## Installing Dependencies
+
+#### Arch Linux
+```bash
+pacman -Sy clang cmake sdl2
+```
+
+#### Ubuntu
+```bash
+sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+sudo apt-get update -y -qq
+sudo apt-get install clang cmake libsdl2-dev
+```
+
+## License
+This is free and unencumbered software released into the public domain
+For more information, please refer to <http://unlicense.org/>

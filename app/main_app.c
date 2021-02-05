@@ -1,10 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_timer.h>
-#include "main.h"
+#include "disassembler.h"
+
+struct State
+{
+  int key_quit;
+  int key_up;
+  int key_left;
+  int key_right;
+  int key_down;
+};
+
+struct Point
+{
+  int x;
+  int y;
+};
 
 SDL_Window* init_window()
 {
@@ -150,6 +162,8 @@ void loop(SDL_Renderer* rend)
 
 int main()
 {
+  LoadBinary("resources/dump.bin");
+
   SDL_Window* win = init_window();
   Uint32 render_flags = SDL_RENDERER_ACCELERATED;
   SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
