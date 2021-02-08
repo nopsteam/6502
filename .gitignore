@@ -1,6 +1,7 @@
 # Build directory.
 build/debug/*
 build/release/*
+build/compile_commands.json
 
 # Prerequisites
 *.d
