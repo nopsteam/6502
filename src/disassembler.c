@@ -5,7 +5,7 @@
 #include "constants.h"
 
 struct OPCODE * GetOpcode(char hex) {
-  int length = sizeof(opcodes) / sizeof(opcodes[0]); 
+  int length = sizeof(opcodes) / sizeof(opcodes[0]);
 
   for(int i = 0; i < length; i++) {
     if (opcodes[i].hex == hex)
@@ -49,14 +49,14 @@ void LoadBinary(char * binaryPath) {
     struct OPCODE * opcode = GetOpcode(buffer);
 
     if(opcode == NULL) {
-      printf("FAIL !!!\n");
+      printf("0x%02X => FAIL !!!\n", buffer & 0xFF);
       continue;
     }
     else 
       printf("0x%02X = %s\n", buffer & 0xFF, opcode->instruction);
 
     //adiciona argumentos para ignorar nas próximas iterações, jumps-- no começo do while
-    jumps = opcode->bytes - 1;
+    jumps = opcode->addressing->length - 1;
   }
 
   //fechando o arquivo para não ter memory leak

@@ -36,6 +36,12 @@ ENDIF()
 
 # generates a compile_commands.json file containing the exact compiler calls
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+FILE(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/compile_commands.json" sourceJson)
+FILE(TO_NATIVE_PATH "${PROJECT_SOURCE_DIR}/build/compile_commands.json" destinationJson)
+add_custom_command(TARGET resources POST_BUILD
+  COMMAND "${CMAKE_COMMAND}" -E copy 
+  ${sourceJson} ${destinationJson}
+  COMMENT "Copying compile_commands.json to build directory")
 
 # Project-wide include directory configuration.
 include_directories("${PROJECT_SOURCE_DIR}/src")

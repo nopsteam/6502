@@ -19,13 +19,28 @@ void test_function_should_do_sanity_check(void) {
 
 void test_function_should_GetOpcode_for_ADC(void) {
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x69)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x69)->addressing->length, 2);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x65)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x65)->addressing->length, 2);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x75)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x75)->addressing->length, 2);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x6D)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x6D)->addressing->length, 3);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x7D)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x7D)->addressing->length, 3);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x79)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x79)->addressing->length, 3);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x61)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x61)->addressing->length, 2);
+
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x71)->instruction, "ADC");
+  TEST_ASSERT_EQUAL_INT(GetOpcode(0x71)->addressing->length, 2);
 }
 
 void test_function_should_GetOpcode_for_AND(void) {
@@ -129,8 +144,8 @@ void test_function_should_GetOpcode_for_DEC(void) {
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0xD6)->instruction, "DEC");
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0xCE)->instruction, "DEC");
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0xDE)->instruction, "DEC");
-  TEST_ASSERT_EQUAL_STRING(GetOpcode(0xCA)->instruction, "DEC");
-  TEST_ASSERT_EQUAL_STRING(GetOpcode(0x88)->instruction, "DEC");
+  TEST_ASSERT_EQUAL_STRING(GetOpcode(0xCA)->instruction, "DEX");
+  TEST_ASSERT_EQUAL_STRING(GetOpcode(0x88)->instruction, "DEY");
 }
 
 void test_function_should_GetOpcode_for_EOR(void) {
