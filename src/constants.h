@@ -25,6 +25,11 @@ struct OPCODE {
   struct ADDRESSING_MODE * addressing;
 };
 
+struct PROGRAM_LINE {
+  struct OPCODE * opcode;
+  char args[3];
+};
+
 extern enum ADDRESSING_MODE_INDEX addressing;
 extern struct ADDRESSING_MODE addressing_modes[13];
 extern struct OPCODE opcodes[151];

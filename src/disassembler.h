@@ -1,2 +1,2 @@
 struct OPCODE * GetOpcode(char hex);
-void LoadBinary(char * binaryPath);
+struct PROGRAM_LINE* LoadBinary(char * binaryPath);

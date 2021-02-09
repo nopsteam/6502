@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include "SDL_pixels.h"
+#include "constants.h"
 #include "disassembler.h"
 
 struct State
@@ -162,7 +164,16 @@ void loop(SDL_Renderer* rend)
 
 int main()
 {
-  LoadBinary("resources/dump.bin");
+  struct PROGRAM_LINE * program = LoadBinary("resources/dump.bin");
+
+  for (int i = 0; i < 8; i++) {
+    printf(
+        "%s 0x%02X 0x%02X 0x%02X \n",
+        program[i].opcode->instruction,
+        program[i].opcode->hex & 0xFF,
+        program[i].args[0] & 0xFF,
+        program[i].args[1] & 0xFF);
+  }
 
   SDL_Window* win = init_window();
   Uint32 render_flags = SDL_RENDERER_ACCELERATED;

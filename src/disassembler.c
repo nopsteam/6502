@@ -15,15 +15,17 @@ struct OPCODE * GetOpcode(char hex) {
   return NULL;
 }
 
-void LoadBinary(char * binaryPath) {
+struct PROGRAM_LINE * LoadBinary(char * binaryPath) {
   //forneceu algum conteúdo como argumento?
-  if(strlen(binaryPath) <= 0)
-    return;
+  if(strlen(binaryPath) <= 0) {
+    printf("invalid file path %s", binaryPath);
+    exit(0);
+  }
 
   //o arquivo existe no disco? 
   if(access(binaryPath, F_OK) != 0) {
     printf("arquivo não encontrado %s", binaryPath);
-    return;
+    exit(0);
   }
 
   //abre arquivo em modo de leitura
@@ -32,33 +34,50 @@ void LoadBinary(char * binaryPath) {
   //se não conseguiu um identificador, deu problema ao abrir o arquivo
   if(file == NULL) {
     printf("erro ao abrir arquivo %s", binaryPath);
-    return;
+    exit(0);
   }
+
+  // seek to end of file
+  fseek(file, 0, SEEK_END);
+  // get current file pointer
+  int fileSize = ftell(file);
+  // seek back to beginning of file
+  fseek(file, 0, SEEK_SET);
 
   //lendo um arquivo byte a byte
   char buffer;
-  int jumps = 0;
+  int programLine = -1;
+  int argumentCount = 0;
+  struct OPCODE * opcode = NULL;
+
+  struct PROGRAM_LINE *program = malloc(sizeof *program * fileSize);
+
   while(fread(&buffer, 1, 1, file) > 0) {
     //por enquanto, ignorando os argumentos para entender se os opcodes são identificados corretamente
-    if (jumps > 0) {
-      jumps--;
+    if (argumentCount > 0) {
+      argumentCount--;
+      program[programLine].args[argumentCount] = buffer;
       continue;
     }
 
+    programLine++;
+
     //identifica opcode baseado no byte lido do arquivo
-    struct OPCODE * opcode = GetOpcode(buffer);
+    opcode = GetOpcode(buffer);
 
     if(opcode == NULL) {
       printf("0x%02X => FAIL !!!\n", buffer & 0xFF);
       continue;
     }
-    else 
-      printf("0x%02X = %s\n", buffer & 0xFF, opcode->instruction);
+    else
+      program[programLine].opcode = opcode;
 
-    //adiciona argumentos para ignorar nas próximas iterações, jumps-- no começo do while
-    jumps = opcode->addressing->length - 1;
+    //adiciona argumentos para ignorar nas próximas iterações, argumentCount-- no começo do while
+    argumentCount = opcode->addressing->length - 1;
   }
 
   //fechando o arquivo para não ter memory leak
   fclose(file);
+
+  return program;
 }
