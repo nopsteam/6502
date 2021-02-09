@@ -15,7 +15,7 @@ struct OPCODE * GetOpcode(char hex) {
   return NULL;
 }
 
-struct PROGRAM_LINE * LoadBinary(char * binaryPath) {
+struct PROGRAM LoadBinary(char * binaryPath) {
   //forneceu algum conteúdo como argumento?
   if(strlen(binaryPath) <= 0) {
     printf("invalid file path %s", binaryPath);
@@ -50,7 +50,7 @@ struct PROGRAM_LINE * LoadBinary(char * binaryPath) {
   int argumentCount = 0;
   struct OPCODE * opcode = NULL;
 
-  struct PROGRAM_LINE *program = malloc(sizeof *program * fileSize);
+  struct PROGRAM_LINE * program = malloc(sizeof(* program) * fileSize);
 
   while(fread(&buffer, 1, 1, file) > 0) {
     //por enquanto, ignorando os argumentos para entender se os opcodes são identificados corretamente
@@ -69,8 +69,8 @@ struct PROGRAM_LINE * LoadBinary(char * binaryPath) {
       printf("0x%02X => FAIL !!!\n", buffer & 0xFF);
       continue;
     }
-    else
-      program[programLine].opcode = opcode;
+
+    program[programLine].opcode = opcode;
 
     //adiciona argumentos para ignorar nas próximas iterações, argumentCount-- no começo do while
     argumentCount = opcode->addressing->length - 1;
@@ -79,5 +79,10 @@ struct PROGRAM_LINE * LoadBinary(char * binaryPath) {
   //fechando o arquivo para não ter memory leak
   fclose(file);
 
-  return program;
+  struct PROGRAM programLoaded = {
+    .program = program,
+    .lines = programLine + 1 // +1 por conta da variável iniciar em -1, ou seja, conta a linha 0;
+  };
+
+  return programLoaded ;
 }
