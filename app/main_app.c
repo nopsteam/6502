@@ -164,15 +164,15 @@ void loop(SDL_Renderer* rend)
 
 int main()
 {
-  struct PROGRAM_LINE * program = LoadBinary("resources/dump.bin");
+  struct PROGRAM programLoaded = LoadBinary("resources/dump.bin");
 
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < programLoaded.lines; i++) {
     printf(
         "%s 0x%02X 0x%02X 0x%02X \n",
-        program[i].opcode->instruction,
-        program[i].opcode->hex & 0xFF,
-        program[i].args[0] & 0xFF,
-        program[i].args[1] & 0xFF);
+        programLoaded .program[i].opcode->instruction,
+        programLoaded .program[i].opcode->hex & 0xFF,
+        programLoaded .program[i].args[0] & 0xFF,
+        programLoaded .program[i].args[1] & 0xFF);
   }
 
   SDL_Window* win = init_window();

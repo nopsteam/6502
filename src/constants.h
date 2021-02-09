@@ -30,6 +30,11 @@ struct PROGRAM_LINE {
   char args[3];
 };
 
+struct PROGRAM {
+  struct PROGRAM_LINE * program;
+  int lines;
+};
+
 extern enum ADDRESSING_MODE_INDEX addressing;
 extern struct ADDRESSING_MODE addressing_modes[13];
 extern struct OPCODE opcodes[151];
