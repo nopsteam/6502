@@ -2,24 +2,33 @@
 
 ## Usage
 
-### Build
+### Setup
+This will build cmake files and download dependencies
+```bash
+make setup
+```
 
+### Build
 ```bash
 # Debug build
-make 
+make debug
 # Release build
 make release
 ```
 
 ### Run Tests
 This will build and run unity tests
-
 ```bash
 make test
 ```
 
-### Run Binary
+### Clean
+This will delete generated files for debug and release
+```bash
+make clean
+```
 
+### Run Binary
 ```bash
 # Debug bin
 ./build/debug/bin/main_app
