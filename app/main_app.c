@@ -167,12 +167,20 @@ int main()
   struct PROGRAM programLoaded = LoadBinary("resources/dump.bin");
 
   for (int i = 0; i < programLoaded.lines; i++) {
-    printf(
-        "%s 0x%02X 0x%02X 0x%02X \n",
-        programLoaded .program[i].opcode->instruction,
-        programLoaded .program[i].opcode->hex & 0xFF,
-        programLoaded .program[i].args[0] & 0xFF,
-        programLoaded .program[i].args[1] & 0xFF);
+    char * instruction = programLoaded .program[i].opcode->instruction;
+    char firstOperand = programLoaded .program[i].args[0];
+    char secondOperand = programLoaded .program[i].args[1];
+    int byteSize = programLoaded.program[i].opcode->addressing->length - 1;
+
+    if(firstOperand == 0x00 && secondOperand == 0x00)
+      printf("%s\n", instruction);
+    else if(byteSize == 1) {
+      printf("%s 0x%02hhx \n", instruction, firstOperand);
+    }
+    else if(byteSize == 2)
+      printf("%s 0x%02hhx%02hhx \n", instruction, firstOperand, secondOperand);
+    else
+      printf("more than 2 operands is not supported");
   }
 
   SDL_Window* win = init_window();
