@@ -167,18 +167,18 @@ int main()
   struct PROGRAM programLoaded = LoadBinary("resources/dump.bin");
 
   for (int i = 0; i < programLoaded.lines; i++) {
-    char * instruction = programLoaded .program[i].opcode->instruction;
-    char firstOperand = programLoaded .program[i].args[0];
-    char secondOperand = programLoaded .program[i].args[1];
+    char * instruction = programLoaded.program[i].opcode->instruction;
+    char firstOperand = programLoaded.program[i].args[0];
+    char secondOperand = programLoaded.program[i].args[1];
     int byteSize = programLoaded.program[i].opcode->addressing->length - 1;
 
-    if(firstOperand == 0x00 && secondOperand == 0x00)
+    if(byteSize == 0)
       printf("%s\n", instruction);
     else if(byteSize == 1) {
-      printf("%s 0x%02hhx \n", instruction, firstOperand);
+      printf("%s 0x%02x \n", instruction, firstOperand & 0xFF);
     }
     else if(byteSize == 2)
-      printf("%s 0x%02hhx%02hhx \n", instruction, firstOperand, secondOperand);
+      printf("%s 0x%02x%02x \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
     else
       printf("more than 2 operands is not supported");
   }
