@@ -15,7 +15,6 @@ set(Dependencies
 
 ###################################################################
 
-add_subdirectory(unity)
 foreach(tst deps IN ZIP_LISTS Tests Dependencies)
   message(STATUS "test=${tst}, dependencies=${deps}")
   add_executable(
