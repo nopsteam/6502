@@ -84,5 +84,5 @@ struct PROGRAM LoadBinary(char * binaryPath) {
     .lines = programLine + 1 // +1 por conta da variável iniciar em -1, ou seja, conta a linha 0;
   };
 
-  return programLoaded ;
+  return programLoaded;
 }

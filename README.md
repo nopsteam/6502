@@ -31,9 +31,11 @@ make clean
 ### Run Binary
 ```bash
 # Debug bin
-./build/debug/bin/main_app
+./build/debug/bin/6502
+./build/debug/bin/6502_disasm
 # Release bin
-./build/release/bin/main_app
+./build/release/bin/6502
+./build/release/bin/6502_disasm
 ```
 
 ## Installing Dependencies

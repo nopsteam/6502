@@ -1,16 +1,23 @@
+# Main emulator
 add_executable(
-  main_app
-  main_app.c
+  6502
+  6502.c
 )
 
-add_dependencies(main_app resources)
-
 target_link_libraries(
-  main_app
+  6502
   ${SDL2_LIBRARIES}
 )
 
+# Disassembler
+add_executable(
+  6502_disasm
+  6502_disasm.c
+)
+
 target_link_libraries(
-  main_app
+  6502_disasm
   disassembler
 )
+
+add_dependencies(6502_disasm resources)
