@@ -1,19 +1,19 @@
 #include "constants.h"
 
 struct ADDRESSING_MODE addressing_modes[13] = {
-  {.name = "Implied", .length = 1},
-  {.name = "Accumulator", .length = 1},
-  {.name = "Immediate", .length = 2},
-  {.name = "ZeroPage", .length = 2},
-  {.name = "ZeroPageX", .length = 2},
-  {.name = "ZeroPageY", .length = 2},
-  {.name = "Relative", .length = 2},
-  {.name = "Absolute", .length = 3},
-  {.name = "AbsoluteX", .length = 3},
-  {.name = "AbsoluteY", .length = 3},
-  {.name = "Indirect", .length = 3},
-  {.name = "IndirectX", .length = 2},
-  {.name = "IndirectY", .length = 2}
+  {.index = Implied, .length = 1},
+  {.index = Accumulator, .length = 1},
+  {.index = Immediate, .length = 2},
+  {.index = ZeroPage, .length = 2},
+  {.index = ZeroPageX, .length = 2},
+  {.index = ZeroPageY, .length = 2},
+  {.index = Relative, .length = 2},
+  {.index = Absolute, .length = 3},
+  {.index = AbsoluteX, .length = 3},
+  {.index = AbsoluteY, .length = 3},
+  {.index = Indirect, .length = 3},
+  {.index = IndirectX, .length = 2},
+  {.index = IndirectY, .length = 2}
 };
 
 struct OPCODE opcodes[151] = {

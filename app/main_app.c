@@ -170,17 +170,51 @@ int main()
     char * instruction = programLoaded.program[i].opcode->instruction;
     char firstOperand = programLoaded.program[i].args[0];
     char secondOperand = programLoaded.program[i].args[1];
-    int byteSize = programLoaded.program[i].opcode->addressing->length - 1;
+    int addressMode = programLoaded.program[i].opcode->addressing->index;
 
-    if(byteSize == 0)
-      printf("%s\n", instruction);
-    else if(byteSize == 1) {
-      printf("%s 0x%02x \n", instruction, firstOperand & 0xFF);
+    switch(addressMode) {
+      case Implied:
+        printf("%s\n", instruction);
+        break;
+      case Accumulator:
+        printf("%s A\n", instruction);
+        break;
+      case Immediate:
+        printf("%s #$%02x \n", instruction, firstOperand & 0xFF);
+        break;
+      case ZeroPage:
+        printf("%s $%02x \n", instruction, firstOperand & 0xFF);
+        break;
+      case ZeroPageX:
+        printf("%s $%02x,X \n", instruction, firstOperand & 0xFF);
+        break;
+      case ZeroPageY:
+        printf("%s $%02x,Y \n", instruction, firstOperand & 0xFF);
+        break;
+      case Relative:
+        printf("%s 0x%02x \n", instruction, firstOperand & 0xFF);
+        break;
+      case IndirectX:
+        printf("%s ($%02x,X) \n", instruction, firstOperand & 0xFF);
+        break;
+      case IndirectY:
+        printf("%s ($%02x),Y \n", instruction, firstOperand & 0xFF);
+        break;
+      case AbsoluteX:
+        printf("%s $%02x%02x,X \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      case AbsoluteY:
+        printf("%s $%02x%02x,Y \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      case Absolute:
+        printf("%s $%02x%02x \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      case Indirect:
+        printf("%s ($%02x%02x) \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      default:
+        printf("more than 2 operands is not supported");
     }
-    else if(byteSize == 2)
-      printf("%s 0x%02x%02x \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
-    else
-      printf("more than 2 operands is not supported");
   }
 
   SDL_Window* win = init_window();

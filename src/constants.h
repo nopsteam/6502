@@ -15,7 +15,7 @@ enum ADDRESSING_MODE_INDEX {
 };
 
 struct ADDRESSING_MODE {
-  char * name;
+  int index;
   int length;
 };
 
