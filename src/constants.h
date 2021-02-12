@@ -15,7 +15,7 @@ enum ADDRESSING_MODE_INDEX {
 };
 
 struct ADDRESSING_MODE {
-  char * name;
+  int index;
   int length;
 };
 
@@ -23,6 +23,16 @@ struct OPCODE {
   char * instruction;
   char hex;
   struct ADDRESSING_MODE * addressing;
+};
+
+struct PROGRAM_LINE {
+  struct OPCODE * opcode;
+  char args[3];
+};
+
+struct PROGRAM {
+  struct PROGRAM_LINE * program;
+  int lines;
 };
 
 extern enum ADDRESSING_MODE_INDEX addressing;

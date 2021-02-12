@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include "SDL_pixels.h"
+#include "constants.h"
 #include "disassembler.h"
 
 struct State
@@ -162,7 +164,58 @@ void loop(SDL_Renderer* rend)
 
 int main()
 {
-  LoadBinary("resources/dump.bin");
+  struct PROGRAM programLoaded = LoadBinary("resources/dump.bin");
+
+  for (int i = 0; i < programLoaded.lines; i++) {
+    char * instruction = programLoaded.program[i].opcode->instruction;
+    char firstOperand = programLoaded.program[i].args[0];
+    char secondOperand = programLoaded.program[i].args[1];
+    int addressMode = programLoaded.program[i].opcode->addressing->index;
+
+    switch(addressMode) {
+      case Implied:
+        printf("%s\n", instruction);
+        break;
+      case Accumulator:
+        printf("%s A\n", instruction);
+        break;
+      case Immediate:
+        printf("%s #$%02x \n", instruction, firstOperand & 0xFF);
+        break;
+      case ZeroPage:
+        printf("%s $%02x \n", instruction, firstOperand & 0xFF);
+        break;
+      case ZeroPageX:
+        printf("%s $%02x,X \n", instruction, firstOperand & 0xFF);
+        break;
+      case ZeroPageY:
+        printf("%s $%02x,Y \n", instruction, firstOperand & 0xFF);
+        break;
+      case Relative:
+        printf("%s 0x%02x \n", instruction, firstOperand & 0xFF);
+        break;
+      case IndirectX:
+        printf("%s ($%02x,X) \n", instruction, firstOperand & 0xFF);
+        break;
+      case IndirectY:
+        printf("%s ($%02x),Y \n", instruction, firstOperand & 0xFF);
+        break;
+      case AbsoluteX:
+        printf("%s $%02x%02x,X \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      case AbsoluteY:
+        printf("%s $%02x%02x,Y \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      case Absolute:
+        printf("%s $%02x%02x \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      case Indirect:
+        printf("%s ($%02x%02x) \n", instruction, firstOperand & 0xFF, secondOperand & 0xFF);
+        break;
+      default:
+        printf("more than 2 operands is not supported");
+    }
+  }
 
   SDL_Window* win = init_window();
   Uint32 render_flags = SDL_RENDERER_ACCELERATED;
