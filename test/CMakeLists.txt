@@ -4,15 +4,20 @@ set(SC_BUILD_TEST OFF)
 
 # 1. Declare the test file
 set(Tests
-  disassembler_test)
+  disassembler_test
+  program_test)
 
 # 2. Declare dependencies of each test file
 set(disassembler_test_deps
   disassembler)
 
+set(program_test_deps
+  disassembler)
+
 # 3. Add dependencies to a list, need to be in the same order as item 1
 set(Dependencies
-  disassembler_test_deps)
+  disassembler_test_deps
+  program_test_deps)
 
 
 ###################################################################
