@@ -18,7 +18,13 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
   GIT_TAG        master)
 
-FetchContent_MakeAvailable(unity)
+# Download / Include Commons libs SC String
+FetchContent_Declare(
+  sc_lib
+  GIT_REPOSITORY https://github.com/tezc/sc.git
+  GIT_TAG        master)
+
+FetchContent_MakeAvailable(unity sc_lib)
 
 # Output directory structure configuration.
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")

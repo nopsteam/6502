@@ -11,4 +11,6 @@ add_library(
 target_link_libraries(
   disassembler
   constants
+  sc_str
+  sc_array
 )
