@@ -1,5 +1,7 @@
 # Config
 
+set(SC_BUILD_TEST OFF)
+
 # 1. Declare the test file
 set(Tests
   disassembler_test)
