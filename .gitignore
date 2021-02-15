@@ -1,6 +1,8 @@
 # Build directory.
 build/debug/*
 build/release/*
+!build/debug/.gitkeep
+!build/release/.gitkeep
 build/compile_commands.json
 
 # Prerequisites
