@@ -35,7 +35,7 @@ void test_function_should_do_return_asm(void) {
 }
 
 void test_function_should_do_return_hex(void) {
-  TEST_ASSERT_EQUAL_STRING(toStringHex(&prg[0]), "4c 07 35");
+  TEST_ASSERT_EQUAL_STRING(toStringHex(&prg[0]), "4c 35 07");
   TEST_ASSERT_EQUAL_STRING(toStringHex(&prg[1]), "a0 00   ");
   TEST_ASSERT_EQUAL_STRING(toStringHex(&prg[2]), "a5 fe   ");
   TEST_ASSERT_EQUAL_STRING(toStringHex(&prg[3]), "91 00   ");

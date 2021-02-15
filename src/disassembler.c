@@ -92,7 +92,7 @@ char* toStringHex(struct PROGRAM_LINE * line) {
       sc_str_append_fmt(&string_line, "%02x %02x   ", hex & 0xFF, firstOperand & 0xFF);
       break;
     case 2:
-      sc_str_append_fmt(&string_line, "%02x %02x %02x", hex & 0xFF, firstOperand & 0xFF, secondOperand & 0xFF);
+      sc_str_append_fmt(&string_line, "%02x %02x %02x", hex & 0xFF, secondOperand & 0xFF, firstOperand & 0xFF);
       break;
     default:
       sc_str_append_fmt(&string_line, "%s", "Invalid instruction");
