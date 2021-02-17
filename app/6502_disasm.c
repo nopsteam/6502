@@ -12,13 +12,13 @@ int main(int argc, char **argv)
   }
   struct PROGRAM programLoaded = LoadBinary(programPath);
 
-  printf("offset   hexdump      disasm \n");
-  printf("----------------------------- \n");
+  printf("Address  Hexdump   Dissassembly\n");
+  printf("-------------------------------\n");
 
   for (int i = 0; i < programLoaded.lines; i++) {
-    printf("$%02x     ", programLoaded.program[i].offset);
-    printf("%s     ", toStringHex(&programLoaded.program[i]));
-    printf("%s \n", toStringAsm(&programLoaded.program[i]));
+    printf("$%04x    ", programLoaded.program[i].offset);
+    printf("%s  ", toStringHex(&programLoaded.program[i]));
+    printf("%s\n", toStringAsm(&programLoaded.program[i]));
   }
 
   free(programLoaded.program);

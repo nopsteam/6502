@@ -116,7 +116,7 @@ char * toStringAsm(struct PROGRAM_LINE * line) {
   int addressMode = line->opcode->addressing->index;
   switch(addressMode) {
     case Implied:
-      sc_str_append_fmt(&string_line, "%s", instruction);
+      sc_str_append_fmt(&string_line, "%s ", instruction);
       break;
     case Accumulator:
       sc_str_append_fmt(&string_line, "%s A", instruction);
@@ -134,7 +134,7 @@ char * toStringAsm(struct PROGRAM_LINE * line) {
       sc_str_append_fmt(&string_line, "%s $%02x,Y", instruction, firstOperand & 0xFF);
       break;
     case Relative:
-      sc_str_append_fmt(&string_line, "%s 0x%02x", instruction, nextAddress + (firstOperand & 0xFF));
+      sc_str_append_fmt(&string_line, "%s $%04x", instruction, (nextAddress + firstOperand) & 0xFFFF);
       break;
     case IndirectX:
       sc_str_append_fmt(&string_line, "%s ($%02x,X)", instruction, firstOperand & 0xFF);

@@ -31,7 +31,7 @@ void test_function_should_do_return_asm(void) {
   TEST_ASSERT_EQUAL_STRING(toStringAsm(&prg[1]), "LDY #$00");
   TEST_ASSERT_EQUAL_STRING(toStringAsm(&prg[2]), "LDA $fe");
   TEST_ASSERT_EQUAL_STRING(toStringAsm(&prg[3]), "STA ($00),Y");
-  TEST_ASSERT_EQUAL_STRING(toStringAsm(&prg[4]), "RTS");
+  TEST_ASSERT_EQUAL_STRING(toStringAsm(&prg[4]), "RTS ");
 }
 
 void test_function_should_do_return_hex(void) {
