@@ -45,11 +45,14 @@ struct PROGRAM LoadBinary(char * binaryPath) {
   int argumentCount = 0;
   struct OPCODE * opcode = NULL;
   struct PROGRAM_LINE * program = malloc(sizeof(* program) * fileSize);
+  int offset = 0x600;
 
   while(fread(&buffer, 1, 1, file) > 0) {
     if (argumentCount > 0) {
       argumentCount--;
       program[programLine].args[argumentCount] = buffer;
+
+      offset += 0x1;
       continue;
     }
 
@@ -63,6 +66,9 @@ struct PROGRAM LoadBinary(char * binaryPath) {
     }
 
     program[programLine].opcode = opcode;
+    program[programLine].offset = offset;
+
+    offset += 0x1;
 
     argumentCount = opcode->addressing->length - 1;
   }
@@ -77,8 +83,8 @@ struct PROGRAM LoadBinary(char * binaryPath) {
   return programLoaded;
 }
 
-char* toStringHex(struct PROGRAM_LINE * line) {
-  char* string_line = sc_str_create("");
+char * toStringHex(struct PROGRAM_LINE * line) {
+  char * string_line = sc_str_create("");
   char hex = line->opcode->hex;
   char firstOperand = line->args[0];
   char secondOperand = line->args[1];
@@ -101,8 +107,9 @@ char* toStringHex(struct PROGRAM_LINE * line) {
   return string_line;
 }
 
-char* toStringAsm(struct PROGRAM_LINE * line) {
-  char* string_line = sc_str_create("");
+char * toStringAsm(struct PROGRAM_LINE * line) {
+  int nextAddress = line->offset + line->opcode->addressing->length;
+  char * string_line = sc_str_create("");
   char * instruction = line->opcode->instruction;
   char firstOperand = line->args[0];
   char secondOperand = line->args[1];
@@ -127,7 +134,7 @@ char* toStringAsm(struct PROGRAM_LINE * line) {
       sc_str_append_fmt(&string_line, "%s $%02x,Y", instruction, firstOperand & 0xFF);
       break;
     case Relative:
-      sc_str_append_fmt(&string_line, "%s 0x%02x", instruction, firstOperand & 0xFF);
+      sc_str_append_fmt(&string_line, "%s 0x%02x", instruction, nextAddress + (firstOperand & 0xFF));
       break;
     case IndirectX:
       sc_str_append_fmt(&string_line, "%s ($%02x,X)", instruction, firstOperand & 0xFF);

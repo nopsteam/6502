@@ -1,4 +1,5 @@
 struct PROGRAM_LINE {
+  int offset;
   struct OPCODE * opcode;
   char args[3];
 };
