@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 enum ADDRESSING_MODE_INDEX {
   Implied = 0,
   Accumulator = 1,
@@ -22,6 +24,8 @@ struct ADDRESSING_MODE {
 struct OPCODE {
   char * instruction;
   char hex;
+  bool cycles_vary;
+  int cycles;
   struct ADDRESSING_MODE * addressing;
 };
 
