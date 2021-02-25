@@ -123,9 +123,13 @@ void test_function_should_GetOpcode_for_BRK(void) {
 
 void test_function_should_GetOpcode_for_BVC(void) {
   TEST_ASSERT_EQUAL_STRING(GetOpcode(0x50)->instruction, "BVC");
-  TEST_ASSERT_EQUAL_STRING(GetOpcode(0x70)->instruction, "BVC");
 
   TEST_ASSERT_EQUAL_INT(GetOpcode(0x50)->addressing->length, 2);
+}
+
+void test_function_should_GetOpcode_for_BVS(void) {
+  TEST_ASSERT_EQUAL_STRING(GetOpcode(0x70)->instruction, "BVS");
+
   TEST_ASSERT_EQUAL_INT(GetOpcode(0x70)->addressing->length, 2);
 }
 
@@ -527,48 +531,49 @@ int main(void) {
     RUN_TEST(test_function_should_GetOpcode_for_BNE, 10);
     RUN_TEST(test_function_should_GetOpcode_for_BPL, 11);
     RUN_TEST(test_function_should_GetOpcode_for_BRK, 12);
-    RUN_TEST(test_function_should_GetOpcode_for_BVC, 12);
-    RUN_TEST(test_function_should_GetOpcode_for_CLC, 13);
-    RUN_TEST(test_function_should_GetOpcode_for_CLD, 14);
-    RUN_TEST(test_function_should_GetOpcode_for_CLI, 15);
-    RUN_TEST(test_function_should_GetOpcode_for_CLV, 16);
-    RUN_TEST(test_function_should_GetOpcode_for_CMP, 17);
-    RUN_TEST(test_function_should_GetOpcode_for_CPX, 18);
-    RUN_TEST(test_function_should_GetOpcode_for_CPY, 19);
-    RUN_TEST(test_function_should_GetOpcode_for_DEC, 20);
-    RUN_TEST(test_function_should_GetOpcode_for_EOR, 21);
-    RUN_TEST(test_function_should_GetOpcode_for_INC, 22);
-    RUN_TEST(test_function_should_GetOpcode_for_INX, 23);
-    RUN_TEST(test_function_should_GetOpcode_for_INY, 24);
-    RUN_TEST(test_function_should_GetOpcode_for_JMP, 25);
-    RUN_TEST(test_function_should_GetOpcode_for_JSR, 26);
-    RUN_TEST(test_function_should_GetOpcode_for_LDA, 27);
-    RUN_TEST(test_function_should_GetOpcode_for_LDX, 28);
-    RUN_TEST(test_function_should_GetOpcode_for_LDY, 29);
-    RUN_TEST(test_function_should_GetOpcode_for_LSR, 30);
-    RUN_TEST(test_function_should_GetOpcode_for_NOP, 31);
-    RUN_TEST(test_function_should_GetOpcode_for_ORA, 32);
-    RUN_TEST(test_function_should_GetOpcode_for_PHA, 33);
-    RUN_TEST(test_function_should_GetOpcode_for_PHP, 34);
-    RUN_TEST(test_function_should_GetOpcode_for_PLA, 35);
-    RUN_TEST(test_function_should_GetOpcode_for_PLP, 36);
-    RUN_TEST(test_function_should_GetOpcode_for_ROL, 37);
-    RUN_TEST(test_function_should_GetOpcode_for_ROR, 38);
-    RUN_TEST(test_function_should_GetOpcode_for_RTI, 39);
-    RUN_TEST(test_function_should_GetOpcode_for_RTS, 40);
-    RUN_TEST(test_function_should_GetOpcode_for_SBC, 41);
-    RUN_TEST(test_function_should_GetOpcode_for_SEC, 42);
-    RUN_TEST(test_function_should_GetOpcode_for_SED, 43);
-    RUN_TEST(test_function_should_GetOpcode_for_SEI, 44);
-    RUN_TEST(test_function_should_GetOpcode_for_STA, 45);
-    RUN_TEST(test_function_should_GetOpcode_for_STX, 46);
-    RUN_TEST(test_function_should_GetOpcode_for_STY, 47);
-    RUN_TEST(test_function_should_GetOpcode_for_TAX, 48);
-    RUN_TEST(test_function_should_GetOpcode_for_TAY, 49);
-    RUN_TEST(test_function_should_GetOpcode_for_TSX, 50);
-    RUN_TEST(test_function_should_GetOpcode_for_TXA, 51);
-    RUN_TEST(test_function_should_GetOpcode_for_TXS, 52);
-    RUN_TEST(test_function_should_GetOpcode_for_TYA, 53);
+    RUN_TEST(test_function_should_GetOpcode_for_BVC, 13);
+    RUN_TEST(test_function_should_GetOpcode_for_BVS, 14);
+    RUN_TEST(test_function_should_GetOpcode_for_CLC, 15);
+    RUN_TEST(test_function_should_GetOpcode_for_CLD, 16);
+    RUN_TEST(test_function_should_GetOpcode_for_CLI, 17);
+    RUN_TEST(test_function_should_GetOpcode_for_CLV, 18);
+    RUN_TEST(test_function_should_GetOpcode_for_CMP, 19);
+    RUN_TEST(test_function_should_GetOpcode_for_CPX, 20);
+    RUN_TEST(test_function_should_GetOpcode_for_CPY, 21);
+    RUN_TEST(test_function_should_GetOpcode_for_DEC, 22);
+    RUN_TEST(test_function_should_GetOpcode_for_EOR, 23);
+    RUN_TEST(test_function_should_GetOpcode_for_INC, 24);
+    RUN_TEST(test_function_should_GetOpcode_for_INX, 25);
+    RUN_TEST(test_function_should_GetOpcode_for_INY, 26);
+    RUN_TEST(test_function_should_GetOpcode_for_JMP, 27);
+    RUN_TEST(test_function_should_GetOpcode_for_JSR, 28);
+    RUN_TEST(test_function_should_GetOpcode_for_LDA, 29);
+    RUN_TEST(test_function_should_GetOpcode_for_LDX, 30);
+    RUN_TEST(test_function_should_GetOpcode_for_LDY, 31);
+    RUN_TEST(test_function_should_GetOpcode_for_LSR, 32);
+    RUN_TEST(test_function_should_GetOpcode_for_NOP, 33);
+    RUN_TEST(test_function_should_GetOpcode_for_ORA, 34);
+    RUN_TEST(test_function_should_GetOpcode_for_PHA, 35);
+    RUN_TEST(test_function_should_GetOpcode_for_PHP, 36);
+    RUN_TEST(test_function_should_GetOpcode_for_PLA, 37);
+    RUN_TEST(test_function_should_GetOpcode_for_PLP, 38);
+    RUN_TEST(test_function_should_GetOpcode_for_ROL, 39);
+    RUN_TEST(test_function_should_GetOpcode_for_ROR, 40);
+    RUN_TEST(test_function_should_GetOpcode_for_RTI, 41);
+    RUN_TEST(test_function_should_GetOpcode_for_RTS, 42);
+    RUN_TEST(test_function_should_GetOpcode_for_SBC, 43);
+    RUN_TEST(test_function_should_GetOpcode_for_SEC, 44);
+    RUN_TEST(test_function_should_GetOpcode_for_SED, 45);
+    RUN_TEST(test_function_should_GetOpcode_for_SEI, 46);
+    RUN_TEST(test_function_should_GetOpcode_for_STA, 47);
+    RUN_TEST(test_function_should_GetOpcode_for_STX, 48);
+    RUN_TEST(test_function_should_GetOpcode_for_STY, 49);
+    RUN_TEST(test_function_should_GetOpcode_for_TAX, 50);
+    RUN_TEST(test_function_should_GetOpcode_for_TAY, 51);
+    RUN_TEST(test_function_should_GetOpcode_for_TSX, 52);
+    RUN_TEST(test_function_should_GetOpcode_for_TXA, 53);
+    RUN_TEST(test_function_should_GetOpcode_for_TXS, 54);
+    RUN_TEST(test_function_should_GetOpcode_for_TYA, 55);
 
     return UNITY_END();
 }
