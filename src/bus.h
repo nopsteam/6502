@@ -1,7 +1,7 @@
 struct BUS {
-    char *input;
-    char *display[1023];
-    char *memory[64 * 1024];
+    char input;
+    char display[1023];
+    char memory[64 * 1024];
 };
 
 struct BUS initialize();

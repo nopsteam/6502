@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "bus.h"
 
 struct BUS initialize() {
@@ -5,12 +6,12 @@ struct BUS initialize() {
 
   bus.input = 0x00;
 
-  for(int i = 1; i <= 1023; ++i)
+  for(int i = 0; i <= 1023; ++i)
   {
     bus.display[i] = 0x00;
   }
 
-  for(int i = 1; i <= (64 * 1024); ++i)
+  for(int i = 0; i <= (64 * 1024); ++i)
   {
     bus.memory[i] = 0x00;
   }
@@ -23,16 +24,17 @@ void write(int addr, char data, struct BUS * bus) {
       (addr >  0x00FF && addr <  0x0200) ||
       (addr >  0x05FF && addr <= 0xFFFF))
   {
-    *bus->memory[addr] = data;
+    bus->memory[addr] = data;
   }
   else if (addr >= 0x0200 && addr <= 0x05FF)
   {
-    *bus->display[addr - 0x0200] = data;
+    bus->display[addr - 0x0200] = data;
   }
   else if (addr == 0x00FF)
   {
-    *bus->input = data;
+    bus->input = data;
   }
+  return;
 }
 
 char read(int addr, struct BUS * bus) {
@@ -42,15 +44,15 @@ char read(int addr, struct BUS * bus) {
       (addr >  0x00FF && addr <  0x0200) ||
       (addr >  0x05FF && addr <= 0xFFFF))
   {
-    data = *bus->memory[addr];
+    data = bus->memory[addr];
   }
   else if (addr >= 0x0200 && addr <= 0x05FF)
   {
-    data = *bus->display[addr - 0x0200];
+    data = bus->display[addr - 0x0200];
   }
   else if (addr == 0x00FF)
   {
-    data = *bus->input;
+    data = bus->input;
   }
 
   return data;
