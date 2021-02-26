@@ -1,6 +1,6 @@
 struct BUS {
     unsigned char input;
-    unsigned char display[1023];
+    unsigned char display[1024];
     unsigned char memory[64 * 1024];
 };
 

@@ -5,12 +5,12 @@ struct BUS initializeBus() {
 
   bus.input = 0x00;
 
-  for(int i = 0; i <= 1023; ++i)
+  for(int i = 0; i < 1024; ++i)
   {
     bus.display[i] = 0x00;
   }
 
-  for(int i = 0; i <= (64 * 1024); ++i)
+  for(int i = 0; i < (64 * 1024); ++i)
   {
     bus.memory[i] = 0x00;
   }

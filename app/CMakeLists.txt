@@ -6,7 +6,7 @@ add_executable(
 
 target_link_libraries(
   6502
-  ${SDL2_LIBRARIES}
+  sdl
 )
 
 # Disassembler
