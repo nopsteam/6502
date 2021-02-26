@@ -8,6 +8,21 @@ add_library(
   disassembler.c
 )
 
+add_library(
+  bus SHARED
+  bus.c
+)
+
+add_library(
+  cpu SHARED
+  cpu.c
+)
+
+target_link_libraries(
+  cpu
+  bus
+)
+
 target_link_libraries(
   disassembler
   constants
