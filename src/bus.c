@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include "bus.h"
 
-struct BUS initialize() {
+struct BUS initializeBus() {
   struct BUS bus;
 
   bus.input = 0x00;
@@ -19,7 +18,7 @@ struct BUS initialize() {
   return bus;
 }
 
-void write(int addr, char data, struct BUS * bus) {
+void writeBus(unsigned int addr, unsigned char data, struct BUS * bus) {
   if ((addr >= 0x0000 && addr <  0x00FF) ||
       (addr >  0x00FF && addr <  0x0200) ||
       (addr >  0x05FF && addr <= 0xFFFF))
@@ -37,7 +36,7 @@ void write(int addr, char data, struct BUS * bus) {
   return;
 }
 
-char read(int addr, struct BUS * bus) {
+char readBus(unsigned int addr, struct BUS * bus) {
   char data = 0x00;
 
   if ((addr >= 0x0000 && addr <  0x00FF) ||

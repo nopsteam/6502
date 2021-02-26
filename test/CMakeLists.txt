@@ -5,12 +5,16 @@ set(SC_BUILD_TEST OFF)
 # 1. Declare the test file
 set(Tests
   bus_test
+  cpu_test
   disassembler_test
   program_test)
 
 # 2. Declare dependencies of each test file
 set(bus_test_deps
   bus)
+
+set(cpu_test_deps
+  cpu)
 
 set(disassembler_test_deps
   disassembler)
@@ -21,6 +25,7 @@ set(program_test_deps
 # 3. Add dependencies to a list, need to be in the same order as item 1
 set(Dependencies
   bus_test_deps
+  cpu_test_deps
   disassembler_test_deps
   program_test_deps)
 

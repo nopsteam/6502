@@ -13,6 +13,16 @@ add_library(
   bus.c
 )
 
+add_library(
+  cpu SHARED
+  cpu.c
+)
+
+target_link_libraries(
+  cpu
+  bus
+)
+
 target_link_libraries(
   disassembler
   constants
