@@ -41,4 +41,4 @@ SDL_Window* initWindowSdl();
 SDL_Renderer* initRenderSDL(SDL_Window* win);
 void destroySdl(SDL_Renderer * rend, SDL_Window * win);
 int readInputSdl();
-void drawScreenSdl(SDL_Renderer *rend);
+void drawScreenSdl(SDL_Renderer *rend, unsigned char display[]);

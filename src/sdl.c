@@ -46,15 +46,14 @@ void drawPixelSdl(struct PIXEL pixel, SDL_Renderer* rend) {
   SDL_RenderFillRect(rend, &rect);
 }
 
-void drawScreenSdl(SDL_Renderer *rend) {
+void drawScreenSdl(SDL_Renderer *rend, unsigned char display[]) {
   SDL_SetRenderDrawColor(rend, 0, 0, 0, 0);
   SDL_RenderClear(rend);
 
   for (int i = 0; i <= 1023; i++) {
-    float x = floor((float)i / 32);
-    float y = i % 32;
-    // TODO: struct COLOR color = palette[display[i] & 0x0F];
-    struct COLOR color = palette[i % 16];
+    float y = floor((float)i / 32);
+    float x = i % 32;
+    struct COLOR color = palette[display[i] & 0x0F];
     struct PIXEL pixel = {.x = x, .y = y, .color = color};
 
     drawPixelSdl(pixel, rend);

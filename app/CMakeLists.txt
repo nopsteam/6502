@@ -7,6 +7,7 @@ add_executable(
 target_link_libraries(
   6502
   sdl
+  bus
 )
 
 # Disassembler
