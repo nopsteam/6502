@@ -34,18 +34,22 @@ unsigned int addressingModesZeroPage(struct CPU *cpu, struct BUS *bus) {
 void staZeroPage(struct CPU *cpu, struct BUS *bus) {
   unsigned int address = addressingModesZeroPage(cpu, bus);
   writeBus(address, cpu->accumulator, bus);
+  return;
 }
 
 void clockCpu(struct CPU *cpu, struct BUS *bus) {
-  struct OPCODE opcode = *GetOpcode(readBus(cpu->pc, bus));
+  struct OPCODE * opcode = NULL;
+  opcode = GetOpcode(readBus(cpu->pc, bus));
   cpu->pc++;
 
-  switch (opcode.hex) {
-    case 0x85:
-      staZeroPage(cpu, bus);
-      break;
-    default:
-      printf("NOT IMPLEMENTED YET... %04x \n", opcode.hex);
-      break;
+  if (opcode) {
+    switch (opcode->hex) {
+      case 0x85:
+        staZeroPage(cpu, bus);
+        break;
+      default:
+        printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction);
+        break;
+    }
   }
 }

@@ -6,7 +6,7 @@
 #include "constants.h"
 #include "disassembler.h"
 
-struct OPCODE * GetOpcode(char hex) {
+struct OPCODE * GetOpcode(unsigned char hex) {
   int length = sizeof(opcodes) / sizeof(opcodes[0]);
 
   for(int i = 0; i < length; i++) {
@@ -85,7 +85,7 @@ struct PROGRAM LoadBinary(char * binaryPath) {
 
 char * toStringHex(struct PROGRAM_LINE * line) {
   char * string_line = sc_str_create("");
-  char hex = line->opcode->hex;
+  unsigned char hex = line->opcode->hex;
   char firstOperand = line->args[0];
   char secondOperand = line->args[1];
   int byteSize = line->opcode->addressing->length - 1;
