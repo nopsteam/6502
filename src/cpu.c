@@ -21,3 +21,7 @@ void resetCpu(struct CPU * cpu, struct BUS * bus) {
   cpu->status.overflow = false;
   cpu->status.negative = false;
 }
+
+void clockCpu(struct CPU *cpu, struct BUS *bus) {
+  // TODO: Do the emulation xD
+}
