@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "cpu.h"
+#include "constants.h"
+#include "disassembler.h"
 
 void resetCpu(struct CPU * cpu, struct BUS * bus) {
   int reset_address_lo = 0xFFFC;
@@ -23,9 +25,27 @@ void resetCpu(struct CPU * cpu, struct BUS * bus) {
   cpu->status.negative = false;
 }
 
-void clockCpu(struct CPU *cpu, struct BUS *bus) {
-  // TODO: Do the emulation xD
-  unsigned char current = readBus(cpu->pc, bus);
-  printf("0x%04x 0x%04x \n", cpu->pc, current);
+unsigned int addressingModesZeroPage(struct CPU *cpu, struct BUS *bus) {
+  unsigned int address = readBus(cpu->pc, bus);
   cpu->pc++;
+  return address & 0x00FF;
+}
+
+void staZeroPage(struct CPU *cpu, struct BUS *bus) {
+  unsigned int address = addressingModesZeroPage(cpu, bus);
+  writeBus(address, cpu->accumulator, bus);
+}
+
+void clockCpu(struct CPU *cpu, struct BUS *bus) {
+  struct OPCODE opcode = *GetOpcode(readBus(cpu->pc, bus));
+  cpu->pc++;
+
+  switch (opcode.hex) {
+    case 0x85:
+      staZeroPage(cpu, bus);
+      break;
+    default:
+      printf("NOT IMPLEMENTED YET... %04x \n", opcode.hex);
+      break;
+  }
 }

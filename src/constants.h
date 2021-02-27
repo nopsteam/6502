@@ -23,7 +23,7 @@ struct ADDRESSING_MODE {
 
 struct OPCODE {
   char * instruction;
-  char hex;
+  unsigned char hex;
   bool cycles_vary;
   int cycles;
   struct ADDRESSING_MODE * addressing;
