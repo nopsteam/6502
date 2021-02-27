@@ -2,6 +2,13 @@
 #include "cpu.h"
 #include "sdl.h"
 
+void initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char * programPath) {
+  writeBus(0xFFFC, initial_address & 0xff, bus);
+  writeBus(0xFFFD, (initial_address >> 8), bus);
+  resetCpu(cpu, bus);
+  writeFileBus(programPath, initial_address, bus);
+}
+
 void loop(SDL_Renderer *rend, struct CPU * cpu, struct BUS * bus) {
   int current_key = SDL_FIRSTEVENT;
 
@@ -11,8 +18,6 @@ void loop(SDL_Renderer *rend, struct CPU * cpu, struct BUS * bus) {
     drawScreenSdl(rend, bus->display);
     clockCpu(cpu, bus);
   }
-
-  return;
 }
 
 int main(int argc, char **argv)
@@ -27,14 +32,14 @@ int main(int argc, char **argv)
 
   struct CPU cpu;
   struct BUS bus = initializeBus();
-  resetCpu(&cpu, &bus);
+  initSimulator(&cpu, &bus, 0x0200, programPath);
 
-  writeFileBus(programPath, 0x200, &bus); // TODO: Switch to 0x600 offset
   SDL_Window* win = initWindowSdl();
   SDL_Renderer* rend = initRenderSDL(win);
 
   loop(rend, &cpu, &bus);
 
   destroySdl(rend, win);
+
   return 0;
 }

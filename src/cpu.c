@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "cpu.h"
 
 void resetCpu(struct CPU * cpu, struct BUS * bus) {
@@ -24,4 +25,7 @@ void resetCpu(struct CPU * cpu, struct BUS * bus) {
 
 void clockCpu(struct CPU *cpu, struct BUS *bus) {
   // TODO: Do the emulation xD
+  unsigned char current = readBus(cpu->pc, bus);
+  printf("0x%04x 0x%04x \n", cpu->pc, current);
+  cpu->pc++;
 }
