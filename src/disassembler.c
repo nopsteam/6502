@@ -110,7 +110,7 @@ char * toStringHex(struct PROGRAM_LINE * line) {
 char * toStringAsm(struct PROGRAM_LINE * line) {
   int nextAddress = line->offset + line->opcode->addressing->length;
   char * string_line = sc_str_create("");
-  char * instruction = line->opcode->instruction;
+  char * instruction = line->opcode->instruction->name;
   char firstOperand = line->args[0];
   char secondOperand = line->args[1];
   int addressMode = line->opcode->addressing->index;

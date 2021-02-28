@@ -25,24 +25,6 @@ void resetCpu(struct CPU * cpu, struct BUS * bus) {
   cpu->status.negative = false;
 }
 
-unsigned int zeroPageAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = readBus(cpu->pc, bus);
-  cpu->pc++;
-  return address & 0x00FF;
-}
-
-unsigned int zeroPageXAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = readBus(cpu->pc, bus);
-  cpu->pc++;
-  return address + cpu->index_x;
-}
-
-unsigned int zeroPageYAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = readBus(cpu->pc, bus);
-  cpu->pc++;
-  return address + cpu->index_y;
-}
-
 unsigned int absoluteAddressMode(struct CPU *cpu, struct BUS *bus) {
   unsigned char lo = readBus(cpu->pc, bus);
   cpu->pc++;
@@ -87,44 +69,48 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
   return address + cpu->index_y;
 }
 
-void staZeroPage(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = zeroPageAddressMode(cpu, bus);
-  writeBus(address, cpu->accumulator, bus);
-  return;
+unsigned int zeroPageAddressMode(struct CPU *cpu, struct BUS *bus) {
+  unsigned int address = readBus(cpu->pc, bus);
+  cpu->pc++;
+  return address & 0x00FF;
 }
 
-void staZeroPageX(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = zeroPageXAddressMode(cpu, bus);
-  writeBus(address, cpu->accumulator, bus);
-  return;
+unsigned int zeroPageXAddressMode(struct CPU *cpu, struct BUS *bus) {
+  unsigned int address = readBus(cpu->pc, bus);
+  cpu->pc++;
+  return address + cpu->index_x;
 }
 
-void staAbsolute(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = absoluteAddressMode(cpu, bus);
-  writeBus(address, cpu->accumulator, bus);
-  return;
+unsigned int zeroPageYAddressMode(struct CPU *cpu, struct BUS *bus) {
+  unsigned int address = readBus(cpu->pc, bus);
+  cpu->pc++;
+  return address + cpu->index_y;
 }
 
-void staAbsoluteX(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = absoluteXAddressMode(cpu, bus);
-  writeBus(address, cpu->accumulator, bus);
-  return;
+unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct BUS *bus) {
+  switch (opcode->addressing->index) {
+    case Absolute:
+      return absoluteAddressMode(cpu, bus);
+    case AbsoluteX:
+      return absoluteXAddressMode(cpu, bus);
+    case AbsoluteY:
+      return absoluteYAddressMode(cpu, bus);
+    case IndirectX:
+      return indirectXAddressMode(cpu, bus);
+    case IndirectY:
+      return indirectYAddressMode(cpu, bus);
+    case ZeroPage:
+      return zeroPageAddressMode(cpu, bus);
+    case ZeroPageX:
+      return zeroPageXAddressMode(cpu, bus);
+    case ZeroPageY:
+      return zeroPageYAddressMode(cpu, bus);
+    default:
+      return 0;
+  }
 }
 
-void staAbsoluteY(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = absoluteYAddressMode(cpu, bus);
-  writeBus(address, cpu->accumulator, bus);
-  return;
-}
-
-void staIndirectX(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = indirectXAddressMode(cpu, bus);
-  writeBus(address, cpu->accumulator, bus);
-  return;
-}
-
-void staIndirectY(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = indirectYAddressMode(cpu, bus);
+void sta(unsigned int address, struct CPU *cpu, struct BUS *bus) {
   writeBus(address, cpu->accumulator, bus);
   return;
 }
@@ -135,33 +121,16 @@ void clockCpu(struct CPU *cpu, struct BUS *bus) {
   cpu->pc++;
 
   if (opcode) {
-    switch (opcode->hex) {
-      case 0x85:
-        staZeroPage(cpu, bus);
-        break;
-      case 0x95:
-        staZeroPageX(cpu, bus);
-        break;
-      case 0x8D:
-        staAbsolute(cpu, bus);
-        break;
-      case 0x9D:
-        staAbsoluteX(cpu, bus);
-        break;
-      case 0x99:
-        staAbsoluteY(cpu, bus);
-        break;
-      case 0x81:
-        staIndirectX(cpu, bus);
-        break;
-      case 0x91:
-        staIndirectY(cpu, bus);
+    unsigned int address = getAddressByOpcode(opcode, cpu, bus);
+    switch (opcode->instruction->index) {
+      case STA:
+        sta(address, cpu, bus);
         break;
       default:
-        printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction);
+        printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
         break;
     }
   } else {
-    printf("NOT IMPLEMENTED OPCODE: 0x%04x\n", readBus(cpu->pc -1, bus));
+    printf("ERROR: INVALID OPCODE - 0x%04x\n", readBus(cpu->pc -1, bus));
   }
 }
