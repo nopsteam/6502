@@ -51,6 +51,24 @@ unsigned int absoluteYAddressMode(struct CPU *cpu, struct BUS *bus) {
   return address + cpu->index_y;
 }
 
+unsigned int immediateAddressMode(struct CPU *cpu, struct BUS *bus) {
+  unsigned int address = cpu->pc;
+  cpu->pc++;
+  return address;
+}
+
+unsigned int indirectAddressMode(struct CPU *cpu, struct BUS *bus) {
+  unsigned int base_lo = readBus(cpu->pc, bus);
+  cpu->pc++;
+  unsigned int base_hi = readBus(cpu->pc, bus);
+  cpu->pc++;
+  unsigned int base = readBus((base_hi << 8) | base_lo, bus);
+  unsigned char lo = readBus(base, bus);
+  unsigned char hi = readBus(base+1, bus);
+  unsigned int address = (hi << 8) | lo;
+  return address;
+}
+
 unsigned int indirectXAddressMode(struct CPU *cpu, struct BUS *bus) {
   unsigned int base = readBus(cpu->pc, bus) + cpu->index_x;
   cpu->pc++;
@@ -69,10 +87,16 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
   return address + cpu->index_y;
 }
 
+unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
+  signed char address = cpu->pc + readBus(cpu->pc, bus);
+  cpu->pc++;
+  return address;
+}
+
 unsigned int zeroPageAddressMode(struct CPU *cpu, struct BUS *bus) {
   unsigned int address = readBus(cpu->pc, bus);
   cpu->pc++;
-  return address & 0x00FF;
+  return address;
 }
 
 unsigned int zeroPageXAddressMode(struct CPU *cpu, struct BUS *bus) {
@@ -95,16 +119,23 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
       return absoluteXAddressMode(cpu, bus);
     case AbsoluteY:
       return absoluteYAddressMode(cpu, bus);
+    case Immediate:
+      return immediateAddressMode(cpu, bus);
+    case Indirect:
+      return indirectAddressMode(cpu, bus);
     case IndirectX:
       return indirectXAddressMode(cpu, bus);
     case IndirectY:
       return indirectYAddressMode(cpu, bus);
+    case Relative:
+      return relativeAddressMode(cpu, bus);
     case ZeroPage:
       return zeroPageAddressMode(cpu, bus);
     case ZeroPageX:
       return zeroPageXAddressMode(cpu, bus);
     case ZeroPageY:
       return zeroPageYAddressMode(cpu, bus);
+    case Implied:
     default:
       return 0;
   }
