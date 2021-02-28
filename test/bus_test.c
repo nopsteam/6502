@@ -41,7 +41,7 @@ typedef void (*Func)(void);
 int main(void) {
     UNITY_BEGIN();
 
-    RUN_TEST(test_function_should_save_get_memory_data, 1);
+    RUN_TEST(test_function_should_save_get_memory_data);
 
     return UNITY_END();
 }
