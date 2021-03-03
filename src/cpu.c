@@ -25,30 +25,12 @@ void resetCpu(struct CPU * cpu, struct BUS * bus) {
   cpu->status.negative = false;
 }
 
-unsigned int absoluteAddressMode(struct CPU *cpu, struct BUS *bus) {
+unsigned int absoluteAddressMode(unsigned char index, struct CPU *cpu, struct BUS *bus) {
   unsigned char lo = readBus(cpu->pc, bus);
   cpu->pc++;
   unsigned char hi = readBus(cpu->pc, bus);
   cpu->pc++;
-  return (hi << 8) | lo;
-}
-
-unsigned int absoluteXAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned char lo = readBus(cpu->pc, bus);
-  cpu->pc++;
-  unsigned char hi = readBus(cpu->pc, bus);
-  cpu->pc++;
-  unsigned int address = (hi << 8) | lo;
-  return address + cpu->index_x;
-}
-
-unsigned int absoluteYAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned char lo = readBus(cpu->pc, bus);
-  cpu->pc++;
-  unsigned char hi = readBus(cpu->pc, bus);
-  cpu->pc++;
-  unsigned int address = (hi << 8) | lo;
-  return address + cpu->index_y;
+  return ((hi << 8) | lo) + index;
 }
 
 unsigned int immediateAddressMode(struct CPU *cpu, struct BUS *bus) {
@@ -57,33 +39,33 @@ unsigned int immediateAddressMode(struct CPU *cpu, struct BUS *bus) {
   return address;
 }
 
+unsigned int indirect(unsigned int base_address, struct BUS *bus) {
+  unsigned char lo = readBus(base_address, bus);
+  unsigned char hi = readBus(base_address+1, bus);
+  return (hi << 8) | lo;
+}
+
 unsigned int indirectAddressMode(struct CPU *cpu, struct BUS *bus) {
   unsigned int base_lo = readBus(cpu->pc, bus);
   cpu->pc++;
   unsigned int base_hi = readBus(cpu->pc, bus);
   cpu->pc++;
   unsigned int base = readBus((base_hi << 8) | base_lo, bus);
-  unsigned char lo = readBus(base, bus);
-  unsigned char hi = readBus(base+1, bus);
-  unsigned int address = (hi << 8) | lo;
+  unsigned int address = indirect(base, bus);
   return address;
 }
 
 unsigned int indirectXAddressMode(struct CPU *cpu, struct BUS *bus) {
   unsigned int base = readBus(cpu->pc, bus) + cpu->index_x;
   cpu->pc++;
-  unsigned char lo = readBus(base, bus);
-  unsigned char hi = readBus(base+1, bus);
-  unsigned int address = (hi << 8) | lo;
+  unsigned int address = indirect(base, bus);
   return address;
 }
 
 unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
   unsigned int base = readBus(cpu->pc, bus);
   cpu->pc++;
-  unsigned char lo = readBus(base, bus);
-  unsigned char hi = readBus(base+1, bus);
-  unsigned int address = (hi << 8) | lo;
+  unsigned int address = indirect(base, bus);
   return address + cpu->index_y;
 }
 
@@ -93,32 +75,20 @@ unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
   return address;
 }
 
-unsigned int zeroPageAddressMode(struct CPU *cpu, struct BUS *bus) {
+unsigned int zeroPageAddressMode(unsigned char index, struct CPU *cpu, struct BUS *bus) {
   unsigned int address = readBus(cpu->pc, bus);
   cpu->pc++;
-  return address;
-}
-
-unsigned int zeroPageXAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = readBus(cpu->pc, bus);
-  cpu->pc++;
-  return address + cpu->index_x;
-}
-
-unsigned int zeroPageYAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = readBus(cpu->pc, bus);
-  cpu->pc++;
-  return address + cpu->index_y;
+  return address + index;
 }
 
 unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct BUS *bus) {
   switch (opcode->addressing->index) {
     case Absolute:
-      return absoluteAddressMode(cpu, bus);
+      return absoluteAddressMode(0, cpu, bus);
     case AbsoluteX:
-      return absoluteXAddressMode(cpu, bus);
+      return absoluteAddressMode(cpu->index_x, cpu, bus);
     case AbsoluteY:
-      return absoluteYAddressMode(cpu, bus);
+      return absoluteAddressMode(cpu->index_y, cpu, bus);
     case Immediate:
       return immediateAddressMode(cpu, bus);
     case Indirect:
@@ -130,11 +100,11 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
     case Relative:
       return relativeAddressMode(cpu, bus);
     case ZeroPage:
-      return zeroPageAddressMode(cpu, bus);
+      return zeroPageAddressMode(0, cpu, bus);
     case ZeroPageX:
-      return zeroPageXAddressMode(cpu, bus);
+      return zeroPageAddressMode(cpu->index_x, cpu, bus);
     case ZeroPageY:
-      return zeroPageYAddressMode(cpu, bus);
+      return zeroPageAddressMode(cpu->index_y, cpu, bus);
     case Implied:
     default:
       return 0;
@@ -146,7 +116,7 @@ void sta(unsigned int address, struct CPU *cpu, struct BUS *bus) {
   return;
 }
 
-void clockCpu(struct CPU *cpu, struct BUS *bus) {
+int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
   cpu->pc++;
@@ -163,5 +133,8 @@ void clockCpu(struct CPU *cpu, struct BUS *bus) {
     }
   } else {
     printf("ERROR: INVALID OPCODE - 0x%04x\n", readBus(cpu->pc -1, bus));
+    return 1;
   }
+
+  return 0;
 }

@@ -21,4 +21,4 @@ struct CPU {
 };
 
 void resetCpu(struct CPU * cpu, struct BUS * bus);
-void clockCpu(struct CPU * cpu, struct BUS * bus);
+int clockCpu(struct CPU * cpu, struct BUS * bus);
