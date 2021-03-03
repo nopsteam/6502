@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 #include "bus.h"
 
 struct BUS initializeBus() {
@@ -5,12 +9,12 @@ struct BUS initializeBus() {
 
   bus.input = 0x00;
 
-  for(int i = 0; i <= 1023; ++i)
+  for(int i = 0; i < 1024; ++i)
   {
     bus.display[i] = 0x00;
   }
 
-  for(int i = 0; i <= (64 * 1024); ++i)
+  for(int i = 0; i < (64 * 1024); ++i)
   {
     bus.memory[i] = 0x00;
   }
@@ -55,4 +59,30 @@ char readBus(unsigned int addr, struct BUS * bus) {
   }
 
   return data;
+}
+
+void writeFileBus(char * filePath, int offset, struct BUS * bus) {
+  if(strlen(filePath) <= 0) {
+    printf("invalid file path %s", filePath);
+    exit(0);
+  }
+
+  if(access(filePath, F_OK) != 0) {
+    printf("file not found %s", filePath);
+    exit(0);
+  }
+
+  FILE * file = fopen(filePath, "r");
+
+  if(file == NULL) {
+    printf("error opening file %s", filePath);
+    exit(0);
+  }
+
+  unsigned char buffer;
+  int current_offset = offset;
+  while(fread(&buffer, 1, 1, file) > 0) {
+    writeBus(current_offset, buffer, bus);
+    current_offset++;
+  }
 }

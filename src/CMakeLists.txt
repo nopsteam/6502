@@ -18,6 +18,17 @@ add_library(
   cpu.c
 )
 
+add_library(
+  sdl SHARED
+  sdl.c
+)
+
+target_link_libraries(
+  sdl
+  ${SDL2_LIBRARIES}
+  m
+)
+
 target_link_libraries(
   cpu
   bus
