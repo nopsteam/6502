@@ -40,8 +40,8 @@ void writeBus(unsigned int addr, unsigned char data, struct BUS * bus) {
   return;
 }
 
-char readBus(unsigned int addr, struct BUS * bus) {
-  char data = 0x00;
+unsigned char readBus(unsigned int addr, struct BUS * bus) {
+  unsigned char data = 0x00;
 
   if ((addr >= 0x0000 && addr <  0x00FF) ||
       (addr >  0x00FF && addr <  0x0200) ||
@@ -61,7 +61,7 @@ char readBus(unsigned int addr, struct BUS * bus) {
   return data;
 }
 
-void writeFileBus(char * filePath, int offset, struct BUS * bus) {
+void writeFileBus(char * filePath, unsigned int offset, struct BUS * bus) {
   if(strlen(filePath) <= 0) {
     printf("invalid file path %s", filePath);
     exit(0);

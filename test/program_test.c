@@ -47,8 +47,8 @@ typedef void (*Func)(void);
 int main(void) {
     UNITY_BEGIN();
 
-    RUN_TEST(test_function_should_do_return_asm, 1);
-    RUN_TEST(test_function_should_do_return_hex, 2);
+    RUN_TEST(test_function_should_do_return_asm);
+    RUN_TEST(test_function_should_do_return_hex);
 
     return UNITY_END();
 }
