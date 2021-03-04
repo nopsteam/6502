@@ -1,6 +1,8 @@
 # Config
-
 set(SC_BUILD_TEST OFF)
+
+# Opcodes test folder
+add_subdirectory(opcodes)
 
 # 1. Declare the test file
 set(Tests

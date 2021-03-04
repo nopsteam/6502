@@ -61,7 +61,7 @@ unsigned char readBus(unsigned int addr, struct BUS * bus) {
   return data;
 }
 
-void writeFileBus(char * filePath, unsigned int offset, struct BUS * bus) {
+void writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
   if(strlen(filePath) <= 0) {
     printf("invalid file path %s", filePath);
     exit(0);

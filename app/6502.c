@@ -6,7 +6,7 @@ void initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, cha
   writeBus(0xFFFC, initial_address & 0xff, bus);
   writeBus(0xFFFD, (initial_address >> 8), bus);
   resetCpu(cpu, bus);
-  writeFileBus(programPath, initial_address, bus);
+  writeProgramToBus(programPath, initial_address, bus);
 }
 
 void loop(SDL_Renderer *rend, struct CPU * cpu, struct BUS * bus) {
