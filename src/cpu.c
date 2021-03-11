@@ -111,11 +111,6 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
   }
 }
 
-void sta(unsigned int address, struct CPU *cpu, struct BUS *bus) {
-  writeBus(address, cpu->accumulator, bus);
-  return;
-}
-
 int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
@@ -125,7 +120,13 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
     switch (opcode->instruction->index) {
       case STA:
-        sta(address, cpu, bus);
+        writeBus(address, cpu->accumulator, bus);
+        break;
+      case STX:
+        writeBus(address, cpu->index_x, bus);
+        break;
+      case STY:
+        writeBus(address, cpu->index_y, bus);
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
