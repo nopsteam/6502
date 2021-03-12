@@ -121,7 +121,6 @@ void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
   cpu->stack_pointer--;
 }
 
-
 int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
@@ -160,6 +159,14 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case PHA:
         pushStack(cpu, bus, cpu->accumulator);
+        break;
+      case LDY:
+        cpu->index_y = bus->memory[address];
+        setZeroAndNegativeFlags(cpu, cpu->index_y);
+        break;
+       case LDX:
+        cpu->index_x = bus->memory[address];
+        setZeroAndNegativeFlags(cpu, cpu->index_x);
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
