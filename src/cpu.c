@@ -112,7 +112,7 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
 }
 
 void setZeroAndNegativeFlags(struct CPU *cpu, unsigned char data) {
-  if (data == 0) cpu->status.zero = true;
+  cpu->status.zero = data == 0;
   cpu->status.negative = (data >> 7) & 1;
 }
 
@@ -164,9 +164,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->index_y = bus->memory[address];
         setZeroAndNegativeFlags(cpu, cpu->index_y);
         break;
-       case LDX:
+      case LDX:
         cpu->index_x = bus->memory[address];
         setZeroAndNegativeFlags(cpu, cpu->index_x);
+        break;
+      case BNE:
+        if (!cpu->status.zero) cpu->pc = bus->memory[address]; 
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
