@@ -111,6 +111,17 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
   }
 }
 
+void setZeroAndNegativeFlags(struct CPU *cpu, unsigned char data) {
+  if (data == 0) cpu->status.zero = true;
+  cpu->status.negative = (data >> 7) & 1;
+}
+
+void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
+  writeBus(0x0100 + cpu->stack_pointer, value, bus);
+  cpu->stack_pointer--;
+}
+
+
 int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
@@ -127,6 +138,28 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case STY:
         writeBus(address, cpu->index_y, bus);
+        break;
+      case NOP:
+        printf("let's slide!");
+        break;
+      case TXA: 
+        cpu->index_x = cpu->accumulator;
+        setZeroAndNegativeFlags(cpu, cpu->index_x);
+        break;
+      case INX:
+        cpu->index_x++;
+        setZeroAndNegativeFlags(cpu, cpu->index_x);
+        break;
+      case INY:
+        cpu->index_y++;
+        setZeroAndNegativeFlags(cpu, cpu->index_y);
+        break;
+      case CPY: 
+        if (cpu->index_y >= address) cpu->status.carry = true;
+        setZeroAndNegativeFlags(cpu, cpu->index_y);
+        break;
+      case PHA:
+        pushStack(cpu, bus, cpu->accumulator);
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
