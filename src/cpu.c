@@ -70,7 +70,7 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
 }
 
 unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
-  signed char address = cpu->pc + readBus(cpu->pc, bus);
+  signed char address = readBus(cpu->pc, bus);
   cpu->pc++;
   return address;
 }
@@ -128,8 +128,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
 
   if (opcode) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
+    unsigned char immediateAddress;
     switch (opcode->instruction->index) {
-      case STA:
+     case STA:
         writeBus(address, cpu->accumulator, bus);
         break;
       case STX:
@@ -140,6 +141,11 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case NOP:
         printf("let's slide!");
+        break;
+      case LDA:
+        immediateAddress = readBus(address, bus);
+        cpu->accumulator = immediateAddress;
+        setZeroAndNegativeFlags(cpu, cpu->accumulator);
         break;
       case TXA: 
         cpu->index_x = cpu->accumulator;

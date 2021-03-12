@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 
   struct CPU cpu;
   struct BUS bus = initializeBus();
-  initSimulator(&cpu, &bus, 0x0200, programPath);
+  initSimulator(&cpu, &bus, 0x0600, programPath);
 
   SDL_Window* win = initWindowSdl();
   SDL_Renderer* rend = initRenderSDL(win);
