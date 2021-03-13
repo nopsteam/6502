@@ -70,7 +70,8 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
 }
 
 unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
-  signed char address = readBus(cpu->pc, bus);
+  // this cast should stay here cause readBus return an unsigned byte so the math fails when for negative representations
+  signed int address = cpu->pc + (signed char)readBus(cpu->pc, bus); 
   cpu->pc++;
   return address;
 }
@@ -128,9 +129,8 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
 
   if (opcode) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
-    unsigned char immediateAddress;
     switch (opcode->instruction->index) {
-     case STA:
+      case STA:
         writeBus(address, cpu->accumulator, bus);
         break;
       case STX:
@@ -143,8 +143,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         printf("let's slide!");
         break;
       case LDA:
-        immediateAddress = readBus(address, bus);
-        cpu->accumulator = immediateAddress;
+        cpu->accumulator = readBus(address, bus);
         setZeroAndNegativeFlags(cpu, cpu->accumulator);
         break;
       case TXA: 
@@ -160,7 +159,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         setZeroAndNegativeFlags(cpu, cpu->index_y);
         break;
       case CPY: 
-        if (cpu->index_y >= address) cpu->status.carry = true;
+        if (cpu->index_y >= readBus(address, bus)) cpu->status.carry = true;
         setZeroAndNegativeFlags(cpu, cpu->index_y);
         break;
       case PHA:
@@ -175,7 +174,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         setZeroAndNegativeFlags(cpu, cpu->index_x);
         break;
       case BNE:
-        if (!cpu->status.zero) cpu->pc = bus->memory[address]; 
+        if (!cpu->status.zero) cpu->pc = address; // this address was already understood on the method `getAddressByOpcode`
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
