@@ -22,12 +22,10 @@ void should_set_carry_flag_when_y_equal_than_memory_value_for_immediate(void){
   writeBus(0x600, CPY_Immediate, &bus);
   writeBus(0x601, 0x01, &bus);
 
-  // y > M
   cpu.index_y = 0x01;
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
@@ -35,90 +33,293 @@ void should_set_carry_flag_when_y_more_than_memory_value_for_immediate(void){
   writeBus(0x600, CPY_Immediate, &bus);
   writeBus(0x601, 0x01, &bus);
 
-  // y > M
   cpu.index_y = 0x02;
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
 void should_set_carry_flag_when_y_equal_than_memory_value_for_zeropage(void){
-  writeBus(0x600, CPY_ZeroPage, &bus);
-  writeBus(0x601, 0x01, &bus);
+  writeBus(0xDD, 0x01, &bus); 
 
-  // y > M
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
   cpu.index_y = 0x01;
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
 void should_set_carry_flag_when_y_more_than_memory_value_for_zeropage(void){
-  writeBus(0x600, CPY_ZeroPage, &bus);
-  writeBus(0x601, 0x01, &bus);
+  writeBus(0xDD, 0x01, &bus); 
 
-  // y > M
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
   cpu.index_y = 0x02;
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
 void should_set_carry_flag_when_y_equal_than_memory_value_for_absolute(void){
-  writeBus(0x600, CPY_Absolute, &bus);
-  writeBus(0x601, 0x01, &bus);
+  writeBus(0x4400, 0x01, &bus);
 
-  // y > M
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
   cpu.index_y = 0x01;
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
 void should_set_carry_flag_when_y_more_than_memory_value_for_absolute(void){
-  writeBus(0x600, CPY_Absolute, &bus);
-  writeBus(0x601, 0x01, &bus);
+  writeBus(0x4400, 0x01, &bus);
 
-  // y > M
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
   cpu.index_y = 0x02;
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
+void should_set_zero_flag_when_y_equals_memory_value_for_immediate(void){
+  writeBus(0x600, CPY_Immediate, &bus);
+  writeBus(0x601, 0x02, &bus);
 
-void should_set_zero_flag_when_y_equals_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.zero);
 }
 
-void should_set_negative_flag_when_bit_7_is_set(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+void should_set_zero_flag_when_y_equals_memory_value_for_zeropage(void){
+  writeBus(0xDD, 0x02, &bus); 
+
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.zero);
 }
 
-void should_not_set_carry_flag_when_y_less_than_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+void should_set_zero_flag_when_y_equals_memory_value_for_absolute(void){
+  writeBus(0x4400, 0x02, &bus);
+
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.zero);
 }
 
-void should_not_set_zero_flag_when_y_more_than_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+void should_set_negative_flag_when_bit_7_is_set_for_immediate(void){
+  writeBus(0x600, CPY_Immediate, &bus);
+  writeBus(0x601, 0xff, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.negative);
 }
 
-void should_not_set_zero_flag_when_y_less_then_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+void should_set_negative_flag_when_bit_7_is_set_for_zeropage(void){
+  writeBus(0xDD, 0xff, &bus); 
+
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.negative);
 }
 
-void should_not_set_negative_flag_when_bit_7_is_not_set(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+void should_set_negative_flag_when_bit_7_is_set_for_absolute(void){
+  writeBus(0x4400, 0xff, &bus);
+
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.negative);
+}
+
+void should_not_set_carry_flag_when_y_less_than_memory_value_for_immediate(void){
+  writeBus(0x600, CPY_Immediate, &bus);
+  writeBus(0x601, 0xff, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.carry);
+}
+
+void should_not_set_carry_flag_when_y_less_than_memory_value_for_zeropage(void){
+  writeBus(0xDD, 0xff, &bus); 
+
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.carry);
+}
+
+void should_not_set_carry_flag_when_y_less_than_memory_value_for_absolute(void){
+  writeBus(0x4400, 0x00, &bus);
+
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
+  cpu.index_y = 0xff;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.carry);
+}
+
+void should_not_set_zero_flag_when_y_more_than_memory_value_for_immediate(void){
+  writeBus(0x600, CPY_Immediate, &bus);
+  writeBus(0x601, 0xff, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void should_not_set_zero_flag_when_y_more_than_memory_value_for_zeropage(void){
+  writeBus(0xDD, 0xff, &bus); 
+
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void should_not_set_zero_flag_when_y_more_than_memory_value_for_absolute(void){
+  writeBus(0x4400, 0xff, &bus);
+
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void should_not_set_zero_flag_when_y_less_then_memory_value_for_immediate(void){
+  writeBus(0x600, CPY_Immediate, &bus);
+  writeBus(0x601, 0xff, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void should_not_set_zero_flag_when_y_less_then_memory_value_for_zeropage(void){
+  writeBus(0xDD, 0xff, &bus); 
+
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
+  cpu.index_y = 0x00;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void should_not_set_zero_flag_when_y_less_then_memory_value_for_absolute(void){
+  writeBus(0x4400, 0x00, &bus);
+
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
+  cpu.index_y = 0xff;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void should_not_set_negative_flag_when_bit_7_is_not_set_for_immediate(void){
+  writeBus(0x600, CPY_Immediate, &bus);
+  writeBus(0x601, 0x01, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.negative);
+}
+
+void should_not_set_negative_flag_when_bit_7_is_not_set_for_zeropage(void){
+  writeBus(0xDD, 0x01, &bus); 
+
+  writeBus(0x600, CPY_ZeroPage, &bus);
+  writeBus(0x601, 0xDD, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.negative);
+}
+
+void should_not_set_negative_flag_when_bit_7_is_not_set_for_absolute(void){
+  writeBus(0x4400, 0x01, &bus);
+
+  writeBus(0x600, CPY_Absolute, &bus);
+  writeBus(0x601, 0x00, &bus);
+  writeBus(0x602, 0x44, &bus);
+
+  cpu.index_y = 0x02;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.negative);
 }
 
 int main(void) {
@@ -130,13 +331,24 @@ int main(void) {
     RUN_TEST(should_set_carry_flag_when_y_more_than_memory_value_for_zeropage);
     RUN_TEST(should_set_carry_flag_when_y_equal_than_memory_value_for_absolute);
     RUN_TEST(should_set_carry_flag_when_y_more_than_memory_value_for_absolute);
-
-    RUN_TEST(should_set_zero_flag_when_y_equals_memory_value);
-    RUN_TEST(should_set_negative_flag_when_bit_7_is_set);
-    RUN_TEST(should_not_set_carry_flag_when_y_less_than_memory_value);
-    RUN_TEST(should_not_set_zero_flag_when_y_more_than_memory_value);
-    RUN_TEST(should_not_set_zero_flag_when_y_less_then_memory_value);
-    RUN_TEST(should_not_set_negative_flag_when_bit_7_is_not_set);
+    RUN_TEST(should_set_zero_flag_when_y_equals_memory_value_for_immediate);
+    RUN_TEST(should_set_zero_flag_when_y_equals_memory_value_for_zeropage);
+    RUN_TEST(should_set_zero_flag_when_y_equals_memory_value_for_absolute);
+    RUN_TEST(should_set_negative_flag_when_bit_7_is_set_for_immediate);
+    RUN_TEST(should_set_negative_flag_when_bit_7_is_set_for_zeropage);
+    RUN_TEST(should_set_negative_flag_when_bit_7_is_set_for_absolute);
+    RUN_TEST(should_not_set_carry_flag_when_y_less_than_memory_value_for_immediate);
+    RUN_TEST(should_not_set_carry_flag_when_y_less_than_memory_value_for_zeropage);
+    RUN_TEST(should_not_set_carry_flag_when_y_less_than_memory_value_for_absolute);
+    RUN_TEST(should_not_set_zero_flag_when_y_more_than_memory_value_for_immediate);
+    RUN_TEST(should_not_set_zero_flag_when_y_more_than_memory_value_for_zeropage);
+    RUN_TEST(should_not_set_zero_flag_when_y_more_than_memory_value_for_absolute);
+    RUN_TEST(should_not_set_zero_flag_when_y_less_then_memory_value_for_immediate);
+    RUN_TEST(should_not_set_zero_flag_when_y_less_then_memory_value_for_zeropage);
+    RUN_TEST(should_not_set_zero_flag_when_y_less_then_memory_value_for_absolute);
+    RUN_TEST(should_not_set_negative_flag_when_bit_7_is_not_set_for_immediate);
+    RUN_TEST(should_not_set_negative_flag_when_bit_7_is_not_set_for_zeropage);
+    RUN_TEST(should_not_set_negative_flag_when_bit_7_is_not_set_for_absolute);
 
     return UNITY_END();
 }
