@@ -129,6 +129,8 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
 
   if (opcode) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
+    signed int compareResult = 0;
+
     switch (opcode->instruction->index) {
       case STA:
         writeBus(address, cpu->accumulator, bus);
@@ -144,33 +146,43 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case LDA:
         cpu->accumulator = readBus(address, bus);
+        //todo: this should be removed, copy from CPY and create a method
         setZeroAndNegativeFlags(cpu, cpu->accumulator);
         break;
       case TXA: 
         cpu->index_x = cpu->accumulator;
+        //todo: this should be removed, copy from CPY and create a method
         setZeroAndNegativeFlags(cpu, cpu->index_x);
         break;
       case INX:
         cpu->index_x++;
+        //todo: this should be removed, copy from CPY and create a method
         setZeroAndNegativeFlags(cpu, cpu->index_x);
         break;
       case INY:
         cpu->index_y++;
+        //todo: this should be removed, copy from CPY and create a method
         setZeroAndNegativeFlags(cpu, cpu->index_y);
+ 
         break;
       case CPY: 
-        if (cpu->index_y >= readBus(address, bus)) cpu->status.carry = true;
-        setZeroAndNegativeFlags(cpu, cpu->index_y);
+        compareResult = (signed char)cpu->index_y - readBus(address, bus);
+
+        cpu->status.carry = compareResult >= 0;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       case PHA:
         pushStack(cpu, bus, cpu->accumulator);
         break;
       case LDY:
         cpu->index_y = bus->memory[address];
+        //todo: this should be removed, copy from CPY and create a method
         setZeroAndNegativeFlags(cpu, cpu->index_y);
         break;
       case LDX:
         cpu->index_x = bus->memory[address];
+        //todo: this should be removed, copy from CPY and create a method
         setZeroAndNegativeFlags(cpu, cpu->index_x);
         break;
       case BNE:
