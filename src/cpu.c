@@ -156,8 +156,10 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case INX:
         cpu->index_x++;
-        //todo: this should be removed, copy from CPY and create a method
-        setZeroAndNegativeFlags(cpu, cpu->index_x);
+        compareResult = (signed char)cpu->index_x;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+
         break;
       case INY:
         cpu->index_y++;
