@@ -168,7 +168,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->status.negative = compareResult < 0;
         break;
       case CPY: 
-        compareResult = (unsigned char)cpu->index_y - readBus(address, bus);
+        compareResult = cpu->index_y - readBus(address, bus);
         cpu->status.carry = compareResult >= 0;
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
