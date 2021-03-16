@@ -70,8 +70,7 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
 }
 
 unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
-  // this cast should stay here cause readBus return an unsigned byte so the math fails when for negative representations
-  signed int address = cpu->pc + (signed char)readBus(cpu->pc, bus); 
+  unsigned int address = cpu->pc + (signed char)readBus(cpu->pc, bus); 
   cpu->pc++;
   return address;
 }
@@ -146,30 +145,30 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case LDA:
         cpu->accumulator = readBus(address, bus);
-        //todo: this should be removed, copy from CPY and create a method
-        setZeroAndNegativeFlags(cpu, cpu->accumulator);
+        compareResult = (signed char)cpu->accumulator;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       case TXA: 
-        cpu->index_x = cpu->accumulator;
-        //todo: this should be removed, copy from CPY and create a method
-        setZeroAndNegativeFlags(cpu, cpu->index_x);
+        cpu->accumulator = cpu->index_x;
+        compareResult = (signed char)cpu->accumulator;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       case INX:
         cpu->index_x++;
         compareResult = (signed char)cpu->index_x;
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
-
         break;
       case INY:
         cpu->index_y++;
-        //todo: this should be removed, copy from CPY and create a method
-        setZeroAndNegativeFlags(cpu, cpu->index_y);
- 
+        compareResult = (signed char)cpu->index_y;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       case CPY: 
         compareResult = (signed char)cpu->index_y - readBus(address, bus);
-
         cpu->status.carry = compareResult >= 0;
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
@@ -179,16 +178,18 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case LDY:
         cpu->index_y = bus->memory[address];
-        //todo: this should be removed, copy from CPY and create a method
-        setZeroAndNegativeFlags(cpu, cpu->index_y);
+        compareResult = (signed char)cpu->index_y;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       case LDX:
         cpu->index_x = bus->memory[address];
-        //todo: this should be removed, copy from CPY and create a method
-        setZeroAndNegativeFlags(cpu, cpu->index_x);
+        compareResult = (signed char)cpu->index_x;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       case BNE:
-        if (!cpu->status.zero) cpu->pc = address; // this address was already understood on the method `getAddressByOpcode`
+        if (!cpu->status.zero) cpu->pc = address;
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
