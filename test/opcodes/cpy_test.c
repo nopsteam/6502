@@ -195,13 +195,13 @@ void should_not_set_carry_flag_when_y_less_than_memory_value_for_zeropage(void){
 }
 
 void should_not_set_carry_flag_when_y_less_than_memory_value_for_absolute(void){
-  writeBus(0x4400, 0x00, &bus);
+  writeBus(0x4400, 0x02, &bus);
 
   writeBus(0x600, CPY_Absolute, &bus);
   writeBus(0x601, 0x00, &bus);
   writeBus(0x602, 0x44, &bus);
 
-  cpu.index_y = 0xff;
+  cpu.index_y = 0x01;
 
   clockCpu(&cpu, &bus);
 
