@@ -52,6 +52,64 @@ sudo apt-get update -y -qq
 sudo apt-get install clang cmake libsdl2-dev
 ```
 
+## Implemented OPCODES
+- [ ] ADC
+- [ ] AND
+- [ ] ASL
+- [ ] BCC
+- [ ] BCS
+- [ ] BEQ
+- [ ] BIT
+- [ ] BMI
+- [x] BNE
+- [ ] BPL
+- [ ] BRK
+- [ ] BVC
+- [ ] BVS
+- [ ] CLC
+- [ ] CLD
+- [ ] CLI
+- [ ] CLV
+- [ ] CMP
+- [ ] CPX
+- [x] CPY
+- [ ] DEC
+- [ ] DEX
+- [ ] DEY
+- [ ] EOR
+- [ ] INC
+- [x] INX
+- [x] INY
+- [ ] JMP
+- [ ] JSR
+- [x] LDA
+- [x] LDX
+- [x] LDY
+- [ ] LSR
+- [x] NOP
+- [ ] ORA
+- [x] PHA
+- [ ] PHP
+- [ ] PLA
+- [ ] PLP
+- [ ] ROL
+- [ ] ROR
+- [ ] RTI
+- [ ] RTS
+- [ ] SBC
+- [ ] SEC
+- [ ] SED
+- [ ] SEI
+- [x] STA
+- [x] STX
+- [x] STY
+- [ ] TAX
+- [ ] TAY
+- [ ] TSX
+- [x] TXA
+- [ ] TXS
+- [ ] TYA
+
 ## License
 This is free and unencumbered software released into the public domain
 For more information, please refer to <http://unlicense.org/>

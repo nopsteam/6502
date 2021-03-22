@@ -133,27 +133,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     signed int compareResult = 0;
 
     switch (opcode->instruction->index) {
-      case STA:
-        writeBus(address, cpu->accumulator, bus);
+      case BNE:
+        if (!cpu->status.zero) cpu->pc = address;
         break;
-      case STX:
-        writeBus(address, cpu->index_x, bus);
-        break;
-      case STY:
-        writeBus(address, cpu->index_y, bus);
-        break;
-      case NOP:
-        printf("let's slide!");
-        break;
-      case LDA:
-        cpu->accumulator = readBus(address, bus);
-        compareResult = (signed char)cpu->accumulator;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
-        break;
-      case TXA: 
-        cpu->accumulator = cpu->index_x;
-        compareResult = (signed char)cpu->accumulator;
+      case CPY: 
+        compareResult = cpu->index_y - readBus(address, bus);
+        cpu->status.carry = compareResult >= 0;
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
@@ -169,18 +154,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
-      case CPY: 
-        compareResult = cpu->index_y - readBus(address, bus);
-        cpu->status.carry = compareResult >= 0;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
-        break;
-      case PHA:
-        pushStack(cpu, bus, cpu->accumulator);
-        break;
-      case LDY:
-        cpu->index_y = bus->memory[address];
-        compareResult = (signed char)cpu->index_y;
+      case LDA:
+        cpu->accumulator = readBus(address, bus);
+        compareResult = (signed char)cpu->accumulator;
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
@@ -190,8 +166,32 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
-      case BNE:
-        if (!cpu->status.zero) cpu->pc = address;
+      case LDY:
+        cpu->index_y = bus->memory[address];
+        compareResult = (signed char)cpu->index_y;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case NOP:
+        printf("let's slide!");
+        break;
+      case PHA:
+        pushStack(cpu, bus, cpu->accumulator);
+        break;
+      case STA:
+        writeBus(address, cpu->accumulator, bus);
+        break;
+      case STX:
+        writeBus(address, cpu->index_x, bus);
+        break;
+      case STY:
+        writeBus(address, cpu->index_y, bus);
+        break;
+      case TXA: 
+        cpu->accumulator = cpu->index_x;
+        compareResult = (signed char)cpu->accumulator;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
