@@ -193,6 +193,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
+      case TYA:
+        cpu->accumulator = cpu->index_y;
+        compareResult = (signed char)cpu->accumulator;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
         break;
