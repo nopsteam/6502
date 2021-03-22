@@ -108,7 +108,7 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] TSX
 - [x] TXA
 - [ ] TXS
-- [ ] TYA
+- [x] TYA
 
 ## License
 This is free and unencumbered software released into the public domain
