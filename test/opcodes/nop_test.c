@@ -1,6 +1,8 @@
 #include "unity.h"
 #include "cpu.h"
 
+char NOP_Implied = 0xEA;
+
 struct BUS bus;
 struct CPU cpu;
 
@@ -15,8 +17,10 @@ void tearDown(void) {
 }
 
 void should_dont_change_anything(void) {
-  writeBus(0x600, 0xea, &bus);
+  writeBus(0x600, NOP_Implied, &bus);
+
   clockCpu(&cpu, &bus);
+
   TEST_ASSERT_EQUAL(0x601, cpu.pc);
   TEST_ASSERT_EQUAL(0x00, cpu.index_x);
   TEST_ASSERT_EQUAL(0x00, cpu.index_y);

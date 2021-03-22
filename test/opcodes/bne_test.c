@@ -1,6 +1,8 @@
 #include "unity.h"
 #include "cpu.h"
 
+char BNE_Relative = 0xD0;
+
 struct BUS bus;
 struct CPU cpu;
 
@@ -15,7 +17,7 @@ void tearDown(void) {
 }
 
 void should_change_program_counter_with_a_new_location_when_zero_flag_is_not_true(void) {
-  writeBus(0x600, 0xD0, &bus);
+  writeBus(0x600, BNE_Relative, &bus);
   writeBus(0x601, 0xff, &bus);
 
   // BNE - Branch if Not Equal (zero)
@@ -23,7 +25,6 @@ void should_change_program_counter_with_a_new_location_when_zero_flag_is_not_tru
 
   clockCpu(&cpu, &bus);
 
-  // should move pc 2 times
   TEST_ASSERT_EQUAL(0x600, cpu.pc);
 }
 
