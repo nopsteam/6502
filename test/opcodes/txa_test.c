@@ -1,6 +1,8 @@
 #include "unity.h"
 #include "cpu.h"
 
+char TXA_Implied = 0x8A;
+
 struct BUS bus;
 struct CPU cpu;
 
@@ -16,31 +18,34 @@ void tearDown(void) {
 
 
 void should_copy_accumulator_to_X_register(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+  writeBus(0x600, TXA_Implied, &bus);
+  cpu.index_x = 0x22;
+  clockCpu(&cpu, &bus);
+  TEST_ASSERT_EQUAL(0x22, cpu.accumulator);
 }
 
 void should_set_zero_flag_when_X_equals_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+  writeBus(0x600, TXA_Implied, &bus);
+  cpu.index_x = 0x00;
+  clockCpu(&cpu, &bus);
+  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL(true, cpu.status.zero);
 }
 
 void should_set_negative_flag_when_bit_7_is_set(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
-}
-
-void should_not_set_carry_flag_when_X_less_than_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
-}
-
-void should_not_set_zero_flag_when_X_more_than_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
-}
-
-void should_not_set_zero_flag_when_X_less_then_memory_value(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+  writeBus(0x600, TXA_Implied, &bus);
+  cpu.index_x = 0xff;
+  clockCpu(&cpu, &bus);
+  TEST_ASSERT_EQUAL(0xff, cpu.accumulator);
+  TEST_ASSERT_EQUAL(true, cpu.status.negative);
 }
 
 void should_not_set_negative_flag_when_bit_7_is_not_set(void){
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+  writeBus(0x600, TXA_Implied, &bus);
+  cpu.index_x = 0xa;
+  clockCpu(&cpu, &bus);
+  TEST_ASSERT_EQUAL(0xa, cpu.accumulator);
+  TEST_ASSERT_EQUAL(false, cpu.status.negative);
 }
 
 int main(void) {
@@ -49,9 +54,6 @@ int main(void) {
     RUN_TEST(should_copy_accumulator_to_X_register);
     RUN_TEST(should_set_zero_flag_when_X_equals_memory_value);
     RUN_TEST(should_set_negative_flag_when_bit_7_is_set);
-    RUN_TEST(should_not_set_carry_flag_when_X_less_than_memory_value);
-    RUN_TEST(should_not_set_zero_flag_when_X_more_than_memory_value);
-    RUN_TEST(should_not_set_zero_flag_when_X_less_then_memory_value);
     RUN_TEST(should_not_set_negative_flag_when_bit_7_is_not_set);
 
     return UNITY_END();
