@@ -15,7 +15,14 @@ void tearDown(void) {
 }
 
 void should_push_a_copy_of_accumulator_to_the_stack() {
-  TEST_ASSERT_EQUAL(0x602, cpu.pc);
+  int old_stack_pointer = 0x1FD;
+  writeBus(0x600, 0x48, &bus);
+  cpu.accumulator = 0x22;
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(0xFC, cpu.stack_pointer);
+  TEST_ASSERT_EQUAL(0x22, readBus(old_stack_pointer, &bus));
 }
 
 
