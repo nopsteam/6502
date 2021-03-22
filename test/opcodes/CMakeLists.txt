@@ -13,6 +13,7 @@ set(Tests
   pha_test
   txa_test
   bne_test
+  txs_test
   tya_test)
 
 ###################################################################
