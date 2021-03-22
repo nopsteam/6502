@@ -3,6 +3,8 @@
 #include "constants.h"
 #include "disassembler.h"
 
+const int stackEndAddress = 0x100; 
+
 void resetCpu(struct CPU * cpu, struct BUS * bus) {
   int reset_address_lo = 0xFFFC;
   int reset_address_hi = 0XFFFD;
@@ -70,7 +72,7 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
 }
 
 unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
-  signed char address = cpu->pc + readBus(cpu->pc, bus);
+  unsigned int address = cpu->pc + (signed char)readBus(cpu->pc, bus); 
   cpu->pc++;
   return address;
 }
@@ -111,6 +113,16 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
   }
 }
 
+void setZeroAndNegativeFlags(struct CPU *cpu, unsigned char data) {
+  cpu->status.zero = data == 0;
+  cpu->status.negative = (data >> 7) & 1;
+}
+
+void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
+  writeBus(stackEndAddress + cpu->stack_pointer, value, bus);
+  cpu->stack_pointer--;
+}
+
 int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
@@ -118,6 +130,8 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
 
   if (opcode) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
+    signed int compareResult = 0;
+
     switch (opcode->instruction->index) {
       case STA:
         writeBus(address, cpu->accumulator, bus);
@@ -127,6 +141,57 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case STY:
         writeBus(address, cpu->index_y, bus);
+        break;
+      case NOP:
+        printf("let's slide!");
+        break;
+      case LDA:
+        cpu->accumulator = readBus(address, bus);
+        compareResult = (signed char)cpu->accumulator;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case TXA: 
+        cpu->accumulator = cpu->index_x;
+        compareResult = (signed char)cpu->accumulator;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case INX:
+        cpu->index_x++;
+        compareResult = (signed char)cpu->index_x;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case INY:
+        cpu->index_y++;
+        compareResult = (signed char)cpu->index_y;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case CPY: 
+        compareResult = cpu->index_y - readBus(address, bus);
+        cpu->status.carry = compareResult >= 0;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case PHA:
+        pushStack(cpu, bus, cpu->accumulator);
+        break;
+      case LDY:
+        cpu->index_y = bus->memory[address];
+        compareResult = (signed char)cpu->index_y;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case LDX:
+        cpu->index_x = bus->memory[address];
+        compareResult = (signed char)cpu->index_x;
+        cpu->status.zero = compareResult == 0;
+        cpu->status.negative = compareResult < 0;
+        break;
+      case BNE:
+        if (!cpu->status.zero) cpu->pc = address;
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
