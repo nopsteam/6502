@@ -3,6 +3,8 @@
 #include "constants.h"
 #include "disassembler.h"
 
+const int stackEndAddress = 0x100; 
+
 void resetCpu(struct CPU * cpu, struct BUS * bus) {
   int reset_address_lo = 0xFFFC;
   int reset_address_hi = 0XFFFD;
@@ -117,7 +119,7 @@ void setZeroAndNegativeFlags(struct CPU *cpu, unsigned char data) {
 }
 
 void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
-  writeBus(0x0100 + cpu->stack_pointer, value, bus);
+  writeBus(stackEndAddress + cpu->stack_pointer, value, bus);
   cpu->stack_pointer--;
 }
 
