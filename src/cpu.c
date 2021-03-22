@@ -193,7 +193,10 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
-      case TYA:
+      case TXS:
+        cpu->stack_pointer = cpu->index_x;
+        break;
+       case TYA:
         cpu->accumulator = cpu->index_y;
         compareResult = (signed char)cpu->accumulator;
         cpu->status.zero = compareResult == 0;
