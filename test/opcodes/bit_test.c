@@ -79,6 +79,36 @@ void bit_abs_should_set_NVZ_flag_as_false(void) {
   TEST_ASSERT_EQUAL(false, cpu.status.zero);
 }
 
+void bit_zp_should_set_V_flag_as_true(void) {
+  cpu.accumulator = 0xFF;
+  writeBus(0x44, 0x40, &bus);
+
+  // BIT $44
+  writeBus(0x600, BIT_ZeroPage, &bus);
+  writeBus(0x601, 0x44, &bus);
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(false, cpu.status.negative);
+  TEST_ASSERT_EQUAL(true, cpu.status.overflow);
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
+void bit_zp_should_set_N_flag_as_true(void) {
+  cpu.accumulator = 0xFF;
+  writeBus(0x44, 0x80, &bus);
+
+  // BIT $44
+  writeBus(0x600, BIT_ZeroPage, &bus);
+  writeBus(0x601, 0x44, &bus);
+
+  clockCpu(&cpu, &bus);
+
+  TEST_ASSERT_EQUAL(true, cpu.status.negative);
+  TEST_ASSERT_EQUAL(false, cpu.status.overflow);
+  TEST_ASSERT_EQUAL(false, cpu.status.zero);
+}
+
 int main(void) {
     UNITY_BEGIN();
 
@@ -86,6 +116,8 @@ int main(void) {
     RUN_TEST(bit_zp_should_set_NVZ_flag_as_false);
     RUN_TEST(bit_abs_should_set_NVZ_flag_as_true);
     RUN_TEST(bit_abs_should_set_NVZ_flag_as_false);
+    RUN_TEST(bit_zp_should_set_N_flag_as_true);
+    RUN_TEST(bit_zp_should_set_V_flag_as_true);
 
     return UNITY_END();
 }

@@ -135,7 +135,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     switch (opcode->instruction->index) {
       case BIT:
         compareResult = readBus(address, bus);
-        cpu->status.negative = (compareResult >> 7) & 1;
+        cpu->status.negative = (compareResult >> 7);
         cpu->status.overflow = (compareResult >> 6) & 1;
         cpu->status.zero = (cpu->accumulator & (unsigned char)compareResult) == 0;
         break;
