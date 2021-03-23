@@ -133,14 +133,35 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     signed int compareResult = 0;
 
     switch (opcode->instruction->index) {
+      case BCC:
+        if (!cpu->status.carry) cpu->pc = address;
+        break;
+      case BCS:
+        if (cpu->status.carry) cpu->pc = address;
+        break;
+      case BEQ:
+        if (cpu->status.zero) cpu->pc = address;
+        break;
       case BIT:
         compareResult = readBus(address, bus);
         cpu->status.negative = (compareResult >> 7);
         cpu->status.overflow = (compareResult >> 6) & 1;
         cpu->status.zero = (cpu->accumulator & (unsigned char)compareResult) == 0;
         break;
+      case BMI:
+        if (cpu->status.negative) cpu->pc = address;
+        break;
       case BNE:
         if (!cpu->status.zero) cpu->pc = address;
+        break;
+      case BPL:
+        if (!cpu->status.negative) cpu->pc = address;
+        break;
+      case BVC:
+        if (!cpu->status.overflow) cpu->pc = address;
+        break;
+      case BVS:
+        if (cpu->status.overflow) cpu->pc = address;
         break;
       case CPY: 
         compareResult = cpu->index_y - readBus(address, bus);

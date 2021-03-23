@@ -56,16 +56,16 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] ADC
 - [ ] AND
 - [ ] ASL
-- [ ] BCC
-- [ ] BCS
-- [ ] BEQ
+- [x] BCC
+- [x] BCS
+- [x] BEQ
 - [x] BIT
-- [ ] BMI
+- [x] BMI
 - [x] BNE
-- [ ] BPL
+- [x] BPL
 - [ ] BRK
-- [ ] BVC
-- [ ] BVS
+- [x] BVC
+- [x] BVS
 - [ ] CLC
 - [ ] CLD
 - [ ] CLI

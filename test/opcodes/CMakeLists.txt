@@ -1,7 +1,14 @@
 # 1. Declare the test file
 set(Tests
+  bcc_test
+  bcs_test
+  beq_test
   bit_test
+  bmi_test
   bne_test
+  bpl_test
+  bvc_test
+  bvs_test
   cpy_test
   lda_test
   ldx_test
