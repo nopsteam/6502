@@ -107,7 +107,7 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] TAY
 - [ ] TSX
 - [x] TXA
-- [ ] TXS
+- [x] TXS
 - [x] TYA
 
 ## License
