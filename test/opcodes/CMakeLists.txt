@@ -12,7 +12,8 @@ set(Tests
   nop_test
   pha_test
   txa_test
-  bne_test)
+  bne_test
+  bit_test)
 
 ###################################################################
 

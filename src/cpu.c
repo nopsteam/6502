@@ -136,6 +136,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case BNE:
         if (!cpu->status.zero) cpu->pc = address;
         break;
+      case BIT:
+        compareResult = readBus(address, bus);
+        cpu->status.negative = (compareResult >> 7) & 1;
+        cpu->status.overflow = (compareResult >> 6) & 1;
+        cpu->status.zero = (cpu->accumulator & (unsigned char)compareResult) == 0;
+        break;
       case CPY: 
         compareResult = cpu->index_y - readBus(address, bus);
         cpu->status.carry = compareResult >= 0;

@@ -59,7 +59,7 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] BCC
 - [ ] BCS
 - [ ] BEQ
-- [ ] BIT
+- [x] BIT
 - [ ] BMI
 - [x] BNE
 - [ ] BPL
