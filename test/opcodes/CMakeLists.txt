@@ -1,19 +1,19 @@
 # 1. Declare the test file
 set(Tests
-  sta_test
-  stx_test
-  sty_test
+  bit_test
+  bne_test
   cpy_test
-  inx_test
-  iny_test
   lda_test
   ldx_test
   ldy_test
   nop_test
   pha_test
+  sta_test
+  stx_test
+  sty_test
   txa_test
-  bne_test
-  bit_test)
+  txs_test
+  tya_test)
 
 ###################################################################
 
