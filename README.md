@@ -80,8 +80,8 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] INC
 - [x] INX
 - [x] INY
-- [ ] JMP
-- [ ] JSR
+- [x] JMP
+- [x] JSR
 - [x] LDA
 - [x] LDX
 - [x] LDY
@@ -95,7 +95,7 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] ROL
 - [ ] ROR
 - [ ] RTI
-- [ ] RTS
+- [x] RTS
 - [ ] SBC
 - [ ] SEC
 - [ ] SED
