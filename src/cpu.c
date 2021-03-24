@@ -123,12 +123,19 @@ void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
   cpu->stack_pointer--;
 }
 
+unsigned char popStack(struct CPU *cpu, struct BUS *bus) {
+  cpu->stack_pointer++;
+  return readBus(stackEndAddress + cpu->stack_pointer, bus);
+}
+
 int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
   cpu->pc++;
 
   if (opcode) {
+    unsigned char lo = 0;
+    unsigned char hi = 0;
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
     signed int compareResult = 0;
 
@@ -181,6 +188,15 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         cpu->status.zero = compareResult == 0;
         cpu->status.negative = compareResult < 0;
         break;
+      case JMP:
+        cpu->pc = address;
+        break;
+      case JSR:
+        cpu->pc--;
+        pushStack(cpu, bus, (cpu->pc >> 8));
+        pushStack(cpu, bus, cpu->pc);
+        cpu->pc = address;
+        break;
       case LDA:
         cpu->accumulator = readBus(address, bus);
         compareResult = (signed char)cpu->accumulator;
@@ -204,6 +220,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case PHA:
         pushStack(cpu, bus, cpu->accumulator);
+        break;
+      case RTS:
+        lo = popStack(cpu, bus);
+        hi = popStack(cpu, bus);
+        cpu->pc = (hi << 8) | lo;
+        cpu->pc++;
         break;
       case STA:
         writeBus(address, cpu->accumulator, bus);

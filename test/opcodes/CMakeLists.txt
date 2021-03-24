@@ -10,11 +10,14 @@ set(Tests
   bvc_test
   bvs_test
   cpy_test
+  jmp_test
+  jsr_test
   lda_test
   ldx_test
   ldy_test
   nop_test
   pha_test
+  rts_test
   sta_test
   stx_test
   sty_test
