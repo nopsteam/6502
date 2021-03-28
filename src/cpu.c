@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "cpu.h"
 #include "constants.h"
 #include "disassembler.h"
+#include "opcodes.h"
 
 const int stackEndAddress = 0x100; 
 
@@ -83,14 +83,6 @@ unsigned int zeroPageAddressMode(unsigned char index, struct CPU *cpu, struct BU
   return address + index;
 }
 
-int hexToDecimalMode(unsigned char hex) {
-  int hi = ((hex & 0xF0) >> 4);
-  if (hi > 9) hi = hi % 9;
-  int lo = hex & 0xF;
-  if (lo > 9) lo = lo % 9;
-  return (hi * 10) + lo;
-}
-
 unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct BUS *bus) {
   switch (opcode->addressing->index) {
     case Absolute:
@@ -121,143 +113,92 @@ unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct 
   }
 }
 
-void setZeroAndNegativeFlags(struct CPU *cpu, unsigned char data) {
-  cpu->status.zero = data == 0;
-  cpu->status.negative = (data >> 7) & 1;
-}
-
-void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
-  writeBus(stackEndAddress + cpu->stack_pointer, value, bus);
-  cpu->stack_pointer--;
-}
-
-unsigned char popStack(struct CPU *cpu, struct BUS *bus) {
-  cpu->stack_pointer++;
-  return readBus(stackEndAddress + cpu->stack_pointer, bus);
-}
-
 int clockCpu(struct CPU *cpu, struct BUS *bus) {
   struct OPCODE * opcode = NULL;
   opcode = GetOpcode(readBus(cpu->pc, bus));
   cpu->pc++;
 
   if (opcode) {
-    unsigned char lo = 0;
-    unsigned char hi = 0;
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
-    signed int compareResult = 0;
 
     switch (opcode->instruction->index) {
       case BCC:
-        if (!cpu->status.carry) cpu->pc = address;
+        bccOpcode(address, cpu);
         break;
       case BCS:
-        if (cpu->status.carry) cpu->pc = address;
+        bcsOpcode(address, cpu);
         break;
       case BEQ:
-        if (cpu->status.zero) cpu->pc = address;
+        beqOpcode(address, cpu);
         break;
       case BIT:
-        compareResult = readBus(address, bus);
-        cpu->status.negative = (compareResult >> 7);
-        cpu->status.overflow = (compareResult >> 6) & 1;
-        cpu->status.zero = (cpu->accumulator & (unsigned char)compareResult) == 0;
+        bitOpcode(address, cpu, bus);
         break;
       case BMI:
-        if (cpu->status.negative) cpu->pc = address;
+        bmiOpcode(address, cpu);
         break;
       case BNE:
-        if (!cpu->status.zero) cpu->pc = address;
+        bneOpcode(address, cpu);
         break;
       case BPL:
-        if (!cpu->status.negative) cpu->pc = address;
+        bplOpcode(address, cpu);
         break;
       case BVC:
-        if (!cpu->status.overflow) cpu->pc = address;
+        bvcOpcode(address, cpu);
         break;
       case BVS:
-        if (cpu->status.overflow) cpu->pc = address;
+        bvsOpcode(address, cpu);
         break;
       case CPY: 
-        compareResult = cpu->index_y - readBus(address, bus);
-        cpu->status.carry = compareResult >= 0;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        cpyOpcode(address, cpu, bus);
         break;
       case INX:
-        cpu->index_x++;
-        compareResult = (signed char)cpu->index_x;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        inxOpcode(address, cpu);
         break;
       case INY:
-        cpu->index_y++;
-        compareResult = (signed char)cpu->index_y;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        inyOpcode(address, cpu);
         break;
       case JMP:
-        cpu->pc = address;
+        jmpOpcode(address, cpu);
         break;
       case JSR:
-        cpu->pc--;
-        pushStack(cpu, bus, (cpu->pc >> 8));
-        pushStack(cpu, bus, cpu->pc);
-        cpu->pc = address;
+        jsrOpcode(address, cpu, bus);
         break;
       case LDA:
-        cpu->accumulator = readBus(address, bus);
-        compareResult = (signed char)cpu->accumulator;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        ldaOpcode(address, cpu, bus);
         break;
       case LDX:
-        cpu->index_x = bus->memory[address];
-        compareResult = (signed char)cpu->index_x;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        ldxOpcode(address, cpu, bus);
         break;
       case LDY:
-        cpu->index_y = bus->memory[address];
-        compareResult = (signed char)cpu->index_y;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        ldyOpcode(address, cpu, bus);
         break;
       case NOP:
-        printf("let's slide!");
+        nopOpcode();
         break;
       case PHA:
-        pushStack(cpu, bus, cpu->accumulator);
+        phaOpcode(address, cpu, bus);
         break;
       case RTS:
-        lo = popStack(cpu, bus);
-        hi = popStack(cpu, bus);
-        cpu->pc = (hi << 8) | lo;
-        cpu->pc++;
+        rtsOpcode(address, cpu, bus);
         break;
       case STA:
-        writeBus(address, cpu->accumulator, bus);
+        staOpcode(address, cpu, bus);
         break;
       case STX:
-        writeBus(address, cpu->index_x, bus);
+        stxOpcode(address, cpu, bus);
         break;
       case STY:
-        writeBus(address, cpu->index_y, bus);
+        styOpcode(address, cpu, bus);
         break;
       case TXA: 
-        cpu->accumulator = cpu->index_x;
-        compareResult = (signed char)cpu->accumulator;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        txaOpcode(address, cpu);
         break;
       case TXS:
-        cpu->stack_pointer = cpu->index_x;
+        txsOpcode(address, cpu);
         break;
       case TYA:
-        cpu->accumulator = cpu->index_y;
-        compareResult = (signed char)cpu->accumulator;
-        cpu->status.zero = compareResult == 0;
-        cpu->status.negative = compareResult < 0;
+        tyaOpcode(address, cpu, bus);
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);

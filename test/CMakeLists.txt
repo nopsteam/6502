@@ -8,6 +8,7 @@ add_subdirectory(opcodes)
 set(Tests
   bus_test
   cpu_test
+  opcodes_test
   disassembler_test
   program_test)
 
@@ -16,6 +17,10 @@ set(bus_test_deps
   bus)
 
 set(cpu_test_deps
+  cpu)
+
+set(opcodes_test_deps
+  opcodes
   cpu)
 
 set(disassembler_test_deps
@@ -28,6 +33,7 @@ set(program_test_deps
 set(Dependencies
   bus_test_deps
   cpu_test_deps
+  opcodes_test_deps
   disassembler_test_deps
   program_test_deps)
 

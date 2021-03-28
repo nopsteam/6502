@@ -22,6 +22,12 @@ add_library(
   sdl SHARED
   sdl.c
 )
+  
+add_library(
+  opcodes SHARED
+  opcodes.c
+)
+
 
 target_link_libraries(
   sdl
@@ -32,6 +38,7 @@ target_link_libraries(
 target_link_libraries(
   cpu
   bus
+  opcodes
   disassembler
 )
 
