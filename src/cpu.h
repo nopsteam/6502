@@ -20,5 +20,6 @@ struct CPU {
   struct STATUS status;
 };
 
+int hexToDecimalMode(unsigned char hex);
 void resetCpu(struct CPU * cpu, struct BUS * bus);
 int clockCpu(struct CPU * cpu, struct BUS * bus);
