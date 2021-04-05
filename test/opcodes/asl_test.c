@@ -7,38 +7,6 @@ char ASL_ZeroPageX   = 0x16;
 char ASL_Absolute    = 0x0e;
 char ASL_AbsoluteX   = 0x1e;
 
-/*
-;MODE           SYNTAX       HEX LEN TIM
-
-;Accumulator   ASL A         $0A  1   2
-LDA #$10
-ASL A
-
-;Zero Page     ASL $44       $06  2   5
-LDA #$10
-STA $44
-ASL $44
-
-;Zero Page,X   ASL $44,X     $16  2   6
-LDA #$10
-LDX #$05
-STA $49
-ASL $44,X
-
-;Absolute      ASL $4400     $0E  3   6
-LDA #$10
-STA $4400
-ASL $4400
-
-;Absolute,X    ASL $4400,X   $1E  3   7
-LDA #$80
-LDX #$05
-STA $4405
-ASL $4400,X
-
-;tests -> flag zero, flag negative, flag carry
-*/
-
 struct BUS bus;
 struct CPU cpu;
 
