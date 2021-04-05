@@ -19,6 +19,7 @@ void jsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void ldaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void ldxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void ldyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
+void lsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void nopOpcode();
 void phaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);

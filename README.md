@@ -85,7 +85,7 @@ sudo apt-get install clang cmake libsdl2-dev
 - [x] LDA
 - [x] LDX
 - [x] LDY
-- [ ] LSR
+- [x] LSR
 - [x] NOP
 - [ ] ORA
 - [x] PHA

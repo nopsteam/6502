@@ -157,6 +157,18 @@ void ldyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   cpu->status.negative = compareResult < 0;
 }
 
+void lsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  unsigned char current = readFromMemoryOrAccumulator(address, cpu, bus);
+  unsigned char result = current >> 1;
+
+  cpu->status.carry = current & 0x01;
+  cpu->status.negative = result >> 7;
+  cpu->status.zero = result == 0x00;
+
+  writeOnMemoryOrAccumulator(address, result, cpu, bus);
+}
+
 void nopOpcode()
 {
   // nopsteam!ftw
