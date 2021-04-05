@@ -55,7 +55,7 @@ sudo apt-get install clang cmake libsdl2-dev
 ## Implemented OPCODES
 - [ ] ADC
 - [ ] AND
-- [ ] ASL
+- [x] ASL
 - [x] BCC
 - [x] BCS
 - [x] BEQ
