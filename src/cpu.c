@@ -130,6 +130,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
 
     switch (opcode->instruction->index) {
+      case ASL:
+        aslOpcode(address, cpu, bus);
+        break;
       case BCC:
         bccOpcode(address, cpu);
         break;

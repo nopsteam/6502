@@ -20,6 +20,26 @@ int hexToDecimalMode(unsigned char hex) {
   return (hi * 10) + lo;
 }
 
+bool isAccumulatorAddressMode(unsigned int address) {
+  return address == 0;
+}
+
+void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  unsigned char current = isAccumulatorAddressMode(address)
+    ? cpu->accumulator
+    : readBus(address, bus);
+  unsigned char result = current << 1;
+
+  cpu->status.carry = current & 0x80;
+  cpu->status.negative = result >> 7;
+  cpu->status.zero = result == 0x00;
+
+  return isAccumulatorAddressMode(address)
+    ? cpu->accumulator = result
+    : writeBus(address, result, bus);
+}
+
 void bccOpcode(unsigned int address, struct CPU *cpu)
 {
   if (!cpu->status.carry) cpu->pc = address;

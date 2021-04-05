@@ -66,7 +66,7 @@ void should_asl_absolute(void){
 }
 
 void should_asl_absolute_x(void){
-  writeBus(0x4401, 0x00, &bus);
+  writeBus(0x4401, 0x10, &bus);
   cpu.index_x = 0x01;
 
   writeBus(0x600, ASL_AbsoluteX, &bus);
