@@ -20,30 +20,32 @@ void setUp(void) {
 void tearDown(void) {
 }
 
-void should_asl_accumulator(void){
+void should_rol_accumulator(void){
   cpu.status.carry = true;
-  cpu.accumulator = 0x10;
+  cpu.accumulator = 0x01;
 
   writeBus(0x600, ROL_Accumulator, &bus);
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x20, cpu.accumulator);
+  TEST_ASSERT_EQUAL(0x03, cpu.accumulator);
 }
 
-void should_asl_zero_page(void){
-  writeBus(0x44, 0x10, &bus);
+void should_rol_zero_page(void){
+  cpu.status.carry = true;
+  writeBus(0x44, 0x01, &bus);
 
   writeBus(0x600, ROL_ZeroPage, &bus);
   writeBus(0x601, 0x44, &bus);
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x20, readBus(0x44, &bus));
+  TEST_ASSERT_EQUAL(0x03, readBus(0x44, &bus));
 }
 
-void should_asl_zero_page_x(void){
-  writeBus(0x49, 0x10, &bus);
+void should_rol_zero_page_x(void){
+  cpu.status.carry = true;
+  writeBus(0x49, 0x01, &bus);
   cpu.index_x = 0x05;
 
   writeBus(0x600, ROL_ZeroPageX, &bus);
@@ -51,11 +53,12 @@ void should_asl_zero_page_x(void){
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x20, readBus(0x49, &bus));
+  TEST_ASSERT_EQUAL(0x03, readBus(0x49, &bus));
 }
 
-void should_asl_absolute(void){
-  writeBus(0x4400, 0x10, &bus);
+void should_rol_absolute(void){
+  cpu.status.carry = true;
+  writeBus(0x4400, 0x01, &bus);
 
   writeBus(0x600, ROL_Absolute, &bus);
   writeBus(0x601, 0x00, &bus);
@@ -63,11 +66,12 @@ void should_asl_absolute(void){
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x20, readBus(0x4400, &bus));
+  TEST_ASSERT_EQUAL(0x03, readBus(0x4400, &bus));
 }
 
-void should_asl_absolute_x(void){
-  writeBus(0x4401, 0x10, &bus);
+void should_rol_absolute_x(void){
+  cpu.status.carry = true;
+  writeBus(0x4401, 0x01, &bus);
   cpu.index_x = 0x01;
 
   writeBus(0x600, ROL_AbsoluteX, &bus);
@@ -76,10 +80,10 @@ void should_asl_absolute_x(void){
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x20, readBus(0x4401, &bus));
+  TEST_ASSERT_EQUAL(0x03, readBus(0x4401, &bus));
 }
 
-void should_asl_and_set_carry(void){
+void should_rol_and_set_carry(void){
   cpu.accumulator = 0x80;
 
   writeBus(0x600, ROL_Accumulator, &bus);
@@ -90,7 +94,7 @@ void should_asl_and_set_carry(void){
   TEST_ASSERT_EQUAL(true, cpu.status.carry);
 }
 
-void should_asl_and_set_negative(void){
+void should_rol_and_set_negative(void){
   cpu.accumulator = 0x40;
 
   writeBus(0x600, ROL_Accumulator, &bus);
@@ -101,7 +105,7 @@ void should_asl_and_set_negative(void){
   TEST_ASSERT_EQUAL(true, cpu.status.negative);
 }
 
-void should_asl_and_set_zero(void){
+void should_rol_and_set_zero(void){
   cpu.accumulator = 0x80;
 
   writeBus(0x600, ROL_Accumulator, &bus);
@@ -115,14 +119,14 @@ void should_asl_and_set_zero(void){
 int main(void) {
     UNITY_BEGIN();
 
-    RUN_TEST(should_asl_accumulator);
-    RUN_TEST(should_asl_zero_page);
-    RUN_TEST(should_asl_zero_page_x);
-    RUN_TEST(should_asl_absolute);
-    RUN_TEST(should_asl_absolute_x);
-    RUN_TEST(should_asl_and_set_carry);
-    RUN_TEST(should_asl_and_set_negative);
-    RUN_TEST(should_asl_and_set_zero);
+    RUN_TEST(should_rol_accumulator);
+    RUN_TEST(should_rol_zero_page);
+    RUN_TEST(should_rol_zero_page_x);
+    RUN_TEST(should_rol_absolute);
+    RUN_TEST(should_rol_absolute_x);
+    RUN_TEST(should_rol_and_set_carry);
+    RUN_TEST(should_rol_and_set_negative);
+    RUN_TEST(should_rol_and_set_zero);
 
     return UNITY_END();
 }

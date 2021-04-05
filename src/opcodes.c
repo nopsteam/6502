@@ -179,6 +179,18 @@ void phaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   pushStack(cpu, bus, cpu->accumulator);
 }
 
+void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  unsigned char current = readFromMemoryOrAccumulator(address, cpu, bus);
+  unsigned char result = (current << 1) | cpu->status.carry;
+
+  cpu->status.carry = current & 0x80;
+  cpu->status.negative = result >> 7;
+  cpu->status.zero = result == 0x00;
+
+  writeOnMemoryOrAccumulator(address, result, cpu, bus);
+}
+
 void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   unsigned char lo = popStack(cpu, bus);
