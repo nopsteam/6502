@@ -184,6 +184,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case LDY:
         ldyOpcode(address, cpu, bus);
         break;
+      case LSR:
+        lsrOpcode(address, cpu, bus);
+        break;
       case NOP:
         nopOpcode();
         break;

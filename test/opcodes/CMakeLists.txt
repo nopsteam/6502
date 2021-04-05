@@ -16,6 +16,7 @@ set(Tests
   lda_test
   ldx_test
   ldy_test
+  lsr_test
   nop_test
   pha_test
   rts_test
