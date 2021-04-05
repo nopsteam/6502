@@ -24,20 +24,28 @@ bool isAccumulatorAddressMode(unsigned int address) {
   return address == 0;
 }
 
-void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
-{
-  unsigned char current = isAccumulatorAddressMode(address)
+unsigned char readFromMemoryOrAccumulator(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  return isAccumulatorAddressMode(address)
     ? cpu->accumulator
     : readBus(address, bus);
+}
+
+void writeOnMemoryOrAccumulator(unsigned int address, unsigned char result, struct CPU *cpu, struct BUS *bus) {
+  isAccumulatorAddressMode(address)
+    ? cpu->accumulator = result
+    : writeBus(address, result, bus);
+}
+
+void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  unsigned char current = readFromMemoryOrAccumulator(address, cpu, bus);
   unsigned char result = current << 1;
 
   cpu->status.carry = current & 0x80;
   cpu->status.negative = result >> 7;
   cpu->status.zero = result == 0x00;
 
-  return isAccumulatorAddressMode(address)
-    ? cpu->accumulator = result
-    : writeBus(address, result, bus);
+  writeOnMemoryOrAccumulator(address, result, cpu, bus);
 }
 
 void bccOpcode(unsigned int address, struct CPU *cpu)
