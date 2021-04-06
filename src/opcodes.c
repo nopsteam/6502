@@ -20,6 +20,16 @@ int hexToDecimalMode(unsigned char hex) {
   return (hi * 10) + lo;
 }
 
+void setStatusByChar(unsigned char value, struct CPU *cpu) {
+  cpu->status.carry = (value >> 0) & 0x1;
+  cpu->status.zero = (value >> 1) & 0x1;
+  cpu->status.interrupt = (value >> 2) & 0x1;
+  cpu->status.decimal = (value >> 3) & 0x1;
+  cpu->status.break_cmd = (value >> 4) & 0x1;
+  cpu->status.overflow = (value >> 6) & 0x1;
+  cpu->status.negative = (value >> 7) & 0x1;
+}
+
 bool isAccumulatorAddressMode(unsigned int address) {
   return address == 0;
 }
@@ -201,6 +211,16 @@ void rorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   cpu->status.zero = result == 0x00;
 
   writeOnMemoryOrAccumulator(address, result, cpu, bus);
+}
+
+void rtiOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  char setBreakFalse = ~0x10;
+  setStatusByChar(popStack(cpu, bus) & setBreakFalse, cpu);
+
+  unsigned char lo = popStack(cpu, bus);
+  unsigned char hi = popStack(cpu, bus);
+  cpu->pc = (hi << 8) | lo;
 }
 
 void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
