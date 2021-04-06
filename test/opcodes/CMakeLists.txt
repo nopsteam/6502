@@ -20,6 +20,7 @@ set(Tests
   nop_test
   pha_test
   rol_test
+  ror_test
   rts_test
   sta_test
   stx_test

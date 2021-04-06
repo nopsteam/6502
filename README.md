@@ -93,7 +93,7 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] PLA
 - [ ] PLP
 - [x] ROL
-- [ ] ROR
+- [x] ROR
 - [ ] RTI
 - [x] RTS
 - [ ] SBC
