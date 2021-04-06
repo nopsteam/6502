@@ -18,8 +18,10 @@ void tearDown(void) {
 }
 
 void should_jump_back_to_sp_jsr_address(void) {
-  writeBus(stackEndAddress + cpu.stack_pointer+1, 0x02, &bus);
-  writeBus(stackEndAddress + cpu.stack_pointer+2, 0x06, &bus);
+  writeBus(stackEndAddress + cpu.stack_pointer, 0x06, &bus);
+  cpu.stack_pointer--;
+  writeBus(stackEndAddress + cpu.stack_pointer, 0x02, &bus);
+  cpu.stack_pointer--;
 
   writeBus(0x600, RTS, &bus);
 

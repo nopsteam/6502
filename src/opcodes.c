@@ -215,8 +215,9 @@ void rorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 
 void rtiOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
-  char setBreakFalse = ~0x10;
-  setStatusByChar(popStack(cpu, bus) & setBreakFalse, cpu);
+  char setBreakFlagFalse = ~0x10;
+  unsigned char flagsValue = popStack(cpu, bus);
+  setStatusByChar(flagsValue & setBreakFlagFalse, cpu);
 
   unsigned char lo = popStack(cpu, bus);
   unsigned char hi = popStack(cpu, bus);
