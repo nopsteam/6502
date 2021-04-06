@@ -193,6 +193,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case PHA:
         phaOpcode(address, cpu, bus);
         break;
+      case ROL:
+        rolOpcode(address, cpu, bus);
+        break;
       case ROR:
         rorOpcode(address, cpu, bus);
         break;
