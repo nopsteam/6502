@@ -22,6 +22,7 @@ void ldyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void lsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void nopOpcode();
 void phaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
+void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void staOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void stxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
