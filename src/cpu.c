@@ -199,6 +199,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case ROR:
         rorOpcode(address, cpu, bus);
         break;
+      case RTI:
+        rtiOpcode(address, cpu, bus);
+        break;
       case RTS:
         rtsOpcode(address, cpu, bus);
         break;

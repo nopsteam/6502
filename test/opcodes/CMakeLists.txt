@@ -21,6 +21,7 @@ set(Tests
   pha_test
   rol_test
   ror_test
+  rti_test
   rts_test
   sta_test
   stx_test
