@@ -37,7 +37,6 @@ set(Dependencies
   disassembler_test_deps
   program_test_deps)
 
-
 ###################################################################
 
 foreach(tst deps IN ZIP_LISTS Tests Dependencies)
