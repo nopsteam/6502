@@ -106,6 +106,22 @@ void bvsOpcode(unsigned int address, struct CPU *cpu)
   if (cpu->status.overflow) cpu->pc = address;
 }
 
+void clcOpcode(struct CPU *cpu) {
+  cpu->status.carry = false;
+}
+
+void cldOpcode(struct CPU *cpu) {
+  cpu->status.decimal = false;
+}
+
+void cliOpcode(struct CPU *cpu) {
+  cpu->status.interrupt = false;
+}
+
+void clvOpcode(struct CPU *cpu) {
+  cpu->status.overflow = false;
+}
+
 void cpyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   signed int compareResult = cpu->index_y - readBus(address, bus);
@@ -230,6 +246,18 @@ void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   unsigned char hi = popStack(cpu, bus);
   cpu->pc = (hi << 8) | lo;
   cpu->pc++;
+}
+
+void secOpcode(struct CPU *cpu) {
+  cpu->status.carry = true;
+}
+
+void sedOpcode(struct CPU *cpu) {
+  cpu->status.decimal = true;
+}
+
+void seiOpcode(struct CPU *cpu) {
+  cpu->status.interrupt = true;
 }
 
 void staOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)

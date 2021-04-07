@@ -11,6 +11,10 @@ set(Tests
   bvc_test
   bvs_test
   cpy_test
+  clc_test
+  cld_test
+  cli_test
+  clv_test
   jmp_test
   jsr_test
   lda_test
@@ -23,6 +27,9 @@ set(Tests
   ror_test
   rti_test
   rts_test
+  sec_test
+  sed_test
+  sei_test
   sta_test
   stx_test
   sty_test
