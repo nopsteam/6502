@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.7
+        uses: jwlawson/actions-setup-cmake@v1.8
         with:
           cmake-version: '3.17.x'
       - name: Install Dependencies
@@ -32,3 +32,26 @@ jobs:
         run: |
           make setup
           make test
+  coverage:
+    name: "Coverage"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.8
+        with:
+          cmake-version: '3.17.x'
+      - name: Install Dependencies
+        run: |
+          sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+          sudo apt-get update -y -qq
+          sudo apt-get install libsdl2-dev lcov
+      - name: Checkout Latest Repo
+        uses: actions/checkout@v2
+      - name: Run Coverage Checks
+        run: |
+          make coverage
+      - name: Generage Coverage Reports
+        uses: romeovs/lcov-reporter-action@v0.2.21
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./build/coverage/coverage.info
