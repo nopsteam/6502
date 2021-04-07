@@ -23,5 +23,6 @@ clean:
 
 coverage:
 	cmake -DCMAKE_BUILD_TYPE=Coverage -B build/coverage
+	make --no-print-directory -C build/coverage -j
 	make --no-print-directory -C build/coverage coverage
 .PHONY: coverage
