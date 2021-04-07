@@ -60,13 +60,4 @@ foreach( tst ${Tests} )
     RUNTIME_OUTPUT_DIRECTORY "${TEST_OUTPUT_PATH}")
 
   add_test(${tst} "${TEST_OUTPUT_PATH}/${tst}")
-
-  if (${CMAKE_BUILD_TYPE} MATCHES "Coverage")
-      if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-          target_compile_options(${tst} PRIVATE --coverage)
-          target_link_libraries(${tst} gcov)
-      else ()
-          message(FATAL_ERROR "Only GCC is supported for coverage")
-      endif ()
-  endif ()
 endforeach()
