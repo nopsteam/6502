@@ -70,7 +70,6 @@ foreach(tst deps IN ZIP_LISTS Tests Dependencies)
 
   # COVERAGE
   if (${CMAKE_BUILD_TYPE} MATCHES "Coverage")
-      message(STATUS "Coverage!!!")
       if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
           target_compile_options(${tst} PRIVATE --coverage)
           target_link_libraries(${tst} gcov)
