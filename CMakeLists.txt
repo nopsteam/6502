@@ -75,4 +75,25 @@ add_subdirectory(app)
 if (BUILD_TESTING)
   enable_testing()
   add_subdirectory(test)
+
+  # COVERAGE
+  if (${CMAKE_BUILD_TYPE} MATCHES "Coverage")
+      if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+          add_compile_options(--coverage)
+          link_libraries(gcov)
+      else ()
+          message(FATAL_ERROR "Only GCC is supported for coverage")
+      endif ()
+  endif ()
+
+  add_custom_target(coverage)
+  add_custom_command(
+          TARGET coverage
+          COMMAND make test
+          COMMAND lcov --capture --directory "${PROJECT_BINARY_DIR}/src/CMakeFiles"
+          --output-file coverage.info --rc lcov_branch_coverage=1 --rc lcov_excl_br_line='assert'
+          COMMAND lcov --remove coverage.info '/usr/*' '*example*' '*test*'
+          --output-file coverage.info --rc lcov_branch_coverage=1 --rc lcov_excl_br_line='assert'
+          COMMAND lcov --list coverage.info --rc lcov_branch_coverage=1 --rc lcov_excl_br_line='assert'
+  )
 endif()

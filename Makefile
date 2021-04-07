@@ -20,3 +20,8 @@ clean:
 	make --no-print-directory -C build/debug clean
 	make --no-print-directory -C build/release clean
 .PHONY: clean
+
+coverage:
+	cmake -DCMAKE_BUILD_TYPE=Coverage -B build/coverage
+	make --no-print-directory -C build/coverage coverage
+.PHONY: coverage
