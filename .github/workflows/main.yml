@@ -50,8 +50,8 @@ jobs:
       - name: Run Coverage Checks
         run: |
           make coverage
-      - name: Generage Coverage Reports
-        uses: romeovs/lcov-reporter-action@v0.2.21
+      - name: Send Coverage Reports to Codecov
+        uses: codecov/codecov-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./build/coverage/coverage.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./build/coverage/
