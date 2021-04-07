@@ -66,10 +66,10 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] BRK
 - [x] BVC
 - [x] BVS
-- [ ] CLC
-- [ ] CLD
-- [ ] CLI
-- [ ] CLV
+- [x] CLC
+- [x] CLD
+- [x] CLI
+- [x] CLV
 - [ ] CMP
 - [ ] CPX
 - [x] CPY
@@ -94,12 +94,12 @@ sudo apt-get install clang cmake libsdl2-dev
 - [ ] PLP
 - [x] ROL
 - [x] ROR
-- [ ] RTI
+- [x] RTI
 - [x] RTS
 - [ ] SBC
-- [ ] SEC
-- [ ] SED
-- [ ] SEI
+- [x] SEC
+- [x] SED
+- [x] SEI
 - [x] STA
 - [x] STX
 - [x] STY

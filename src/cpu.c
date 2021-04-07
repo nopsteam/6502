@@ -160,6 +160,18 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case BVS:
         bvsOpcode(address, cpu);
         break;
+      case CLC: 
+        clcOpcode(cpu);
+        break;
+      case CLD: 
+        cldOpcode(cpu);
+        break;
+      case CLI: 
+        cliOpcode(cpu);
+        break;
+      case CLV: 
+        clvOpcode(cpu);
+        break;
       case CPY: 
         cpyOpcode(address, cpu, bus);
         break;
@@ -199,8 +211,20 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case ROR:
         rorOpcode(address, cpu, bus);
         break;
+      case RTI:
+        rtiOpcode(address, cpu, bus);
+        break;
       case RTS:
         rtsOpcode(address, cpu, bus);
+        break;
+      case SEC: 
+        secOpcode(cpu);
+        break;
+      case SED: 
+        sedOpcode(cpu);
+        break;
+      case SEI: 
+        seiOpcode(cpu);
         break;
       case STA:
         staOpcode(address, cpu, bus);

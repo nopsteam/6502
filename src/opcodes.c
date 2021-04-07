@@ -20,6 +20,16 @@ int hexToDecimalMode(unsigned char hex) {
   return (hi * 10) + lo;
 }
 
+void setStatusByChar(unsigned char value, struct CPU *cpu) {
+  cpu->status.carry = (value >> 0) & 0x1;
+  cpu->status.zero = (value >> 1) & 0x1;
+  cpu->status.interrupt = (value >> 2) & 0x1;
+  cpu->status.decimal = (value >> 3) & 0x1;
+  cpu->status.break_cmd = (value >> 4) & 0x1;
+  cpu->status.overflow = (value >> 6) & 0x1;
+  cpu->status.negative = (value >> 7) & 0x1;
+}
+
 bool isAccumulatorAddressMode(unsigned int address) {
   return address == 0;
 }
@@ -94,6 +104,22 @@ void bvcOpcode(unsigned int address, struct CPU *cpu)
 void bvsOpcode(unsigned int address, struct CPU *cpu)
 {
   if (cpu->status.overflow) cpu->pc = address;
+}
+
+void clcOpcode(struct CPU *cpu) {
+  cpu->status.carry = false;
+}
+
+void cldOpcode(struct CPU *cpu) {
+  cpu->status.decimal = false;
+}
+
+void cliOpcode(struct CPU *cpu) {
+  cpu->status.interrupt = false;
+}
+
+void clvOpcode(struct CPU *cpu) {
+  cpu->status.overflow = false;
 }
 
 void cpyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
@@ -203,12 +229,35 @@ void rorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   writeOnMemoryOrAccumulator(address, result, cpu, bus);
 }
 
+void rtiOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  char setBreakFlagFalse = ~0x10;
+  unsigned char flagsValue = popStack(cpu, bus);
+  setStatusByChar(flagsValue & setBreakFlagFalse, cpu);
+
+  unsigned char lo = popStack(cpu, bus);
+  unsigned char hi = popStack(cpu, bus);
+  cpu->pc = (hi << 8) | lo;
+}
+
 void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   unsigned char lo = popStack(cpu, bus);
   unsigned char hi = popStack(cpu, bus);
   cpu->pc = (hi << 8) | lo;
   cpu->pc++;
+}
+
+void secOpcode(struct CPU *cpu) {
+  cpu->status.carry = true;
+}
+
+void sedOpcode(struct CPU *cpu) {
+  cpu->status.decimal = true;
+}
+
+void seiOpcode(struct CPU *cpu) {
+  cpu->status.interrupt = true;
 }
 
 void staOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
