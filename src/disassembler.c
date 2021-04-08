@@ -20,19 +20,19 @@ struct OPCODE * GetOpcode(unsigned char hex) {
 struct PROGRAM LoadBinary(char * binaryPath) {
   if(strlen(binaryPath) <= 0) {
     printf("invalid file path %s", binaryPath);
-    exit(0);
+    exit(1);
   }
 
   if(access(binaryPath, F_OK) != 0) {
     printf("file not found %s", binaryPath);
-    exit(0);
+    exit(1);
   }
 
   FILE * file = fopen(binaryPath, "r");
 
   if(file == NULL) {
     printf("error opening file %s", binaryPath);
-    exit(0);
+    exit(1);
   }
 
   // count file size

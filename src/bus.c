@@ -64,19 +64,19 @@ unsigned char readBus(unsigned int addr, struct BUS * bus) {
 void writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
   if(strlen(filePath) <= 0) {
     printf("invalid file path %s", filePath);
-    exit(0);
+    exit(1);
   }
 
   if(access(filePath, F_OK) != 0) {
     printf("file not found %s", filePath);
-    exit(0);
+    exit(1);
   }
 
   FILE * file = fopen(filePath, "r");
 
   if(file == NULL) {
     printf("error opening file %s", filePath);
-    exit(0);
+    exit(1);
   }
 
   unsigned char buffer;
