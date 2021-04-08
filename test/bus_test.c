@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "unity.h"
 #include "bus.h"
 
@@ -36,12 +37,20 @@ void test_function_should_save_get_memory_data(void) {
   TEST_ASSERT_EQUAL(0x06, bus.input);
 }
 
+void test_function_should_write_program_to_bus(void){
+  char* path = getenv("DATADIR");
+  writeProgramToBus(path, 0, &bus);
+  TEST_ASSERT_EQUAL(0x60, readBus(0x0134, &bus));
+  TEST_ASSERT_EQUAL(0x0, readBus(0x0135, &bus));
+}
+
 typedef void (*Func)(void);
 
 int main(void) {
     UNITY_BEGIN();
 
     RUN_TEST(test_function_should_save_get_memory_data);
+    RUN_TEST(test_function_should_write_program_to_bus);
 
     return UNITY_END();
 }
