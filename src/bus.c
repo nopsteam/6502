@@ -63,19 +63,19 @@ unsigned char readBus(unsigned int addr, struct BUS * bus) {
 
 int writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
   if(strlen(filePath) <= 0) {
-    printf("invalid file path %s", filePath);
+    fprintf(stderr, "invalid file path %s", filePath);
     return 1;
   }
 
   if(access(filePath, F_OK) != 0) {
-    printf("file not found %s", filePath);
+    fprintf(stderr, "file not found %s", filePath);
     return 1;
   }
 
   FILE * file = fopen(filePath, "r");
 
   if(file == NULL) {
-    printf("error opening file %s", filePath);
+    fprintf(stderr, "error opening file %s", filePath);
     return 1;
   }
 
