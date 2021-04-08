@@ -68,11 +68,18 @@ void test_function_should_exit_1_when_file_cant_be_readed(void) {
   remove(filename);
 }
 
+void test_function_should_exit_1_when_no_file_provided(void) {
+  int exitCode = writeProgramToBus("", 0, &bus);
+  TEST_ASSERT_EQUAL(1, exitCode);
+}
+
 int main(void) {
     UNITY_BEGIN();
 
     RUN_TEST(test_function_should_save_get_memory_data);
     RUN_TEST(test_function_should_write_program_to_bus);
+
+    RUN_TEST(test_function_should_exit_1_when_no_file_provided);
     RUN_TEST(test_function_should_exit_1_when_file_doenst_exist);
     RUN_TEST(test_function_should_exit_1_when_path_doenst_exist);
     RUN_TEST(test_function_should_exit_1_when_file_cant_be_readed);
