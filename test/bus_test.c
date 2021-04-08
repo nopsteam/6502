@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "unity.h"
 #include "bus.h"
+#include <sys/stat.h>
 
 struct BUS bus;
 
@@ -44,13 +45,37 @@ void test_function_should_write_program_to_bus(void){
   TEST_ASSERT_EQUAL(0x0, readBus(0x0135, &bus));
 }
 
-typedef void (*Func)(void);
+void test_function_should_exit_1_when_file_doenst_exist(void) {
+  int exitCode = writeProgramToBus("./nothing", 0, &bus);
+  TEST_ASSERT_EQUAL(1, exitCode);
+}
+
+void test_function_should_exit_1_when_path_doenst_exist(void) {
+  int exitCode = writeProgramToBus("./nothing/nope", 0, &bus);
+  TEST_ASSERT_EQUAL(1, exitCode);
+}
+
+void test_function_should_exit_1_when_file_cant_be_readed(void) {
+  char * filename = "youcantreadthis";
+  FILE * fptr;
+  fptr = fopen(filename, "w");
+  fclose(fptr);
+  chmod(filename, 0x007);
+
+  int exitCode = writeProgramToBus(filename, 0, &bus);
+  TEST_ASSERT_EQUAL(1, exitCode);
+
+  remove(filename);
+}
 
 int main(void) {
     UNITY_BEGIN();
 
     RUN_TEST(test_function_should_save_get_memory_data);
     RUN_TEST(test_function_should_write_program_to_bus);
+    RUN_TEST(test_function_should_exit_1_when_file_doenst_exist);
+    RUN_TEST(test_function_should_exit_1_when_path_doenst_exist);
+    RUN_TEST(test_function_should_exit_1_when_file_cant_be_readed);
 
     return UNITY_END();
 }
