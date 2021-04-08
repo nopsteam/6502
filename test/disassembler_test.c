@@ -514,6 +514,15 @@ void test_function_should_GetOpcode_for_TYA(void) {
   TEST_ASSERT_EQUAL_INT(GetOpcode(0x98)->addressing->length, 1);
 }
 
+void test_function_should_load_binary(void) {
+  char* path = getenv("DATADIR");
+  struct PROGRAM programLoaded = LoadBinary(path);
+
+  TEST_ASSERT_EQUAL(164, programLoaded.lines);
+
+  free(programLoaded.program);
+}
+
 typedef void (*Func)(void);
 
 int main(void) {
@@ -574,6 +583,7 @@ int main(void) {
     RUN_TEST(test_function_should_GetOpcode_for_TXA);
     RUN_TEST(test_function_should_GetOpcode_for_TXS);
     RUN_TEST(test_function_should_GetOpcode_for_TYA);
+    RUN_TEST(test_function_should_load_binary);
 
     return UNITY_END();
 }

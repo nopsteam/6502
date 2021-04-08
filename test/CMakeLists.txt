@@ -67,3 +67,11 @@ foreach(tst deps IN ZIP_LISTS Tests Dependencies)
 
   add_test(${tst} "${TEST_OUTPUT_PATH}/${tst}")
 endforeach()
+
+set_tests_properties(
+  disassembler_test PROPERTIES
+  ENVIRONMENT DATADIR=${PROJECT_BINARY_DIR}/resources/dump.bin)
+
+set_tests_properties(
+  bus_test PROPERTIES
+  ENVIRONMENT DATADIR=${PROJECT_BINARY_DIR}/resources/dump.bin)
