@@ -10,7 +10,14 @@ int main(int argc, char **argv)
   } else {
     programPath = "resources/dump.bin";
   }
-  struct PROGRAM programLoaded = LoadBinary(programPath);
+
+  struct PROGRAM programLoaded = {
+    .program = NULL,
+    .lines = 0
+  };
+
+  if(LoadBinary(programPath, &programLoaded) != 0) 
+    return 1;
 
   printf("Address  Hexdump   Dissassembly\n");
   printf("-------------------------------\n");

@@ -7,4 +7,4 @@ struct BUS {
 struct BUS initializeBus();
 void writeBus(unsigned int addr, unsigned char data, struct BUS * bus);
 unsigned char readBus(unsigned int addr, struct BUS * bus);
-void writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus);
+int writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus);

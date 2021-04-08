@@ -4,15 +4,15 @@ setup:
 .PHONY: setup
 
 debug:
-	make --no-print-directory -C build/debug
+	make --no-print-directory -C build/debug -j
 .PHONY: debug
 
 release:
-	make --no-print-directory -C build/release
+	make --no-print-directory -C build/release -j
 .PHONY: release
 
 test:
-	make --no-print-directory -C build/debug
+	make --no-print-directory -C build/debug -j
 	make --no-print-directory -C build/debug test ARGS='--output-on-failure'
 .PHONY: test
 

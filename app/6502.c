@@ -2,11 +2,11 @@
 #include "cpu.h"
 #include "sdl.h"
 
-void initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char * programPath) {
+int initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char * programPath) {
   writeBus(0xFFFC, initial_address & 0xff, bus);
   writeBus(0xFFFD, (initial_address >> 8), bus);
   resetCpu(cpu, bus);
-  writeProgramToBus(programPath, initial_address, bus);
+  return writeProgramToBus(programPath, initial_address, bus);
 }
 
 void loop(SDL_Renderer *rend, struct CPU * cpu, struct BUS * bus) {
@@ -32,7 +32,9 @@ int main(int argc, char **argv)
 
   struct CPU cpu;
   struct BUS bus = initializeBus();
-  initSimulator(&cpu, &bus, 0x0600, programPath);
+
+  if(initSimulator(&cpu, &bus, 0x0600, programPath) != 0) 
+    return 1;
 
   SDL_Window* win = initWindowSdl();
   SDL_Renderer* rend = initRenderSDL(win);

@@ -61,22 +61,22 @@ unsigned char readBus(unsigned int addr, struct BUS * bus) {
   return data;
 }
 
-void writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
+int writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
   if(strlen(filePath) <= 0) {
-    printf("invalid file path %s", filePath);
-    exit(0);
+    fprintf(stderr, "invalid file path %s", filePath);
+    return 1;
   }
 
   if(access(filePath, F_OK) != 0) {
-    printf("file not found %s", filePath);
-    exit(0);
+    fprintf(stderr, "file not found %s", filePath);
+    return 1;
   }
 
   FILE * file = fopen(filePath, "r");
 
   if(file == NULL) {
-    printf("error opening file %s", filePath);
-    exit(0);
+    fprintf(stderr, "error opening file %s", filePath);
+    return 1;
   }
 
   unsigned char buffer;
@@ -85,4 +85,6 @@ void writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
     writeBus(current_offset, buffer, bus);
     current_offset++;
   }
+
+  return 0;
 }

@@ -17,22 +17,22 @@ struct OPCODE * GetOpcode(unsigned char hex) {
   return NULL;
 }
 
-struct PROGRAM LoadBinary(char * binaryPath) {
+int LoadBinary(char * binaryPath, struct PROGRAM * programLoaded) {
   if(strlen(binaryPath) <= 0) {
-    printf("invalid file path %s", binaryPath);
-    exit(0);
+    fprintf(stderr, "invalid file path %s", binaryPath);
+    return 1;
   }
 
   if(access(binaryPath, F_OK) != 0) {
-    printf("file not found %s", binaryPath);
-    exit(0);
+    fprintf(stderr, "file not found %s", binaryPath);
+    return 1;
   }
 
   FILE * file = fopen(binaryPath, "r");
 
   if(file == NULL) {
-    printf("error opening file %s", binaryPath);
-    exit(0);
+    fprintf(stderr, "error opening file %s", binaryPath);
+    return 1;
   }
 
   // count file size
@@ -75,12 +75,10 @@ struct PROGRAM LoadBinary(char * binaryPath) {
 
   fclose(file);
 
-  struct PROGRAM programLoaded = {
-    .program = program,
-    .lines = programLine + 1
-  };
+  programLoaded->program = program;
+  programLoaded->lines = programLine + 1;
 
-  return programLoaded;
+  return 0;
 }
 
 char * toStringHex(struct PROGRAM_LINE * line) {
