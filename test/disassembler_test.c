@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include "unity.h"
 #include "constants.h"
 #include "disassembler.h"
+
+struct PROGRAM programLoaded = {
+  .program = NULL,
+  .lines = 0
+};
 
 void setUp(void) {
   // set stuff up here
@@ -10,6 +16,8 @@ void setUp(void) {
 
 void tearDown(void) {
   // clean stuff up here
+  programLoaded.program = NULL;
+  programLoaded.lines = 0;
 }
 
 void test_function_should_do_sanity_check(void) {
@@ -516,11 +524,39 @@ void test_function_should_GetOpcode_for_TYA(void) {
 
 void test_function_should_load_binary(void) {
   char* path = getenv("DATADIR");
-  struct PROGRAM programLoaded = LoadBinary(path);
+  LoadBinary(path, &programLoaded);
 
   TEST_ASSERT_EQUAL(164, programLoaded.lines);
 
   free(programLoaded.program);
+}
+
+void test_function_should_exit_1_when_file_doenst_exist(void) {
+  int exitCode = LoadBinary("./nothing", &programLoaded);
+  TEST_ASSERT_EQUAL(1, exitCode);
+}
+
+void test_function_should_exit_1_when_path_doenst_exist(void) {
+  int exitCode = LoadBinary("./nothing/nope", &programLoaded);
+  TEST_ASSERT_EQUAL(1, exitCode);
+}
+
+void test_function_should_exit_1_when_file_cant_be_readed(void) {
+  char * filename = "youcantreadthis";
+  FILE * fptr;
+  fptr = fopen(filename, "w");
+  fclose(fptr);
+  chmod(filename, 0x007);
+
+  int exitCode = LoadBinary(filename, &programLoaded);
+  TEST_ASSERT_EQUAL(1, exitCode);
+
+  remove(filename);
+}
+
+void test_function_should_exit_1_when_no_file_provided(void) {
+  int exitCode = LoadBinary("", &programLoaded);
+  TEST_ASSERT_EQUAL(1, exitCode);
 }
 
 typedef void (*Func)(void);
@@ -584,6 +620,10 @@ int main(void) {
     RUN_TEST(test_function_should_GetOpcode_for_TXS);
     RUN_TEST(test_function_should_GetOpcode_for_TYA);
     RUN_TEST(test_function_should_load_binary);
+    RUN_TEST(test_function_should_exit_1_when_no_file_provided);
+    RUN_TEST(test_function_should_exit_1_when_file_doenst_exist);
+    RUN_TEST(test_function_should_exit_1_when_path_doenst_exist);
+    RUN_TEST(test_function_should_exit_1_when_file_cant_be_readed);
 
     return UNITY_END();
 }

@@ -1,7 +1,7 @@
 #include <stdlib.h>
+#include <sys/stat.h>
 #include "unity.h"
 #include "bus.h"
-#include <sys/stat.h>
 
 struct BUS bus;
 
