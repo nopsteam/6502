@@ -1,6 +1,7 @@
-# Setup
 cmake_minimum_required(VERSION 3.17)
-project(ExampleSDL2C)
+
+project(6502)
+
 include(CTest)
 include(FetchContent)
 set(FETCHCONTENT_QUIET 0)
@@ -10,7 +11,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/build/cmake/")
 
 # Uses finders in build/cmake to search for OS pre-installed package libraries
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIR})
 
 # Download / Include Unity Test Runner
 FetchContent_Declare(
@@ -29,7 +30,8 @@ FetchContent_MakeAvailable(unity sc_lib)
 
 # Output directory structure configuration.
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
-set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
+set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 set(TEST_OUTPUT_PATH "${EXECUTABLE_OUTPUT_PATH}/test")
 
 # Add symbolic link to resources folder in build

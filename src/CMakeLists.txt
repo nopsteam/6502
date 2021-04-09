@@ -31,7 +31,7 @@ add_library(
 
 target_link_libraries(
   sdl
-  ${SDL2_LIBRARIES}
+  ${SDL2_LIBRARY}
   m
 )
 
