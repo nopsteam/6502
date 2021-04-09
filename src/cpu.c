@@ -3,8 +3,6 @@
 #include "disassembler.h"
 #include "opcodes.h"
 
-const int stackEndAddress = 0x100; 
-
 void resetCpu(struct CPU * cpu, struct BUS * bus) {
   int reset_address_lo = 0xFFFC;
   int reset_address_hi = 0XFFFD;
@@ -81,14 +79,6 @@ unsigned int zeroPageAddressMode(unsigned char index, struct CPU *cpu, struct BU
   unsigned int address = readBus(cpu->pc, bus);
   cpu->pc++;
   return address + index;
-}
-
-int hexToDecimalMode(unsigned char hex) {
-  int hi = ((hex & 0xF0) >> 4);
-  if (hi > 9) hi = hi % 9;
-  int lo = hex & 0xF;
-  if (lo > 9) lo = lo % 9;
-  return (hi * 10) + lo;
 }
 
 unsigned int getAddressByOpcode(struct OPCODE * opcode, struct CPU *cpu, struct BUS *bus) {

@@ -1,7 +1,6 @@
 #include "unity.h"
 #include "cpu.h"
 
-int stackEndAddress = 0x100; 
 char JSR = 0x20;
 
 struct BUS bus;
@@ -26,8 +25,8 @@ void should_jump_to_subrotine_program_counter_and_save_current_pc_on_stack(void)
   clockCpu(&cpu, &bus);
 
   TEST_ASSERT_EQUAL(0x4400, cpu.pc);
-  TEST_ASSERT_EQUAL(0x02, readBus(stackEndAddress + cpu.stack_pointer+1, &bus));
-  TEST_ASSERT_EQUAL(0x06, readBus(stackEndAddress + cpu.stack_pointer+2, &bus));
+  TEST_ASSERT_EQUAL(0x02, readBus(STACK_END_ADDRESS + cpu.stack_pointer+1, &bus));
+  TEST_ASSERT_EQUAL(0x06, readBus(STACK_END_ADDRESS + cpu.stack_pointer+2, &bus));
 }
 
 int main(void) {

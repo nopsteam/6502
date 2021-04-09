@@ -1,7 +1,6 @@
 #include "unity.h"
 #include "cpu.h"
 
-int stackEndAddress = 0x100; 
 char RTS = 0x60;
 
 struct BUS bus;
@@ -18,9 +17,9 @@ void tearDown(void) {
 }
 
 void should_jump_back_to_sp_jsr_address(void) {
-  writeBus(stackEndAddress + cpu.stack_pointer, 0x06, &bus);
+  writeBus(STACK_END_ADDRESS + cpu.stack_pointer, 0x06, &bus);
   cpu.stack_pointer--;
-  writeBus(stackEndAddress + cpu.stack_pointer, 0x02, &bus);
+  writeBus(STACK_END_ADDRESS + cpu.stack_pointer, 0x02, &bus);
   cpu.stack_pointer--;
 
   writeBus(0x600, RTS, &bus);

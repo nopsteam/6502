@@ -1,6 +1,8 @@
 #include <stdbool.h>
 #include "bus.h"
 
+static int STACK_END_ADDRESS = 0x100;
+
 struct STATUS {
   bool carry;
   bool zero;

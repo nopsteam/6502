@@ -1,33 +1,32 @@
 add_library(
-  constants SHARED
+  constants STATIC
   constants.c
 )
 
 add_library(
-  disassembler SHARED
+  disassembler STATIC
   disassembler.c
 )
 
 add_library(
-  bus SHARED
+  bus STATIC
   bus.c
 )
 
 add_library(
-  cpu SHARED
+  cpu STATIC
   cpu.c
 )
 
 add_library(
-  sdl SHARED
+  sdl STATIC
   sdl.c
 )
-  
+
 add_library(
-  opcodes SHARED
+  opcodes STATIC
   opcodes.c
 )
-
 
 target_link_libraries(
   sdl
@@ -48,7 +47,6 @@ target_link_libraries(
   sc_str
   sc_array
 )
-
 
 ###################################################################
 

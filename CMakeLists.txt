@@ -29,10 +29,9 @@ SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
 FetchContent_MakeAvailable(unity sc_lib)
 
 # Output directory structure configuration.
-set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
-set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
-set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
-set(TEST_OUTPUT_PATH "${EXECUTABLE_OUTPUT_PATH}/test")
+#set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+#set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
+#set(TEST_OUTPUT_PATH "${EXECUTABLE_OUTPUT_PATH}/test")
 
 # Add symbolic link to resources folder in build
 add_custom_target(resources)

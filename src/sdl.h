@@ -18,7 +18,7 @@ struct PIXEL
   struct COLOR color;
 };
 
-struct COLOR palette[16] = {
+static struct COLOR palette[16] = {
   {.r =   0, .g =   0, .b =   0, .a = 255}, //"000000"
   {.r = 255, .g = 255, .b = 255, .a = 255}, //"ffffff"
   {.r = 136, .g =   0, .b =   0, .a = 255}, //"880000"
