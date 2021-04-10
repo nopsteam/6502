@@ -541,19 +541,6 @@ void test_function_should_exit_1_when_path_doenst_exist(void) {
   TEST_ASSERT_EQUAL(1, exitCode);
 }
 
-void test_function_should_exit_1_when_file_cant_be_readed(void) {
-  char * filename = "youcantreadthis";
-  FILE * fptr;
-  fptr = fopen(filename, "w");
-  fclose(fptr);
-  chmod(filename, 0x007);
-
-  int exitCode = LoadBinary(filename, &programLoaded);
-  TEST_ASSERT_EQUAL(1, exitCode);
-
-  remove(filename);
-}
-
 void test_function_should_exit_1_when_no_file_provided(void) {
   int exitCode = LoadBinary("", &programLoaded);
   TEST_ASSERT_EQUAL(1, exitCode);
@@ -623,7 +610,6 @@ int main(void) {
     RUN_TEST(test_function_should_exit_1_when_no_file_provided);
     RUN_TEST(test_function_should_exit_1_when_file_doenst_exist);
     RUN_TEST(test_function_should_exit_1_when_path_doenst_exist);
-    RUN_TEST(test_function_should_exit_1_when_file_cant_be_readed);
 
     return UNITY_END();
 }

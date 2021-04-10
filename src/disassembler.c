@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
-#include "sc_str.h"
+#include <sc_str.h>
 #include "constants.h"
 #include "disassembler.h"
 
@@ -20,11 +19,6 @@ struct OPCODE * GetOpcode(unsigned char hex) {
 int LoadBinary(char * binaryPath, struct PROGRAM * programLoaded) {
   if(strlen(binaryPath) <= 0) {
     fprintf(stderr, "invalid file path %s", binaryPath);
-    return 1;
-  }
-
-  if(access(binaryPath, F_OK) != 0) {
-    fprintf(stderr, "file not found %s", binaryPath);
     return 1;
   }
 

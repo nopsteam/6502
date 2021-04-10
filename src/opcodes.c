@@ -1,15 +1,13 @@
 #include "opcodes.h"
 
-const int stackEndAddress = 0x100; 
-
 void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
-  writeBus(stackEndAddress + cpu->stack_pointer, value, bus);
+  writeBus(STACK_END_ADDRESS + cpu->stack_pointer, value, bus);
   cpu->stack_pointer--;
 }
 
 unsigned char popStack(struct CPU *cpu, struct BUS *bus) {
   cpu->stack_pointer++;
-  return readBus(stackEndAddress + cpu->stack_pointer, bus);
+  return readBus(STACK_END_ADDRESS + cpu->stack_pointer, bus);
 }
 
 int hexToDecimalMode(unsigned char hex) {

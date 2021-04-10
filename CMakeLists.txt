@@ -1,22 +1,25 @@
-# Setup
 cmake_minimum_required(VERSION 3.17)
-project(ExampleSDL2C)
+
+project(6502)
+
 include(CTest)
 include(FetchContent)
 set(FETCHCONTENT_QUIET 0)
-
-# Cmake module directory
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/build/cmake/")
-
-# Uses finders in build/cmake to search for OS pre-installed package libraries
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
 
 # Download / Include Unity Test Runner
 FetchContent_Declare(
   unity
   GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
   GIT_TAG        master)
+
+# Download / Include Raylib
+FetchContent_Declare(
+  raylib
+  GIT_REPOSITORY https://github.com/raysan5/raylib.git
+  GIT_TAG        master)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
+
+FetchContent_MakeAvailable(unity raylib)
 
 # Download / Include Commons libs SC String
 FetchContent_Declare(
@@ -25,11 +28,21 @@ FetchContent_Declare(
   GIT_TAG        master)
 SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
 
-FetchContent_MakeAvailable(unity sc_lib)
+# This particular version of sc_lib requires workarounds
+FetchContent_GetProperties(sc_lib)
+if(NOT sc_lib_POPULATED)
+  FetchContent_Populate(sc_lib)
+  add_library(
+    sc_str_static STATIC
+    ${sc_lib_SOURCE_DIR}/string/sc_str.c
+    ${sc_lib_SOURCE_DIR}/string/sc_str.h)
+  target_include_directories(sc_str_static PUBLIC ${sc_lib_SOURCE_DIR}/string)
+  add_subdirectory(${sc_lib_SOURCE_DIR} ${sc_lib_BINARY_DIR})
+endif()
 
 # Output directory structure configuration.
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
-set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
+set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 set(TEST_OUTPUT_PATH "${EXECUTABLE_OUTPUT_PATH}/test")
 
 # Add symbolic link to resources folder in build
@@ -53,13 +66,20 @@ ELSE()
 ENDIF()
 
 # Generates a compile_commands.json file containing the exact compiler calls
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-FILE(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/compile_commands.json" sourceJson)
-FILE(TO_NATIVE_PATH "${PROJECT_SOURCE_DIR}/build/compile_commands.json" destinationJson)
-add_custom_command(TARGET resources POST_BUILD
-  COMMAND "${CMAKE_COMMAND}" -E copy 
-  ${sourceJson} ${destinationJson}
-  COMMENT "Copying compile_commands.json to build directory")
+
+IF (NOT WIN32)
+  set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+  FILE(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/compile_commands.json" sourceJson)
+  FILE(TO_NATIVE_PATH "${PROJECT_SOURCE_DIR}/build/compile_commands.json" destinationJson)
+  add_custom_command(TARGET resources POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy 
+    ${sourceJson} ${destinationJson}
+    COMMENT "Copying compile_commands.json to build directory")
+ENDIF()
+
+if(UNIX)
+  link_libraries(m)
+endif(UNIX)
 
 # Project-wide include directory configuration.
 include_directories("${PROJECT_SOURCE_DIR}/src")
