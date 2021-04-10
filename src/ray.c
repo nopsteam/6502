@@ -1,6 +1,6 @@
 #include "ray.h"
 
-const Color colors[16] = {
+static Color colors[16] = {
   E_BLACK, E_WHITE, E_RED  , E_CYAN  , E_PINK  , E_GREEN, E_BLUE  , E_YELLOW,
   E_BEIGE, E_BROWN, E_PEACH, E_DRGRAY, E_MDGRAY, E_LIME , E_LTBLUE, E_LTGRAY
 };
@@ -21,7 +21,7 @@ void initWindow(int scale, int width, int height)
 
 void stopWindow(void)
 {
-  return CloseWindow();
+  CloseWindow();
 }
 
 void drawScreen(int scale, unsigned char display[]) {
