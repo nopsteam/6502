@@ -1,9 +1,9 @@
 #include "ray.h"
 
-struct Color colors[16] = {
-  E_BLACK, E_WHITE, E_RED  , E_CYAN  , E_PINK  , E_GREEN, E_BLUE  , E_YELLOW,
-  E_BEIGE, E_BROWN, E_PEACH, E_DRGRAY, E_MDGRAY, E_LIME , E_LTBLUE, E_LTGRAY
-};
+/*struct Color colors[16] = {*/
+  /*E_BLACK, E_WHITE, E_RED  , E_CYAN  , E_PINK  , E_GREEN, E_BLUE  , E_YELLOW,*/
+  /*E_BEIGE, E_BROWN, E_PEACH, E_DRGRAY, E_MDGRAY, E_LIME , E_LTBLUE, E_LTGRAY*/
+/*};*/
 
 int readInput(void) {
   return GetCharPressed();
@@ -30,7 +30,7 @@ void drawScreen(int scale, unsigned char display[]) {
   for (int i = 0; i <= 1023; i++) {
     float y = floor((float)i / 32);
     float x = i % 32;
-    Color color = colors[display[i] & 0x0F];
+    Color color = E_WHITE; //colors[display[i] & 0x0F];
     DrawRectangle(x * scale, y * scale, scale, scale, color);
   }
   DrawText(TextFormat("%2i FPS", GetFPS()), 580, 620, 12, E_LTGRAY);
