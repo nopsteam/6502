@@ -5,6 +5,20 @@
 It was the CPU of choice for the very first mass market home computers and so, played a central role in the home computer revolution.  
 It was the brain of the first computers from Apple, Commodore, Acorn, and Atari.  It ran the Atari 2600 game console, and its core was incorporated into the central processor of Nintendo's NES.
 
+## Compiling / Building
+
+### Installing Dependencies
+
+#### Arch Linux
+```bash
+yay -Sy clang cmake lcov glfw libx11 libxcursor libxinerama libxrandr vulkan-headers xorg-server-devel xorg-xinput
+```
+
+#### Ubuntu
+```bash
+sudo apt-get install clang cmake lcov libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+```
+
 ## Usage
 
 ### Setup
@@ -51,21 +65,9 @@ make clean
 ./build/release/bin/6502_disasm
 ```
 
-## Installing Dependencies
+## Todo
 
-#### Arch Linux
-```bash
-yay -Sy clang cmake lcov sdl2
-```
-
-#### Ubuntu
-```bash
-sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
-sudo apt-get update -y -qq
-sudo apt-get install clang cmake lcov libsdl2-dev
-```
-
-## Implemented OPCODES
+### Implemented OPCODES
 - [ ] ADC
 - [ ] AND
 - [x] ASL

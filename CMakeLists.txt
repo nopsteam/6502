@@ -6,13 +6,6 @@ include(CTest)
 include(FetchContent)
 set(FETCHCONTENT_QUIET 0)
 
-# Cmake module directory
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/build/cmake/")
-
-# Uses finders in build/cmake to search for OS pre-installed package libraries
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR})
-
 # Download / Include Unity Test Runner
 FetchContent_Declare(
   unity
@@ -26,7 +19,14 @@ FetchContent_Declare(
   GIT_TAG        master)
 SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
 
-FetchContent_MakeAvailable(unity sc_lib)
+# Download / Include Raylib
+FetchContent_Declare(
+  raylib
+  GIT_REPOSITORY https://github.com/raysan5/raylib.git
+  GIT_TAG        master)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
+
+FetchContent_MakeAvailable(unity sc_lib raylib)
 
 # Output directory structure configuration.
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")

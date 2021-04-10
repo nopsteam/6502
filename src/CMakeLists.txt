@@ -19,8 +19,8 @@ add_library(
 )
 
 add_library(
-  sdl STATIC
-  sdl.c
+  ray STATIC
+  ray.c
 )
 
 add_library(
@@ -29,8 +29,8 @@ add_library(
 )
 
 target_link_libraries(
-  sdl
-  ${SDL2_LIBRARY}
+  ray
+  raylib
   m
 )
 

@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include "ray.h"
 #include "cpu.h"
-#include "sdl.h"
+
+const int scale = 20;
+const int screenWidth = 32;
+const int screenHeight = 32;
 
 int initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char * programPath) {
   writeBus(0xFFFC, initial_address & 0xff, bus);
@@ -9,13 +13,11 @@ int initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char
   return writeProgramToBus(programPath, initial_address, bus);
 }
 
-void loop(SDL_Renderer *rend, struct CPU * cpu, struct BUS * bus) {
-  int current_key = SDL_FIRSTEVENT;
-
-  while (current_key != SDL_QUIT) {
-    current_key = readInputSdl();
-    bus->input = (unsigned char)current_key;
-    drawScreenSdl(rend, bus->display);
+void loop(struct CPU * cpu, struct BUS * bus) {
+  while (shouldCloseWindow())
+  {
+    bus->input = (unsigned char)readInput();
+    drawScreen(scale, bus->display);
     clockCpu(cpu, bus);
   }
 }
@@ -36,12 +38,10 @@ int main(int argc, char **argv)
   if(initSimulator(&cpu, &bus, 0x0600, programPath) != 0) 
     return 1;
 
-  SDL_Window* win = initWindowSdl();
-  SDL_Renderer* rend = initRenderSDL(win);
+  initWindow(scale, screenWidth, screenHeight);
+  loop(&cpu, &bus);
 
-  loop(rend, &cpu, &bus);
-
-  destroySdl(rend, win);
+  CloseWindow();
 
   return 0;
 }
