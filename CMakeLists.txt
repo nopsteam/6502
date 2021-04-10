@@ -77,6 +77,10 @@ IF (NOT WIN32)
     COMMENT "Copying compile_commands.json to build directory")
 ENDIF()
 
+if(UNIX)
+  link_libraries(m)
+endif(UNIX)
+
 # Project-wide include directory configuration.
 include_directories("${PROJECT_SOURCE_DIR}/src")
 

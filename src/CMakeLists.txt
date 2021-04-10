@@ -31,7 +31,6 @@ add_library(
 target_link_libraries(
   ray
   raylib
-  m
 )
 
 target_link_libraries(
