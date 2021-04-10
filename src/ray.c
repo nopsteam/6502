@@ -1,6 +1,6 @@
 #include "ray.h"
 
-static Color colors[16] = {
+struct Color colors[16] = {
   E_BLACK, E_WHITE, E_RED  , E_CYAN  , E_PINK  , E_GREEN, E_BLUE  , E_YELLOW,
   E_BEIGE, E_BROWN, E_PEACH, E_DRGRAY, E_MDGRAY, E_LIME , E_LTBLUE, E_LTGRAY
 };
