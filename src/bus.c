@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
 #include "bus.h"
 
@@ -64,11 +63,6 @@ unsigned char readBus(unsigned int addr, struct BUS * bus) {
 int writeProgramToBus(char * filePath, unsigned int offset, struct BUS * bus) {
   if(strlen(filePath) <= 0) {
     fprintf(stderr, "invalid file path %s", filePath);
-    return 1;
-  }
-
-  if(access(filePath, F_OK) != 0) {
-    fprintf(stderr, "file not found %s", filePath);
     return 1;
   }
 
