@@ -12,13 +12,6 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
   GIT_TAG        master)
 
-# Download / Include Commons libs SC String
-FetchContent_Declare(
-  sc_lib
-  GIT_REPOSITORY https://github.com/tezc/sc.git
-  GIT_TAG        master)
-SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
-
 # Download / Include Raylib
 FetchContent_Declare(
   raylib
@@ -26,7 +19,26 @@ FetchContent_Declare(
   GIT_TAG        master)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 
-FetchContent_MakeAvailable(unity sc_lib raylib)
+FetchContent_MakeAvailable(unity raylib)
+
+# Download / Include Commons libs SC String
+FetchContent_Declare(
+  sc_lib
+  GIT_REPOSITORY https://github.com/tezc/sc.git
+  GIT_TAG        master)
+SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
+
+# This particular version of sc_lib requires workarounds
+FetchContent_GetProperties(sc_lib)
+if(NOT sc_lib_POPULATED)
+  FetchContent_Populate(sc_lib)
+  add_library(
+    sc_str_static STATIC
+    ${sc_lib_SOURCE_DIR}/string/sc_str.c
+    ${sc_lib_SOURCE_DIR}/string/sc_str.h)
+  target_include_directories(sc_str_static PUBLIC ${sc_lib_SOURCE_DIR}/string)
+  add_subdirectory(${sc_lib_SOURCE_DIR} ${sc_lib_BINARY_DIR})
+endif()
 
 # Output directory structure configuration.
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")

@@ -44,8 +44,7 @@ target_link_libraries(
 target_link_libraries(
   disassembler
   constants
-  sc_str
-  sc_array
+  sc_str_static
 )
 
 ###################################################################

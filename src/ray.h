@@ -21,4 +21,5 @@
 int readInput(void);
 bool shouldCloseWindow(void);
 void initWindow(int scale, int width, int height);
+void stopWindow(void);
 void drawScreen(int scale, unsigned char display[]);

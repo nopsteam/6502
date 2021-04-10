@@ -19,6 +19,11 @@ void initWindow(int scale, int width, int height)
   SetTargetFPS(0);
 }
 
+void stopWindow(void)
+{
+  return CloseWindow();
+}
+
 void drawScreen(int scale, unsigned char display[]) {
   BeginDrawing();
   ClearBackground(E_BLACK);

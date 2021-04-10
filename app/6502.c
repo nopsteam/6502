@@ -35,13 +35,12 @@ int main(int argc, char **argv)
   struct CPU cpu;
   struct BUS bus = initializeBus();
 
-  if(initSimulator(&cpu, &bus, 0x0600, programPath) != 0) 
+  if(initSimulator(&cpu, &bus, 0x0600, programPath) != 0)
     return 1;
 
   initWindow(scale, screenWidth, screenHeight);
   loop(&cpu, &bus);
-
-  CloseWindow();
+  stopWindow();
 
   return 0;
 }
