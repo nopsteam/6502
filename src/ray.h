@@ -18,10 +18,7 @@
 #define E_LTBLUE CLITERAL(Color){  0, 136, 255, 255}
 #define E_LTGRAY CLITERAL(Color){187, 187, 187, 255}
 
-struct Color colors[16] = {
-  E_BLACK, E_WHITE, E_RED  , E_CYAN  , E_PINK  , E_GREEN, E_BLUE  , E_YELLOW,
-  E_BEIGE, E_BROWN, E_PEACH, E_DRGRAY, E_MDGRAY, E_LIME , E_LTBLUE, E_LTGRAY
-};
+extern struct Color colors[16];
 
 int readInput(void);
 bool shouldCloseWindow(void);
