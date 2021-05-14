@@ -10,11 +10,18 @@ set(Tests
   bpl_test
   bvc_test
   bvs_test
-  cpy_test
   clc_test
   cld_test
   cli_test
   clv_test
+  cpx_test
+  cpy_test
+  dec_test
+  dex_test
+  dey_test
+  inc_test
+  inx_test
+  iny_test
   jmp_test
   jsr_test
   lda_test
@@ -33,6 +40,8 @@ set(Tests
   sta_test
   stx_test
   sty_test
+  tax_test
+  tay_test
   txa_test
   txs_test
   tya_test)

@@ -86,13 +86,13 @@ make clean
 - [x] CLI
 - [x] CLV
 - [ ] CMP
-- [ ] CPX
+- [x] CPX
 - [x] CPY
-- [ ] DEC
-- [ ] DEX
-- [ ] DEY
+- [x] DEC
+- [x] DEX
+- [x] DEY
 - [ ] EOR
-- [ ] INC
+- [x] INC
 - [x] INX
 - [x] INY
 - [x] JMP
@@ -118,8 +118,8 @@ make clean
 - [x] STA
 - [x] STX
 - [x] STY
-- [ ] TAX
-- [ ] TAY
+- [x] TAX
+- [x] TAY
 - [ ] TSX
 - [x] TXA
 - [x] TXS

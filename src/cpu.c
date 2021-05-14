@@ -162,8 +162,23 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case CLV: 
         clvOpcode(cpu);
         break;
+      case CPX: 
+        cpxOpcode(address, cpu, bus);
+        break;
       case CPY: 
         cpyOpcode(address, cpu, bus);
+        break;
+      case DEC:
+        decOpcode(address, cpu, bus);
+        break;
+      case DEX:
+        dexOpcode(address, cpu);
+        break;
+      case DEY:
+        deyOpcode(address, cpu);
+        break;
+      case INC:
+        incOpcode(address, cpu, bus);
         break;
       case INX:
         inxOpcode(address, cpu);
@@ -225,6 +240,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case STY:
         styOpcode(address, cpu, bus);
         break;
+      case TAX:
+        taxOpcode(address, cpu);
+        break;
+      case TAY:
+        tayOpcode(address, cpu);
+        break;
       case TXA: 
         txaOpcode(address, cpu);
         break;
@@ -232,7 +253,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         txsOpcode(address, cpu);
         break;
       case TYA:
-        tyaOpcode(address, cpu, bus);
+        tyaOpcode(address, cpu);
         break;
       default:
         printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
