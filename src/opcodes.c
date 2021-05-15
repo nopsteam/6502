@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "opcodes.h"
 
 void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
@@ -26,6 +27,16 @@ void setStatusByChar(unsigned char value, struct CPU *cpu) {
   cpu->status.break_cmd = (value >> 4) & 0x1;
   cpu->status.overflow = (value >> 6) & 0x1;
   cpu->status.negative = (value >> 7) & 0x1;
+}
+
+unsigned char getStatusByChar(struct CPU *cpu) {
+  return (cpu->status.negative << 7)
+    | (cpu->status.overflow << 6)
+    | (cpu->status.break_cmd << 4)
+    | (cpu->status.decimal << 3)
+    | (cpu->status.interrupt << 2)
+    | (cpu->status.zero << 1)
+    | (cpu->status.carry << 0);
 }
 
 bool isAccumulatorAddressMode(unsigned int address) {
@@ -243,6 +254,11 @@ void nopOpcode()
 void phaOpcode(struct CPU *cpu, struct BUS *bus)
 {
   pushStack(cpu, bus, cpu->accumulator);
+}
+
+void phpOpcode(struct CPU *cpu, struct BUS *bus)
+{
+  pushStack(cpu, bus, getStatusByChar(cpu));
 }
 
 void plaOpcode(struct CPU *cpu, struct BUS *bus)

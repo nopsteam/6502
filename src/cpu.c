@@ -211,6 +211,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case PHA:
         phaOpcode(cpu, bus);
         break;
+      case PHP:
+        phpOpcode(cpu, bus);
+        break;
       case PLA:
         plaOpcode(cpu, bus);
         break;
