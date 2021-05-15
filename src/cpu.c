@@ -70,8 +70,9 @@ unsigned int indirectYAddressMode(struct CPU *cpu, struct BUS *bus) {
 }
 
 unsigned int relativeAddressMode(struct CPU *cpu, struct BUS *bus) {
-  unsigned int address = cpu->pc + (signed char)readBus(cpu->pc, bus); 
+  signed char base = (signed char)readBus(cpu->pc, bus);
   cpu->pc++;
+  unsigned int address = cpu->pc + base;
   return address;
 }
 
@@ -150,22 +151,22 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case BVS:
         bvsOpcode(address, cpu);
         break;
-      case CLC: 
+      case CLC:
         clcOpcode(cpu);
         break;
-      case CLD: 
+      case CLD:
         cldOpcode(cpu);
         break;
-      case CLI: 
+      case CLI:
         cliOpcode(cpu);
         break;
-      case CLV: 
+      case CLV:
         clvOpcode(cpu);
         break;
-      case CPX: 
+      case CPX:
         cpxOpcode(address, cpu, bus);
         break;
-      case CPY: 
+      case CPY:
         cpyOpcode(address, cpu, bus);
         break;
       case DEC:
