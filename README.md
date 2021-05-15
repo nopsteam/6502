@@ -105,7 +105,7 @@ make clean
 - [ ] ORA
 - [x] PHA
 - [ ] PHP
-- [ ] PLA
+- [x] PLA
 - [ ] PLP
 - [x] ROL
 - [x] ROR

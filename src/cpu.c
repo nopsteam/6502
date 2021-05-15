@@ -208,7 +208,10 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         nopOpcode();
         break;
       case PHA:
-        phaOpcode(address, cpu, bus);
+        phaOpcode(cpu, bus);
+        break;
+      case PLA:
+        plaOpcode(cpu, bus);
         break;
       case ROL:
         rolOpcode(address, cpu, bus);

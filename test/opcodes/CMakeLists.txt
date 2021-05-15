@@ -30,6 +30,7 @@ set(Tests
   lsr_test
   nop_test
   pha_test
+  pla_test
   rol_test
   ror_test
   rti_test

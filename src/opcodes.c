@@ -240,9 +240,17 @@ void nopOpcode()
   // nopsteam!ftw
 }
 
-void phaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+void phaOpcode(struct CPU *cpu, struct BUS *bus)
 {
   pushStack(cpu, bus, cpu->accumulator);
+}
+
+void plaOpcode(struct CPU *cpu, struct BUS *bus)
+{
+  cpu->accumulator = popStack(cpu, bus);
+  signed int compareResult = (signed char)cpu->accumulator;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
 }
 
 void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
