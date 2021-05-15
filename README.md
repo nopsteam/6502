@@ -106,7 +106,7 @@ make clean
 - [x] PHA
 - [ ] PHP
 - [x] PLA
-- [ ] PLP
+- [x] PLP
 - [x] ROL
 - [x] ROR
 - [x] RTI

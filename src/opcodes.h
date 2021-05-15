@@ -32,6 +32,7 @@ void lsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void nopOpcode();
 void phaOpcode(struct CPU *cpu, struct BUS *bus);
 void plaOpcode(struct CPU *cpu, struct BUS *bus);
+void plpOpcode(struct CPU *cpu, struct BUS *bus);
 void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rtiOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);

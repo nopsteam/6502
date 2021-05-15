@@ -254,6 +254,13 @@ void plaOpcode(struct CPU *cpu, struct BUS *bus)
   cpu->status.negative = compareResult < 0;
 }
 
+void plpOpcode(struct CPU *cpu, struct BUS *bus)
+{
+  char setBreakFlagFalse = ~0x10;
+  unsigned char flagsValue = popStack(cpu, bus);
+  setStatusByChar(flagsValue & setBreakFlagFalse, cpu);
+}
+
 void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   unsigned char current = readFromMemoryOrAccumulator(address, cpu, bus);
