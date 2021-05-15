@@ -246,6 +246,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case TAY:
         tayOpcode(address, cpu);
         break;
+      case TSX: 
+        tsxOpcode(address, cpu);
+        break;
       case TXA: 
         txaOpcode(address, cpu);
         break;

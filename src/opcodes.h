@@ -43,6 +43,7 @@ void stxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void styOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void taxOpcode(unsigned int address, struct CPU *cpu);
 void tayOpcode(unsigned int address, struct CPU *cpu);
+void tsxOpcode(unsigned int address, struct CPU *cpu);
 void txaOpcode(unsigned int address, struct CPU *cpu);
 void txsOpcode(unsigned int address, struct CPU *cpu);
 void tyaOpcode(unsigned int address, struct CPU *cpu);

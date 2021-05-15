@@ -331,6 +331,11 @@ void tayOpcode(unsigned int address, struct CPU *cpu)
   cpu->status.negative = compareResult < 0;
 }
 
+void tsxOpcode(unsigned int address, struct CPU *cpu)
+{
+  cpu->index_x = cpu->stack_pointer;
+}
+
 void txaOpcode(unsigned int address, struct CPU *cpu)
 {
   cpu->accumulator = cpu->index_x;

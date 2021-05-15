@@ -120,7 +120,7 @@ make clean
 - [x] STY
 - [x] TAX
 - [x] TAY
-- [ ] TSX
+- [x] TSX
 - [x] TXA
 - [x] TXS
 - [x] TYA

@@ -42,6 +42,7 @@ set(Tests
   sty_test
   tax_test
   tay_test
+  tsx_test
   txa_test
   txs_test
   tya_test)
