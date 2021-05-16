@@ -31,7 +31,7 @@ void should_change_accumulator_with_logical_or_operation_when_Immediate() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_ZeroPage() {
@@ -43,7 +43,7 @@ void should_change_accumulator_with_logical_or_operation_when_ZeroPage() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_ZeroPageX() {
@@ -56,7 +56,7 @@ void should_change_accumulator_with_logical_or_operation_when_ZeroPageX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_Absolute() {
@@ -69,7 +69,7 @@ void should_change_accumulator_with_logical_or_operation_when_Absolute() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_AbsoluteX() {
@@ -83,7 +83,7 @@ void should_change_accumulator_with_logical_or_operation_when_AbsoluteX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_AbsoluteY() {
@@ -97,7 +97,7 @@ void should_change_accumulator_with_logical_or_operation_when_AbsoluteY() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_IndirectX() {
@@ -113,7 +113,7 @@ void should_change_accumulator_with_logical_or_operation_when_IndirectX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_change_accumulator_with_logical_or_operation_when_IndirectY() {
@@ -130,7 +130,7 @@ void should_change_accumulator_with_logical_or_operation_when_IndirectY() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x11, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x11, cpu.accumulator);
 }
 
 void should_set_zero_flag_Immediate() {
@@ -141,8 +141,8 @@ void should_set_zero_flag_Immediate() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_zero_flag_ZeroPage() {
@@ -154,8 +154,8 @@ void should_set_zero_flag_ZeroPage() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_zero_flag_ZeroPageX() {
@@ -168,8 +168,8 @@ void should_set_zero_flag_ZeroPageX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_zero_flag_Absolute() {
@@ -182,8 +182,8 @@ void should_set_zero_flag_Absolute() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_zero_flag_AbsoluteX() {
@@ -197,8 +197,8 @@ void should_set_zero_flag_AbsoluteX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_zero_flag_AbsoluteY() {
@@ -212,8 +212,8 @@ void should_set_zero_flag_AbsoluteY() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 void should_set_zero_flag_IndirectX() {
   cpu.accumulator = 0x00;
@@ -228,8 +228,8 @@ void should_set_zero_flag_IndirectX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_zero_flag_IndirectY() {
@@ -246,8 +246,8 @@ void should_set_zero_flag_IndirectY() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x00, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.zero);
+  TEST_ASSERT_EQUAL_HEX(0x00, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.zero);
 }
 
 void should_set_negative_flag_Immediate() {
@@ -258,8 +258,8 @@ void should_set_negative_flag_Immediate() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_ZeroPage() {
@@ -271,8 +271,8 @@ void should_set_negative_flag_ZeroPage() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_ZeroPageX() {
@@ -285,8 +285,8 @@ void should_set_negative_flag_ZeroPageX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_Absolute() {
@@ -299,8 +299,8 @@ void should_set_negative_flag_Absolute() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_AbsoluteX() {
@@ -314,8 +314,8 @@ void should_set_negative_flag_AbsoluteX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_AbsoluteY() {
@@ -329,8 +329,8 @@ void should_set_negative_flag_AbsoluteY() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_IndirectX() {
@@ -346,8 +346,8 @@ void should_set_negative_flag_IndirectX() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 void should_set_negative_flag_IndirectY() {
@@ -364,8 +364,8 @@ void should_set_negative_flag_IndirectY() {
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0xFF, cpu.accumulator);
-  TEST_ASSERT_EQUAL(0x01, cpu.status.negative);
+  TEST_ASSERT_EQUAL_HEX(0xFF, cpu.accumulator);
+  TEST_ASSERT_EQUAL_HEX(0x01, cpu.status.negative);
 }
 
 int main(void) {
