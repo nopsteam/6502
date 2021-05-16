@@ -1,0 +1,110 @@
+name: Release
+
+# Controls when the action will run. 
+on:
+  push:
+    tags:
+      - '6502-v[0-9]+.[0-9]+*'
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    name: Build on Ubuntu
+
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [ clang ]
+    steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt-get install libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+      - uses: actions/checkout@v2.1.0
+      - name: build
+        env:
+          CC: ${{ matrix.compiler }}
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -B build/release
+          cmake --build build/release --config Release
+          mkdir build/release/bin/resources
+          cp -r resources/* build/release/bin/resources
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux-bin
+          path: ./build/release/bin
+
+  macos:
+    runs-on: macos-latest
+    name: Build on Mac OS
+
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [ clang ]
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: build
+        env:
+          CC: ${{ matrix.compiler }}
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -B build/release
+          cmake --build build/release --config Release
+          mkdir build/release/bin/resources
+          cp -r resources/* build/release/bin/resources
+      - uses: actions/upload-artifact@v2
+        with:
+          name: mac-bin
+          path: ./build/release/bin
+
+  windows:
+    runs-on: windows-latest
+    name: Build on Windows
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: build
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -B build/release
+          cmake --build build/release --config Release
+          mkdir build\release\bin\Release\resources
+          xcopy /E /I resources build\release\bin\Release\resources
+      - uses: actions/upload-artifact@v2
+        with:
+          name: windows-bin
+          path: ./build/release/bin
+
+  release:
+    runs-on: ubuntu-latest
+    name: Download artifacts
+    needs: [ubuntu, macos, windows]
+
+    steps:
+      - name: Download linux
+        uses: actions/download-artifact@v2
+        with:
+          name: linux-bin
+
+      - name: Download mac
+        uses: actions/download-artifact@v2
+        with:
+          name: mac-bin
+
+      - name: Download windows
+        uses: actions/download-artifact@v2
+        with:
+          name: windows-bin
+
+    - name: Zip files
+      run: |
+          zip -r --junk-paths 6502-linux.zip linux-bin/
+          zip -r --junk-paths 6502-mac.zip mac-bin/
+          zip -r --junk-paths 6502-windows.zip windows-bin/
+
+    - name: Release to GiHub
+      uses: softprops/action-gh-release@v1
+      with:
+        files: "*.zip"
+        draft: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
