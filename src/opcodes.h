@@ -16,6 +16,7 @@ void clcOpcode(struct CPU *cpu);
 void cldOpcode(struct CPU *cpu);
 void cliOpcode(struct CPU *cpu);
 void clvOpcode(struct CPU *cpu);
+void cmpOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void cpxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void cpyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void decOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);

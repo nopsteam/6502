@@ -15,6 +15,7 @@ set(Tests
   cld_test
   cli_test
   clv_test
+  cmp_test
   cpx_test
   cpy_test
   dec_test

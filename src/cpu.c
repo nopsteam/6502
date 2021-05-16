@@ -166,6 +166,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case CLV:
         clvOpcode(cpu);
         break;
+      case CMP:
+        cmpOpcode(address, cpu, bus);
+        break;
       case CPX:
         cpxOpcode(address, cpu, bus);
         break;

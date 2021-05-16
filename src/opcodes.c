@@ -138,6 +138,13 @@ void clvOpcode(struct CPU *cpu) {
   cpu->status.overflow = false;
 }
 
+void cmpOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  signed int compareResult = cpu->accumulator - readBus(address, bus);
+  cpu->status.carry = compareResult >= 0;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
 void cpxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   signed int compareResult = cpu->index_x - readBus(address, bus);

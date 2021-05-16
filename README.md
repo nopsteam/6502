@@ -85,7 +85,7 @@ make clean
 - [x] CLD
 - [x] CLI
 - [x] CLV
-- [ ] CMP
+- [x] CMP
 - [x] CPX
 - [x] CPY
 - [x] DEC
