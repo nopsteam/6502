@@ -1,5 +1,6 @@
 # 1. Declare the test file
 set(Tests
+  and_test
   asl_test
   bcc_test
   bcs_test

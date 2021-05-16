@@ -55,6 +55,13 @@ void writeOnMemoryOrAccumulator(unsigned int address, unsigned char result, stru
     : writeBus(address, result, bus);
 }
 
+void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  cpu->accumulator = cpu->accumulator & readBus(address, bus);
+  signed int compareResult = (signed char)cpu->accumulator;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
 void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   unsigned char current = readFromMemoryOrAccumulator(address, cpu, bus);

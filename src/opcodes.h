@@ -1,6 +1,7 @@
 #include "cpu.h"
 
 int hexToDecimalMode(unsigned char hex);
+void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void bccOpcode(unsigned int address, struct CPU *cpu);
 void bcsOpcode(unsigned int address, struct CPU *cpu);
@@ -51,3 +52,4 @@ void tsxOpcode(unsigned int address, struct CPU *cpu);
 void txaOpcode(unsigned int address, struct CPU *cpu);
 void txsOpcode(unsigned int address, struct CPU *cpu);
 void tyaOpcode(unsigned int address, struct CPU *cpu);
+
