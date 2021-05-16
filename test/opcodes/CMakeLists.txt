@@ -1,5 +1,6 @@
 # 1. Declare the test file
 set(Tests
+  adc_test
   and_test
   asl_test
   bcc_test
@@ -41,6 +42,7 @@ set(Tests
   ror_test
   rti_test
   rts_test
+  sbc_test
   sec_test
   sed_test
   sei_test

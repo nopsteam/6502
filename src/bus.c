@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "bus.h"
 
 struct BUS initializeBus() {
@@ -55,7 +56,7 @@ unsigned char readBus(unsigned int addr, struct BUS * bus) {
   else if (addr == 0x00FF)
   {
     data = bus->input;
-  }
+  } 
 
   return data;
 }

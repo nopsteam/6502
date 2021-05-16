@@ -55,6 +55,20 @@ void writeOnMemoryOrAccumulator(unsigned int address, unsigned char result, stru
     : writeBus(address, result, bus);
 }
 
+void sumOperation(signed int value, struct CPU *cpu, struct BUS *bus) {
+  signed int sum = cpu->accumulator + value + cpu->status.carry;
+  cpu->status.carry = sum > 0xFF;
+  cpu->status.overflow = ~(cpu->accumulator ^ value) & (cpu->accumulator ^ sum) & 0x80;
+  cpu->accumulator = sum;
+  cpu->status.negative = (cpu->accumulator >> 7);
+  cpu->status.zero = cpu->accumulator == 0;
+}
+
+void adcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  signed int valueFromAddress = readBus(address, bus);
+  sumOperation(valueFromAddress, cpu, bus);
+}
+
 void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
   cpu->accumulator = cpu->accumulator & readBus(address, bus);
   signed int compareResult = (signed char)cpu->accumulator;
@@ -346,6 +360,11 @@ void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   unsigned char hi = popStack(cpu, bus);
   cpu->pc = (hi << 8) | lo;
   cpu->pc++;
+}
+
+void sbcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  signed int valueFromAddress = readBus(address, bus) ^ 0xFF;
+  sumOperation(valueFromAddress, cpu, bus);
 }
 
 void secOpcode(struct CPU *cpu) {
