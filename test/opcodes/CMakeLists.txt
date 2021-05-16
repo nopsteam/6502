@@ -10,6 +10,7 @@ set(Tests
   bmi_test
   bne_test
   bpl_test
+  brk_test
   bvc_test
   bvs_test
   clc_test

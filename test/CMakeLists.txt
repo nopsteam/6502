@@ -70,8 +70,8 @@ endforeach()
 
 set_tests_properties(
   disassembler_test PROPERTIES
-  ENVIRONMENT DATADIR=${PROJECT_BINARY_DIR}/resources/dump.bin)
+  ENVIRONMENT DATADIR=${PROJECT_BINARY_DIR}/resources/snake.bin)
 
 set_tests_properties(
   bus_test PROPERTIES
-  ENVIRONMENT DATADIR=${PROJECT_BINARY_DIR}/resources/dump.bin)
+  ENVIRONMENT DATADIR=${PROJECT_BINARY_DIR}/resources/snake.bin)

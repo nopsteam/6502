@@ -11,6 +11,7 @@ void bitOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void bmiOpcode(unsigned int address, struct CPU *cpu);
 void bneOpcode(unsigned int address, struct CPU *cpu);
 void bplOpcode(unsigned int address, struct CPU *cpu);
+void brkOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void bvcOpcode(unsigned int address, struct CPU *cpu);
 void bvsOpcode(unsigned int address, struct CPU *cpu);
 void clcOpcode(struct CPU *cpu);
@@ -56,4 +57,3 @@ void tsxOpcode(unsigned int address, struct CPU *cpu);
 void txaOpcode(unsigned int address, struct CPU *cpu);
 void txsOpcode(unsigned int address, struct CPU *cpu);
 void tyaOpcode(unsigned int address, struct CPU *cpu);
-
