@@ -8,7 +8,7 @@ int main(int argc, char **argv)
   if (argc > 1) {
     programPath = argv[1];
   } else {
-    programPath = "resources/dump.bin";
+    programPath = "resources/snake.bin";
   }
 
   struct PROGRAM programLoaded = {

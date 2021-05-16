@@ -65,7 +65,23 @@ make clean
 ./build/release/bin/6502_disasm
 ```
 
-## Todo
+## Simulator
+
+This emulator is based on [Easy6502](http://skilldrick.github.io/easy6502/), all ASM examples in easy6502 website should run fine in our implementation.
+
+### Compiling ASM
+
+You need to install [C65](https://cc65.github.io/) in your machine, create a file with the ASM you want to compile and run the following command:
+```bash
+cl65 -t none test-program.asm
+```
+This will compile and link a binary with your code, to run this in your emulator you need to:
+```bash
+./build/release/bin/6502 <path-to-your-bin>/test-program
+```
+You can find some precomiled examples in the `resource` folder.
+
+## State
 
 ### Implemented OPCODES
 - [x] ADC
@@ -78,7 +94,7 @@ make clean
 - [x] BMI
 - [x] BNE
 - [x] BPL
-- [ ] BRK
+- [x] BRK
 - [x] BVC
 - [x] BVS
 - [x] CLC

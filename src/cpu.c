@@ -124,7 +124,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case ADC:
         adcOpcode(address, cpu, bus);
         break;
-     case AND:
+      case AND:
         andOpcode(address, cpu, bus);
         break;
       case ASL:
@@ -150,6 +150,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case BPL:
         bplOpcode(address, cpu);
+        break;
+      case BRK:
+        brkOpcode(address, cpu, bus);
         break;
       case BVC:
         bvcOpcode(address, cpu);
@@ -285,9 +288,6 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case TYA:
         tyaOpcode(address, cpu);
-        break;
-      default:
-        printf("NOT IMPLEMENTED YET... 0x%04x, %s \n", opcode->hex, opcode->instruction->name);
         break;
     }
   } else {

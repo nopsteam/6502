@@ -126,6 +126,24 @@ void bplOpcode(unsigned int address, struct CPU *cpu)
   if (!cpu->status.negative) cpu->pc = address;
 }
 
+void brkOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  cpu->pc++;
+
+  cpu->status.interrupt = true;
+
+  pushStack(cpu, bus, (cpu->pc >> 8));
+  pushStack(cpu, bus, cpu->pc);
+
+  cpu->status.break_cmd = true;
+  pushStack(cpu, bus, getStatusByChar(cpu));
+  cpu->status.break_cmd = false;
+
+  unsigned char lo = readBus(0xFFFF, bus);
+  unsigned char hi = readBus(0xFFFE, bus);
+  cpu->pc = (hi << 8) | lo;
+}
+
 void bvcOpcode(unsigned int address, struct CPU *cpu)
 {
   if (!cpu->status.overflow) cpu->pc = address;
