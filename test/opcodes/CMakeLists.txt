@@ -29,6 +29,7 @@ set(Tests
   ldy_test
   lsr_test
   nop_test
+  ora_test
   pha_test
   php_test
   pla_test
