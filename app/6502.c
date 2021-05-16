@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ray.h"
 #include "cpu.h"
+#include <time.h>    
 
 const int scale = 20;
 const int screenWidth = 32;
@@ -16,7 +18,13 @@ int initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char
 void loop(struct CPU * cpu, struct BUS * bus) {
   while (shouldCloseWindow())
   {
-    bus->input = (unsigned char)readInput();
+    unsigned char input = (unsigned char)readInput();
+
+    if (input > 0) {
+      bus->input = input;
+      printf("%i", bus->input);
+    }
+
     drawScreen(scale, bus->display);
     clockCpu(cpu, bus);
   }

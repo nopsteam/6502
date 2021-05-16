@@ -68,7 +68,7 @@ make clean
 ## Todo
 
 ### Implemented OPCODES
-- [ ] ADC
+- [x] ADC
 - [x] AND
 - [x] ASL
 - [x] BCC

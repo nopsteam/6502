@@ -121,6 +121,12 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
 
     switch (opcode->instruction->index) {
+      case ADC:
+        adcOpcode(address, cpu, bus);
+        break;
+      case SBC:
+        sbcOpcode(address, cpu, bus);
+        break;
       case AND:
         andOpcode(address, cpu, bus);
         break;
