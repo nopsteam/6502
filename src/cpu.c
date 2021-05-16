@@ -210,6 +210,7 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case ORA:
         oraOpcode(address, cpu, bus);
+        break;
       case PHA:
         phaOpcode(cpu, bus);
         break;
