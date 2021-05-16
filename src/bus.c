@@ -43,14 +43,7 @@ void writeBus(unsigned int addr, unsigned char data, struct BUS * bus) {
 unsigned char readBus(unsigned int addr, struct BUS * bus) {
   unsigned char data = 0x00;
 
-  if (addr == 0xFE) {
-    srand(time(NULL));
-    double scale = 1.0 / (RAND_MAX + 1);
-    double range = 0 - 255 + 1;
-    data = (int) ( rand() * scale * range );
-    printf("%i", data);
-  }
-  else if ((addr >= 0x0000 && addr <  0x00FF) ||
+  if ((addr >= 0x0000 && addr <  0x00FF) ||
       (addr >  0x00FF && addr <  0x0200) ||
       (addr >  0x05FF && addr <= 0xFFFF))
   {

@@ -9,10 +9,15 @@ const int screenWidth = 32;
 const int screenHeight = 32;
 
 int initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char * programPath) {
+  srand(time(NULL));
   writeBus(0xFFFC, initial_address & 0xff, bus);
   writeBus(0xFFFD, (initial_address >> 8), bus);
   resetCpu(cpu, bus);
   return writeProgramToBus(programPath, initial_address, bus);
+}
+
+int generateRandomByte() {
+  return rand() % 255;
 }
 
 void loop(struct CPU * cpu, struct BUS * bus) {
@@ -22,8 +27,9 @@ void loop(struct CPU * cpu, struct BUS * bus) {
 
     if (input > 0) {
       bus->input = input;
-      printf("%i", bus->input);
     }
+
+    writeBus(0xFE, generateRandomByte(), bus);
 
     drawScreen(scale, bus->display);
     clockCpu(cpu, bus);
