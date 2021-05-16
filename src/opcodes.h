@@ -2,7 +2,6 @@
 
 int hexToDecimalMode(unsigned char hex);
 void adcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
-void sbcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void bccOpcode(unsigned int address, struct CPU *cpu);
@@ -44,6 +43,7 @@ void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rtiOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
+void sbcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void secOpcode(struct CPU *cpu);
 void sedOpcode(struct CPU *cpu);
 void seiOpcode(struct CPU *cpu);
