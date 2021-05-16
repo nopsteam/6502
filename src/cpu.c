@@ -181,6 +181,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case DEY:
         deyOpcode(address, cpu);
         break;
+      case EOR:
+        eorOpcode(address, cpu, bus);
+        break;
       case INC:
         incOpcode(address, cpu, bus);
         break;

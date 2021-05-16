@@ -179,6 +179,13 @@ void deyOpcode(unsigned int address, struct CPU *cpu)
   cpu->status.negative = compareResult < 0;
 }
 
+void eorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  cpu->accumulator = cpu->accumulator ^ readBus(address, bus);
+  signed int compareResult = (signed char)cpu->accumulator;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
 void incOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   signed int compareResult = (signed char)readBus(address, bus);

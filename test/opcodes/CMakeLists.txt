@@ -20,6 +20,7 @@ set(Tests
   dec_test
   dex_test
   dey_test
+  eor_test
   inc_test
   inx_test
   iny_test

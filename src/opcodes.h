@@ -21,6 +21,7 @@ void cpyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void decOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void dexOpcode(unsigned int address, struct CPU *cpu);
 void deyOpcode(unsigned int address, struct CPU *cpu);
+void eorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void incOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void inxOpcode(unsigned int address, struct CPU *cpu);
 void inyOpcode(unsigned int address, struct CPU *cpu);

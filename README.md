@@ -69,7 +69,7 @@ make clean
 
 ### Implemented OPCODES
 - [ ] ADC
-- [X] AND
+- [x] AND
 - [x] ASL
 - [x] BCC
 - [x] BCS
@@ -91,7 +91,7 @@ make clean
 - [x] DEC
 - [x] DEX
 - [x] DEY
-- [ ] EOR
+- [x] EOR
 - [x] INC
 - [x] INX
 - [x] INY
