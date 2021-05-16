@@ -16,22 +16,22 @@ void setUp(void) {
 void tearDown(void) {
 }
 
-void should_change_program_counter_with_a_new_location_when_zero_flag_is_not_true(void) {
+void should_change_program_counter_with_a_new_location_when_carry_flag_is_not_true(void) {
   writeBus(0x600, BCC_Relative, &bus);
-  writeBus(0x601, 0xff, &bus);
+  writeBus(0x601, 0xfe, &bus);
 
   // BCC - Branch Carry Clear
   cpu.status.carry = false;
 
   clockCpu(&cpu, &bus);
 
-  TEST_ASSERT_EQUAL(0x600, cpu.pc);
+  TEST_ASSERT_EQUAL_HEX(0x600, cpu.pc);
 }
 
 int main(void) {
     UNITY_BEGIN();
 
-    RUN_TEST(should_change_program_counter_with_a_new_location_when_zero_flag_is_not_true);
+    RUN_TEST(should_change_program_counter_with_a_new_location_when_carry_flag_is_not_true);
 
     return UNITY_END();
 }

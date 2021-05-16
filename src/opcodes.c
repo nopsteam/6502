@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "opcodes.h"
 
 void pushStack(struct CPU *cpu, struct BUS *bus, unsigned char value) {
@@ -26,6 +27,16 @@ void setStatusByChar(unsigned char value, struct CPU *cpu) {
   cpu->status.break_cmd = (value >> 4) & 0x1;
   cpu->status.overflow = (value >> 6) & 0x1;
   cpu->status.negative = (value >> 7) & 0x1;
+}
+
+unsigned char getStatusByChar(struct CPU *cpu) {
+  return (cpu->status.negative << 7)
+    | (cpu->status.overflow << 6)
+    | (cpu->status.break_cmd << 4)
+    | (cpu->status.decimal << 3)
+    | (cpu->status.interrupt << 2)
+    | (cpu->status.zero << 1)
+    | (cpu->status.carry << 0);
 }
 
 bool isAccumulatorAddressMode(unsigned int address) {
@@ -120,12 +131,54 @@ void clvOpcode(struct CPU *cpu) {
   cpu->status.overflow = false;
 }
 
+void cpxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  signed int compareResult = cpu->index_x - readBus(address, bus);
+  cpu->status.carry = compareResult >= 0;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
 void cpyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   signed int compareResult = cpu->index_y - readBus(address, bus);
   cpu->status.carry = compareResult >= 0;
   cpu->status.zero = compareResult == 0;
   cpu->status.negative = compareResult < 0;
+}
+
+void decOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  signed int compareResult = (signed char)readBus(address, bus);
+  compareResult--;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+  writeBus(address, compareResult, bus);
+}
+
+void dexOpcode(unsigned int address, struct CPU *cpu)
+{
+  cpu->index_x--;
+  signed int compareResult = (signed char)cpu->index_x;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
+void deyOpcode(unsigned int address, struct CPU *cpu)
+{
+  cpu->index_y--;
+  signed int compareResult = (signed char)cpu->index_y;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
+void incOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+{
+  signed int compareResult = (signed char)readBus(address, bus);
+  compareResult++;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+  writeBus(address, compareResult, bus);
 }
 
 void inxOpcode(unsigned int address, struct CPU *cpu)
@@ -167,7 +220,7 @@ void ldaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 
 void ldxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
-  cpu->index_x = bus->memory[address]; //TODO: use readBus
+  cpu->index_x = readBus(address, bus);
   signed int compareResult = (signed char)cpu->index_x;
   cpu->status.zero = compareResult == 0;
   cpu->status.negative = compareResult < 0;
@@ -175,7 +228,7 @@ void ldxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 
 void ldyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
-  cpu->index_y = bus->memory[address]; //TODO: use readBus
+  cpu->index_y = readBus(address, bus);
   signed int compareResult = (signed char)cpu->index_y;
   cpu->status.zero = compareResult == 0;
   cpu->status.negative = compareResult < 0;
@@ -198,9 +251,30 @@ void nopOpcode()
   // nopsteam!ftw
 }
 
-void phaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+void phaOpcode(struct CPU *cpu, struct BUS *bus)
 {
   pushStack(cpu, bus, cpu->accumulator);
+}
+
+void phpOpcode(struct CPU *cpu, struct BUS *bus)
+{
+  pushStack(cpu, bus, getStatusByChar(cpu));
+}
+
+void plaOpcode(struct CPU *cpu, struct BUS *bus)
+{
+  cpu->accumulator = popStack(cpu, bus);
+
+  signed int compareResult = (signed char)cpu->accumulator;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
+void plpOpcode(struct CPU *cpu, struct BUS *bus)
+{
+  char setBreakFlagFalse = ~0x10;
+  unsigned char flagsValue = popStack(cpu, bus);
+  setStatusByChar(flagsValue & setBreakFlagFalse, cpu);
 }
 
 void rolOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
@@ -273,6 +347,27 @@ void styOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   writeBus(address, cpu->index_y, bus);
 }
 
+void taxOpcode(unsigned int address, struct CPU *cpu)
+{
+  cpu->index_x = cpu->accumulator;
+  signed int compareResult = (signed char)cpu->index_x;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
+void tayOpcode(unsigned int address, struct CPU *cpu)
+{
+  cpu->index_y = cpu->accumulator;
+  signed int compareResult = (signed char)cpu->index_y;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
+void tsxOpcode(unsigned int address, struct CPU *cpu)
+{
+  cpu->index_x = cpu->stack_pointer;
+}
+
 void txaOpcode(unsigned int address, struct CPU *cpu)
 {
   cpu->accumulator = cpu->index_x;
@@ -286,7 +381,7 @@ void txsOpcode(unsigned int address, struct CPU *cpu)
   cpu->stack_pointer = cpu->index_x;
 }
 
-void tyaOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
+void tyaOpcode(unsigned int address, struct CPU *cpu)
 {
   cpu->accumulator = cpu->index_y;
   signed int compareResult = (signed char)cpu->accumulator;

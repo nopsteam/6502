@@ -86,13 +86,13 @@ make clean
 - [x] CLI
 - [x] CLV
 - [ ] CMP
-- [ ] CPX
+- [x] CPX
 - [x] CPY
-- [ ] DEC
-- [ ] DEX
-- [ ] DEY
+- [x] DEC
+- [x] DEX
+- [x] DEY
 - [ ] EOR
-- [ ] INC
+- [x] INC
 - [x] INX
 - [x] INY
 - [x] JMP
@@ -104,9 +104,9 @@ make clean
 - [x] NOP
 - [ ] ORA
 - [x] PHA
-- [ ] PHP
-- [ ] PLA
-- [ ] PLP
+- [x] PHP
+- [x] PLA
+- [x] PLP
 - [x] ROL
 - [x] ROR
 - [x] RTI
@@ -118,9 +118,9 @@ make clean
 - [x] STA
 - [x] STX
 - [x] STY
-- [ ] TAX
-- [ ] TAY
-- [ ] TSX
+- [x] TAX
+- [x] TAY
+- [x] TSX
 - [x] TXA
 - [x] TXS
 - [x] TYA
