@@ -16,21 +16,23 @@ int initSimulator (struct CPU * cpu, struct BUS * bus, int initial_address, char
   return writeProgramToBus(programPath, initial_address, bus);
 }
 
-int generateRandomByte() {
-  return rand() % 255;
+void generateRandomByte(struct BUS *bus) {
+  writeBus(0xFE, rand() % 255, bus);
+}
+
+void handleInput(struct BUS *bus) {
+  int input = readInput();
+
+  if (input > 0) {
+    bus->input = input;
+  }
 }
 
 void loop(struct CPU * cpu, struct BUS * bus) {
   while (shouldCloseWindow())
   {
-    unsigned char input = (unsigned char)readInput();
-
-    if (input > 0) {
-      bus->input = input;
-    }
-
-    writeBus(0xFE, generateRandomByte(), bus);
-
+    generateRandomByte(bus);
+    handleInput(bus);
     drawScreen(scale, bus->display);
     clockCpu(cpu, bus);
   }

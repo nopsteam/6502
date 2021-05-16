@@ -111,7 +111,7 @@ make clean
 - [x] ROR
 - [x] RTI
 - [x] RTS
-- [ ] SBC
+- [x] SBC
 - [x] SEC
 - [x] SED
 - [x] SEI
