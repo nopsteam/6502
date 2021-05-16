@@ -102,7 +102,7 @@ make clean
 - [x] LDY
 - [x] LSR
 - [x] NOP
-- [ ] ORA
+- [x] ORA
 - [x] PHA
 - [x] PHP
 - [x] PLA
