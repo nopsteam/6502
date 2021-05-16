@@ -69,11 +69,6 @@ void adcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
   sumOperation(valueFromAddress, cpu, bus);
 }
 
-void sbcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
-  signed int valueFromAddress = readBus(address, bus) ^ 0xFF;
-  sumOperation(valueFromAddress, cpu, bus);
-}
-
 void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
   cpu->accumulator = cpu->accumulator & readBus(address, bus);
   signed int compareResult = (signed char)cpu->accumulator;
@@ -365,6 +360,11 @@ void rtsOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
   unsigned char hi = popStack(cpu, bus);
   cpu->pc = (hi << 8) | lo;
   cpu->pc++;
+}
+
+void sbcOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  signed int valueFromAddress = readBus(address, bus) ^ 0xFF;
+  sumOperation(valueFromAddress, cpu, bus);
 }
 
 void secOpcode(struct CPU *cpu) {
