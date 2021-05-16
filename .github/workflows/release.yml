@@ -84,27 +84,33 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: linux-bin
+          path: linux-bin
 
       - name: Download mac
         uses: actions/download-artifact@v2
         with:
           name: mac-bin
+          path: mac-bin
 
       - name: Download windows
         uses: actions/download-artifact@v2
         with:
           name: windows-bin
+          path: windows-bin
 
-    - name: Zip files
-      run: |
-          zip -r --junk-paths 6502-linux.zip linux-bin/
-          zip -r --junk-paths 6502-mac.zip mac-bin/
-          zip -r --junk-paths 6502-windows.zip windows-bin/
+      - name: Display structure of downloaded files
+        run: ls -R
 
-    - name: Release to GiHub
-      uses: softprops/action-gh-release@v1
-      with:
-        files: "*.zip"
-        draft: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Zip files
+        run: |
+            zip -r 6502-linux.zip linux-bin/
+            zip -r 6502-mac.zip mac-bin/
+            zip -r 6502-windows.zip windows-bin/
+
+      - name: Release to GiHub
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "*.zip"
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
