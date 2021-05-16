@@ -69,7 +69,7 @@ make clean
 
 ### Implemented OPCODES
 - [ ] ADC
-- [ ] AND
+- [x] AND
 - [x] ASL
 - [x] BCC
 - [x] BCS
@@ -85,13 +85,13 @@ make clean
 - [x] CLD
 - [x] CLI
 - [x] CLV
-- [ ] CMP
+- [x] CMP
 - [x] CPX
 - [x] CPY
 - [x] DEC
 - [x] DEX
 - [x] DEY
-- [ ] EOR
+- [x] EOR
 - [x] INC
 - [x] INX
 - [x] INY
@@ -102,7 +102,7 @@ make clean
 - [x] LDY
 - [x] LSR
 - [x] NOP
-- [ ] ORA
+- [x] ORA
 - [x] PHA
 - [x] PHP
 - [x] PLA

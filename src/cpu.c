@@ -121,6 +121,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
     unsigned int address = getAddressByOpcode(opcode, cpu, bus);
 
     switch (opcode->instruction->index) {
+      case AND:
+        andOpcode(address, cpu, bus);
+        break;
       case ASL:
         aslOpcode(address, cpu, bus);
         break;
@@ -163,6 +166,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
       case CLV:
         clvOpcode(cpu);
         break;
+      case CMP:
+        cmpOpcode(address, cpu, bus);
+        break;
       case CPX:
         cpxOpcode(address, cpu, bus);
         break;
@@ -177,6 +183,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case DEY:
         deyOpcode(address, cpu);
+        break;
+      case EOR:
+        eorOpcode(address, cpu, bus);
         break;
       case INC:
         incOpcode(address, cpu, bus);
@@ -207,6 +216,9 @@ int clockCpu(struct CPU *cpu, struct BUS *bus) {
         break;
       case NOP:
         nopOpcode();
+        break;
+      case ORA:
+        oraOpcode(address, cpu, bus);
         break;
       case PHA:
         phaOpcode(cpu, bus);

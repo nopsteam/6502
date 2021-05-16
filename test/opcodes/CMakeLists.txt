@@ -1,5 +1,6 @@
 # 1. Declare the test file
 set(Tests
+  and_test
   asl_test
   bcc_test
   bcs_test
@@ -14,11 +15,13 @@ set(Tests
   cld_test
   cli_test
   clv_test
+  cmp_test
   cpx_test
   cpy_test
   dec_test
   dex_test
   dey_test
+  eor_test
   inc_test
   inx_test
   iny_test
@@ -29,6 +32,7 @@ set(Tests
   ldy_test
   lsr_test
   nop_test
+  ora_test
   pha_test
   php_test
   pla_test

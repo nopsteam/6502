@@ -1,6 +1,7 @@
 #include "cpu.h"
 
 int hexToDecimalMode(unsigned char hex);
+void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void bccOpcode(unsigned int address, struct CPU *cpu);
 void bcsOpcode(unsigned int address, struct CPU *cpu);
@@ -15,11 +16,13 @@ void clcOpcode(struct CPU *cpu);
 void cldOpcode(struct CPU *cpu);
 void cliOpcode(struct CPU *cpu);
 void clvOpcode(struct CPU *cpu);
+void cmpOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void cpxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void cpyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void decOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void dexOpcode(unsigned int address, struct CPU *cpu);
 void deyOpcode(unsigned int address, struct CPU *cpu);
+void eorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void incOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void inxOpcode(unsigned int address, struct CPU *cpu);
 void inyOpcode(unsigned int address, struct CPU *cpu);
@@ -30,6 +33,7 @@ void ldxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void ldyOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void lsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void nopOpcode();
+void oraOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus);
 void phaOpcode(struct CPU *cpu, struct BUS *bus);
 void phpOpcode(struct CPU *cpu, struct BUS *bus);
 void plaOpcode(struct CPU *cpu, struct BUS *bus);
@@ -50,3 +54,4 @@ void tsxOpcode(unsigned int address, struct CPU *cpu);
 void txaOpcode(unsigned int address, struct CPU *cpu);
 void txsOpcode(unsigned int address, struct CPU *cpu);
 void tyaOpcode(unsigned int address, struct CPU *cpu);
+

@@ -55,6 +55,13 @@ void writeOnMemoryOrAccumulator(unsigned int address, unsigned char result, stru
     : writeBus(address, result, bus);
 }
 
+void andOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  cpu->accumulator = cpu->accumulator & readBus(address, bus);
+  signed int compareResult = (signed char)cpu->accumulator;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
 void aslOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   unsigned char current = readFromMemoryOrAccumulator(address, cpu, bus);
@@ -131,6 +138,13 @@ void clvOpcode(struct CPU *cpu) {
   cpu->status.overflow = false;
 }
 
+void cmpOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  signed int compareResult = cpu->accumulator - readBus(address, bus);
+  cpu->status.carry = compareResult >= 0;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
 void cpxOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 {
   signed int compareResult = cpu->index_x - readBus(address, bus);
@@ -168,6 +182,13 @@ void deyOpcode(unsigned int address, struct CPU *cpu)
 {
   cpu->index_y--;
   signed int compareResult = (signed char)cpu->index_y;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
+}
+
+void eorOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  cpu->accumulator = cpu->accumulator ^ readBus(address, bus);
+  signed int compareResult = (signed char)cpu->accumulator;
   cpu->status.zero = compareResult == 0;
   cpu->status.negative = compareResult < 0;
 }
@@ -249,6 +270,13 @@ void lsrOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus)
 void nopOpcode()
 {
   // nopsteam!ftw
+}
+
+void oraOpcode(unsigned int address, struct CPU *cpu, struct BUS *bus) {
+  cpu->accumulator = cpu->accumulator | readBus(address, bus);
+  signed int compareResult = (signed char)cpu->accumulator;
+  cpu->status.zero = compareResult == 0;
+  cpu->status.negative = compareResult < 0;
 }
 
 void phaOpcode(struct CPU *cpu, struct BUS *bus)
@@ -388,3 +416,4 @@ void tyaOpcode(unsigned int address, struct CPU *cpu)
   cpu->status.zero = compareResult == 0;
   cpu->status.negative = compareResult < 0;
 }
+
