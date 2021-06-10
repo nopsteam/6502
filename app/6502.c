@@ -34,7 +34,10 @@ void loop(struct CPU * cpu, struct BUS * bus) {
     generateRandomByte(bus);
     handleInput(bus);
     drawScreen(scale, bus->display);
-    clockCpu(cpu, bus);
+
+    if (cpu->pc != 0) {
+      clockCpu(cpu, bus);
+    }
   }
 }
 
