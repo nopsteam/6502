@@ -28,10 +28,10 @@ bool shouldCloseWindow(void) {
   return !WindowShouldClose(); // Detect window close button or ESC key
 }
 
-void initWindow(int scale, int width, int height)
+void initWindow(int scale, int width, int height, int fps)
 {
   InitWindow(width * scale, height * scale, "6502 Emulator by N0ps");
-  SetTargetFPS(0);
+  SetTargetFPS(fps);
 }
 
 void stopWindow(void)

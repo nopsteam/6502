@@ -12,6 +12,6 @@ extern struct RayColor colors[16];
 
 int readInput(void);
 bool shouldCloseWindow(void);
-void initWindow(int scale, int width, int height);
+void initWindow(int scale, int width, int height, int fps);
 void stopWindow(void);
 void drawScreen(int scale, unsigned char display[]);
