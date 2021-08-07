@@ -77,7 +77,7 @@ cl65 -t none test-program.asm
 ```
 This will compile and link a binary with your code, to run this in your emulator you need to:
 ```bash
-./build/release/bin/6502 <path-to-your-bin>/test-program
+./build/release/bin/6502 <path-to-your-bin>/test-program fps-as-int
 ```
 You can find some precomiled examples in the `resource` folder.
 

@@ -47,7 +47,7 @@ int main(int argc, char **argv)
   if (argc > 1) {
     programPath = argv[1];
   } else {
-    printf("Usage:\n       6502 file...\n");
+    printf("Usage:\n       6502 file fps...\n");
     return 1;
   }
 
@@ -57,7 +57,10 @@ int main(int argc, char **argv)
   if(initSimulator(&cpu, &bus, 0x0600, programPath) != 0)
     return 1;
 
-  initWindow(scale, screenWidth, screenHeight);
+  int fps = strtol(argv[2], NULL, 10);
+  printf("Considering fps as %i\n", fps);
+
+  initWindow(scale, screenWidth, screenHeight, fps);
   loop(&cpu, &bus);
   stopWindow();
 
