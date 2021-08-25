@@ -1,5 +1,7 @@
 # 6502 Emulator ![CI](https://github.com/nopsteam/6502/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/nopsteam/6502/branch/main/graph/badge.svg?token=KTJA51IVNC)](https://codecov.io/gh/nopsteam/6502)
 
+![6502](6502.png)
+
 ### What's a 6502?
 
 It was the CPU of choice for the very first mass market home computers and so, played a central role in the home computer revolution.  
