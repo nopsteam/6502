@@ -11,6 +11,7 @@ release:
 	make --no-print-directory -C build/release -j
 .PHONY: release
 
+test: export BUILD_TESTING = ON
 test:
 	make --no-print-directory -C build/debug -j
 	make --no-print-directory -C build/debug test ARGS='--output-on-failure'
@@ -21,6 +22,7 @@ clean:
 	make --no-print-directory -C build/release clean
 .PHONY: clean
 
+coverage: export BUILD_TESTING = ON
 coverage:
 	cmake -DCMAKE_BUILD_TYPE=Coverage -B build/coverage
 	make --no-print-directory -C build/coverage -j

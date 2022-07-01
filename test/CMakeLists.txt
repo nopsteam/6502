@@ -1,3 +1,11 @@
+# Download / Include Unity Test Runner
+FetchContent_Declare(
+  unity
+  GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
+  GIT_TAG        3852926c00f210905db5feb7a9fa5d5dbf7963ea)
+
+FetchContent_MakeAvailable(unity)
+
 # Config
 set(SC_BUILD_TEST OFF)
 

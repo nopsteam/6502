@@ -6,26 +6,20 @@ include(CTest)
 include(FetchContent)
 set(FETCHCONTENT_QUIET 0)
 
-# Download / Include Unity Test Runner
-FetchContent_Declare(
-  unity
-  GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
-  GIT_TAG        master)
-
 # Download / Include Raylib
 FetchContent_Declare(
   raylib
   GIT_REPOSITORY https://github.com/raysan5/raylib.git
-  GIT_TAG        master)
+  GIT_TAG        061e828524e91ddb04dec6b941b67b15bccf736e)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 
-FetchContent_MakeAvailable(unity raylib)
+FetchContent_MakeAvailable(raylib)
 
 # Download / Include Commons libs SC String
 FetchContent_Declare(
   sc_lib
   GIT_REPOSITORY https://github.com/tezc/sc.git
-  GIT_TAG        master)
+  GIT_TAG        c87e906f9fc907392dca1d588860df04fc41016c)
 SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
 
 # This particular version of sc_lib requires workarounds
@@ -66,16 +60,12 @@ ELSE()
 ENDIF()
 
 # Generates a compile_commands.json file containing the exact compiler calls
-
-IF (NOT WIN32)
+if (NOT ${CMAKE_BUILD_TYPE} MATCHES "Coverage")
   set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
   FILE(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/compile_commands.json" sourceJson)
   FILE(TO_NATIVE_PATH "${PROJECT_SOURCE_DIR}/build/compile_commands.json" destinationJson)
-  add_custom_command(TARGET resources POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy 
-    ${sourceJson} ${destinationJson}
-    COMMENT "Copying compile_commands.json to build directory")
-ENDIF()
+  configure_file(${sourceJson} ${destinationJson} COPYONLY)
+endif ()
 
 if(UNIX)
   link_libraries(m)
@@ -92,7 +82,7 @@ add_subdirectory(app)
 
 # CTest sets BUILD_TESTING option to ON by default.
 # Test-related configuration goes here.
-if (BUILD_TESTING)
+if (DEFINED ENV{BUILD_TESTING})
   enable_testing()
   add_subdirectory(test)
 
