@@ -60,13 +60,15 @@ ELSE()
 ENDIF()
 
 # Generates a compile_commands.json file containing the exact compiler calls
-if (NOT ${CMAKE_BUILD_TYPE} MATCHES "Coverage")
-  set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-  FILE(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/compile_commands.json" sourceJson)
-  FILE(TO_NATIVE_PATH "${PROJECT_SOURCE_DIR}/build/compile_commands.json" destinationJson)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "" FORCE)
+FILE(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/compile_commands.json" sourceJson)
+FILE(TO_NATIVE_PATH "${PROJECT_SOURCE_DIR}/build/compile_commands.json" destinationJson)
+
+if(EXISTS ${sourceJson})
   configure_file(${sourceJson} ${destinationJson} COPYONLY)
 endif ()
 
+# Link libraries to all targets added later
 if(UNIX)
   link_libraries(m)
 endif(UNIX)
