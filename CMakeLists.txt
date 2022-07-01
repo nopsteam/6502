@@ -10,7 +10,7 @@ set(FETCHCONTENT_QUIET 0)
 FetchContent_Declare(
   raylib
   GIT_REPOSITORY https://github.com/raysan5/raylib.git
-  GIT_TAG        061e828524e91ddb04dec6b941b67b15bccf736e)
+  GIT_TAG        master)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 
 FetchContent_MakeAvailable(raylib)
@@ -19,7 +19,7 @@ FetchContent_MakeAvailable(raylib)
 FetchContent_Declare(
   sc_lib
   GIT_REPOSITORY https://github.com/tezc/sc.git
-  GIT_TAG        c87e906f9fc907392dca1d588860df04fc41016c)
+  GIT_TAG        master)
 SET(SC_BUILD_TEST OFF CACHE BOOL "Turn off sc_lib tests" FORCE)
 
 # This particular version of sc_lib requires workarounds
